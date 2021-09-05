@@ -1,27 +1,93 @@
 \section{Research Objectives}
 
-\subsection{Project Objectives}
-\begin{itemize}
-\item Find area I am interested in
-\item Find a issue in it
-\item Evaluate the issue with experts in the field
-\item Create PID
-\item Create playground to test the final product in
-\item Publish a paper about that playground
-\item Finalize on requirements
-\item Develop prototype and Document the progress 
-\item Create operator to plugin any ML model to monitor
-\item Publish paper with results
-\item complete thesis
-\item conclude the project
-\item open source the code
-\end{itemize}
+\newcommand\robProblemIdentification{
+When selecting the problem author wanted to pursue, they had 3 main goals.
+\begin{enumerate}
+\item The problem domain should be something they enjoy working in.
+\item At the end of the research should have done a meaningful impact on the target domain, both in the theoretical and practical aspect,
+\item It should be challenging to achieve and results should speak about themselves.
+\end{enumerate}
+After many iterations of trial and error the author settled on "Cloud Computing" as the domain, "Root cause analysis" as the problem because the author is a site reliability engineer by profession and quickly able to identifying the root cause of a failure could lower \ac{mttr}.
+}
 
-\subsection{Research Objectives}
-\begin{itemize}
-\item Literature Survey
-\item Requirement Analysis
-\item Design
-\item Development
-\item Testing
-\end{itemize}
+\newcommand\robLiteratureReview{
+After a general topic was identified, the author needed to do evaluate all the currently published work to understand what’s the current state of the problem and how other researchers and developers are approaching this problem. After an intensive literature survey author was able to identify a new angle to approach the domain.
+
+During this period author contacted few experts in the cloud computing domain and evaluate the idea and plan for the project.
+}
+
+
+\newcommand\robDevelopingEvaluation{
+During the literature survey, one problem the author identified was there isn’t a uniform dataset when it comes to training and evaluating models to detect anomalies in microservices. Most of the researchers used private datasets to train and test their work.
+
+To address this author is developing a tool that can easily simulate a distributed system in a cloud-native setting.
+}
+
+\newcommand\robPublishPlayground{
+The author is hoping to publish a paper about the above-mentioned tool so the future researchers will have a unified way to train, test, and benchmark their system without having to reinvent the wheel again and again.
+}
+
+\newcommand\robDataGathering{
+The author plans to use the above-mentioned tool to simulate a large-scale distributed system made up of services done in different frameworks and subject it to a load test. Then collect the monitoring data from that to train the model.
+}
+
+\newcommand\robDevelopingEncoding{
+As mentioned in the section\ref{need-for-encoding} these services will report very different values even at idle. So there needs to be a way to normalize data from all the services to one format so the model can generalize for all the services no matter the framework it was built on. Inspired by \cite{zhang2019deep} the author is trying to develop or adopt an encoding technique to present data in an image-like structure so both ML models and humans can spot out anomalies easily.
+}
+
+
+\newcommand\robDevelopingModel{
+Autoencoders have been outperforming all other types of models \citep{kumarage2019generative} when it comes to anomaly detection. Since this project already has a module that converts raw data to an image-like structure the author is hoping to use a convolution autoencoder which will be lighter and has the potential to outperform normal autoencoders when paired with the above data encoding technique.
+}
+
+
+\newcommand\robTesting{
+The author hopes to carry an extensive evaluation on the system with a wide variety of edge cases and the author is hoping to see how the model identifies both short-term and long-term fluctuations and whether it can properly find a mapping between core vitals like CPU and Memory usages.
+}
+
+
+\newcommand\robIntegration{
+Having a fancy model doesn’t add means anything if it’s very hard to use in a real system. So the author is hoping to develop a Kubernetes extension that will map the model with any service given by the user.
+}
+
+
+% \begin{table}[]
+\begin{longtable}{|p{3cm}|p{9cm}|p{1.5cm}|}
+\hline
+\textbf{Research Objectives}          & \textbf{Explanation}      & \textbf{Learning Outcome} \\ \hline
+Problem identification                & \robProblemIdentification & LO1                       \\ \hline
+Literature review                     & \robLiteratureReview      & LO3, LO4, LO6             \\ \hline
+Developing an evaluation framework    & \robDevelopingEvaluation  & LO7                       \\ \hline
+Publish a paper about that playground & \robPublishPlayground     & LO7                       \\ \hline
+Data gathering and analysis           & \robDataGathering         & LO7                       \\ \hline
+Developing encoding method            & \robDevelopingEncoding    & LO2, LO5, LO7             \\ \hline
+Developing the model                  & \robDevelopingModel       & LO2, LO5, LO7             \\ \hline
+Testing and evaluation                & \robTesting               & LO8, LO9                  \\ \hline
+Integration                           & \robIntegration           & LO7                       \\ \hline
+\end{longtable}
+% \end{table}
+% \subsection{Project Objectives}
+% \begin{itemize}
+% \item Find area I am interested in
+% \item Find a issue in it
+% \item Evaluate the issue with experts in the field
+% \item Create PID
+% \item Create playground to test the final product in
+% \item Publish a paper about that playground
+% \item Finalize on requirements
+% \item Develop prototype and Document the progress 
+% \item Create operator to plugin any ML model to monitor
+% \item Publish paper with results
+% \item complete thesis
+% \item conclude the project
+% \item open source the code
+% \end{itemize}
+
+% \subsection{Research Objectives}
+% \begin{itemize}
+% \item Literature Survey
+% \item Requirement Analysis
+% \item Design
+% \item Development
+% \item Testing
+% \end{itemize}

@@ -1,14 +1,9 @@
 \section{Research Contribution}
 
-\subsection{Domain Contribution}
-\begin{enumerate}
-\item New data encoding technique, which will make it easy both human and models to understand input and output.
-\item Unconventional use of autoencoder with a discriminator
-\end{enumerate}
+With this research the author first try to develop a cloud-native solution to create a configurable microservices system, So this research and future researches will have a standard environment develop and evaluate their work.
+\label{need-for-encoding}
+Another problem with monitoring microservices systems is different services can be developed with different programming languages and frameworks and those can contain different levels of noisiness. So it's hard for a single model to detect anomalies in any service since some frameworks tend to use more resources while idle than others.  So to address this author is trying to come up with an encoding method so the model can be trained to monitor one framework and those learning will still be valid for another framework.
 
-\subsection{Technical Contributions}
-\begin{enumerate}
-\item A tool to simulate a distributed system within a Kubernetes cluster which can be used as a training ground and benchmarking tool for future researches. 
-\item Kubernetes Operator to easily integrate any anomaly detection model with a existing services.
-\end{enumerate}
+With those encoded data the author are hoping to develop a convolutional autoencoder that will use unsupervised learning to spot out anomalies in a given data stream. This may have better performance while using fewer resources convolutional layers are typically lightweight and good at pattern recognition \citep{oord2016wavenet}.
 
+Finally, the author is planning to aggregate those predictions from the models into a pre-generated service graph and weigh it to give possible root causes.
