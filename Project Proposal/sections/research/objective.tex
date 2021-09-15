@@ -1,26 +1,36 @@
-\section{Research Objectives}
+
+{\let\clearpage\relax\chapter{Research Objectives}}
 
 \newcommand\robProblemIdentification{
 When selecting the problem author wanted to pursue, they had 3 main goals.
-\begin{enumerate}
+\begin{enumerate}[leftmargin=*,noitemsep,nolistsep] 
 \item The problem domain should be something they enjoy working in.
 \item At the end of the research should have done a meaningful impact on the target domain, both in the theoretical and practical aspect,
 \item It should be challenging to achieve and results should speak about themselves.
 \end{enumerate}
-After many iterations of trial and error the author settled on "Cloud Computing" as the domain, "Root cause analysis" as the problem because the author is a site reliability engineer by profession and quickly able to identifying the root cause of a failure could lower \ac{mttr}.
+% After many iterations of trial and error the author settled on "Cloud Computing" as the domain, "Root cause analysis" as the problem because the author is a site reliability engineer by profession and quickly able to identifying the root cause of a failure could lower \ac{mttr}.
 }
 
 \newcommand\robLiteratureReview{
-After a general topic was identified, the author needed to do evaluate all the currently published work to understand what’s the current state of the problem and how other researchers and developers are approaching this problem. After an intensive literature survey author was able to identify a new angle to approach the domain.
+% After a general topic was identified, the author needed to do evaluate all the currently published work to understand what’s the current state of the problem and how other researchers and developers are approaching this problem. After an intensive literature survey author was able to identify a new angle to approach the domain.
 
-During this period author contacted few experts in the cloud computing domain and evaluate the idea and plan for the project.
+% During this period author contacted few experts in the cloud computing domain and evaluate the idea and plan for the project.
+Conduct a Literature review on root cause analysis to, 
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item To find the current methods used to anomaly detection and localization.
+\item Uncover issues with current approaches.
+\item Understand how advancement in other related domains can apply to this domain.
+\end{itemize}
 }
 
 
 \newcommand\robDevelopingEvaluation{
 During the literature survey, one problem the author identified was there isn’t a uniform dataset when it comes to training and evaluating models to detect anomalies in microservices. Most of the researchers used private datasets to train and test their work.
-
-To address this author is developing a tool that can easily simulate a distributed system in a cloud-native setting.
+To address this author is developing,
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item A tool that can easily simulate a distributed system in a cloud-native setting.
+\item A tool inject anomalies into the running services.
+\end{itemize}
 }
 
 \newcommand\robPublishPlayground{
@@ -28,21 +38,43 @@ The author is hoping to publish a paper about the above-mentioned tool so the fu
 }
 
 \newcommand\robDataGathering{
-The author plans to use the above-mentioned tool to simulate a large-scale distributed system made up of services done in different frameworks and subject it to a load test. Then collect the monitoring data from that to train the model.
+% The author plans to use the above-mentioned tool to simulate a large-scale distributed system made up of services done in different frameworks and subject it to a load test. Then collect the monitoring data from that to train the model.
+In order to create model to detect anomalies the author will,
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item Simulate distributed system.
+\item Simulate traffic inside the system
+\item Collect monitoring data while it's running
+\end{itemize}
 }
 
 \newcommand\robDevelopingEncoding{
-As mentioned in the section\ref{need-for-encoding} these services will report very different values even at idle. So there needs to be a way to normalize data from all the services to one format so the model can generalize for all the services no matter the framework it was built on. Inspired by \cite{zhang2019deep} the author is trying to develop or adopt an encoding technique to present data in an image-like structure so both ML models and humans can spot out anomalies easily.
+As mentioned in the section \ref{need-for-encoding} these services will report very different values even at idle. To normalize data from all the services to one format author will,
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item Evaluate current data encoding methods like \cite{zhang2019deep}.
+\item Find the best one fit and optimize it to this use case.
+\item Test if there is any improvement by using this method. 
+\end{itemize}
+
+% So there needs to be a way to normalize data from all the services to one format so the model can generalize for all the services no matter the framework it was built on. Inspired by \cite{zhang2019deep} the author is trying to develop or adopt an encoding technique to present data in an image-like structure so both ML models and humans can spot out anomalies easily.
 }
 
 
 \newcommand\robDevelopingModel{
-Autoencoders have been outperforming all other types of models \citep{kumarage2019generative} when it comes to anomaly detection. Since this project already has a module that converts raw data to an image-like structure the author is hoping to use a convolution autoencoder which will be lighter and has the potential to outperform normal autoencoders when paired with the above data encoding technique.
+% Autoencoders have been outperforming all other types of models \citep{kumarage2019generative} when it comes to anomaly detection. Since this project already has a module that converts raw data to an image-like structure the author is hoping to use a convolution autoencoder which will be lighter and has the potential to outperform normal autoencoders when paired with the above data encoding technique.
+According to \cite{kumarage2019generative} Autoencoders tend to perform best when it comes to anomaly detection. But during the literature survey it was raveled Conversational Autoencoders weren't tested. So author tries to develop a  Conversational Autoencoders and test how it will perform.
 }
 
 
 \newcommand\robTesting{
-The author hopes to carry an extensive evaluation on the system with a wide variety of edge cases and the author is hoping to see how the model identifies both short-term and long-term fluctuations and whether it can properly find a mapping between core vitals like CPU and Memory usages.
+Following things will be tested during the testing phase, 
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item How will the system classify long-term fluctuations.
+\item How will the system classify short-term fluctuations.
+\item Can the system understand the mapping between core metrics like CPU and Memory usages.
+\item Accuracy of fault detection.
+\item Accuracy of root cause localization.
+\end{itemize}
+% The author hopes to carry an extensive evaluation on the system with a wide variety of edge cases and the author is hoping to see how the model identifies both short-term and long-term fluctuations and whether it can properly find a mapping between core vitals like CPU and Memory usages.
 }
 
 
@@ -52,7 +84,7 @@ Having a fancy model doesn’t add means anything if it’s very hard to use in 
 
 
 % \begin{table}[]
-\begin{longtable}{|p{3cm}|p{9cm}|p{1.5cm}|}
+\begin{longtable}{|p{3cm}|p{10cm}|p{1.5cm}|}
 \hline
 \textbf{Research Objectives}          & \textbf{Explanation}      & \textbf{Learning Outcome} \\ \hline
 Problem identification                & \robProblemIdentification & LO1                       \\ \hline
@@ -64,6 +96,7 @@ Developing encoding method            & \robDevelopingEncoding    & LO2, LO5, LO
 Developing the model                  & \robDevelopingModel       & LO2, LO5, LO7             \\ \hline
 Testing and evaluation                & \robTesting               & LO8, LO9                  \\ \hline
 Integration                           & \robIntegration           & LO7                       \\ \hline
+\caption{Research Objectives}
 \end{longtable}
 % \end{table}
 % \subsection{Project Objectives}

@@ -1,19 +1,41 @@
-\documentclass[a4paper]{article}
+% \documentclass[a4paper]{article}
+\documentclass[12pt]{report}
 
 % Include all packages from file.
 \input{preamble}
-% Include acronyms
-\input{acronym}
-% Include authors 
-% \input{author} 
+
+% HEADER AND FOOTER--------------------------
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{Anomaly Detection \& Root Cause Analysis In Distributed Systems | Project Proposal}}
+\rfoot{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{\thepage}}
+\lfoot{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{Isala Piyarisi | 2018421}}
+\renewcommand{\headrulewidth}{0pt}
+% END HEADER AND FOOTER--------------------------
+
+% Page Numbering---------------------------------------------
+\pagenumbering{Roman}
+
 % Document begins here
 \begin{document}
-% Create the title.
-% \maketitle
 \input{cover-page} 
+
+\pagenumbering{roman}
+
+% Table of Contents---------------------------------------------------
 \tableofcontents
-\newpage
+% List of Figures---------------------------------------------------
+\listoffigures
+% List of Tables---------------------------------------------------
+{\let\clearpage\relax 
+\listoftables
+}
+% Include acronyms
+\input{acronym}
+
 \input{sections/introduction}
+\pagenumbering{arabic}
 \input{sections/background}
 \input{sections/problem}
 \input{sections/research/motivation}
@@ -21,6 +43,7 @@
 \input{sections/research/gap}
 \input{sections/research/contribution}
 \input{sections/research/question}
+\input{sections/research/challenge}
 \input{sections/research/aim}
 \input{sections/research/objective}
 \input{sections/project-scope}
@@ -28,6 +51,12 @@
 \input{sections/methodology/development}
 \input{sections/methodology/project-management}
 
+\cleardoublepage
+\phantomsection
+\renewcommand{\bibname}{References}
+\setcounter{page}{5}
+\pagenumbering{roman}
+\addcontentsline{toc}{chapter}{References}
 \bibliography{references.bib}
 \end{document}
 

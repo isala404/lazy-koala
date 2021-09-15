@@ -1,23 +1,69 @@
-\usepackage[english]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{csquotes}% Recommended
+\usepackage[UKenglish]{babel}
 
-\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry} %Paper margins
+\usepackage{setspace}  % LINE SPACING
 \usepackage{tikz}
-\usetikzlibrary{calc}
-\newcommand\HRule{\rule{\textwidth}{1pt}}
-
-\usepackage[nolist,nohyperlinks]{acronym}
-
+\usepackage{titlepic}
+\usepackage{graphicx}
 \usepackage{newtxtext,newtxmath}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=25mm, right=25mm, top=25mm, bottom=25mm]{geometry} %Paper margins
+\usepackage{titlesec}
+\usepackage{enumitem} % Custom enumerations
+\usepackage[titles]{tocloft}
 
-\usepackage[comma,colon]{natbib}
+\usepackage{acronym}
+
+\usepackage{hyperref} % Links
+
+% Referencing
+\usepackage{natbib} % Harvard referencing
+% \usepackage[comma,colon]{natbib}
+\citestyle{aysep={,}}
 \bibliographystyle{agsm}
 
-\usepackage{hyperref}
-
-\usepackage{enumitem}
-
-\usepackage{xstring}
+% Tables
 \usepackage{longtable}
+\usepackage{multirow}
+\usepackage{xstring}
+\usepackage{geometry}
+\usepackage{array}
+
+
+% Fonts size
+\usepackage[font={small,it}]{caption}
+
+% Date
+\usepackage[useregional]{datetime2}
+
+\usetikzlibrary{calc}
+\newcommand\HRule{\rule{\textwidth}{1pt}}
+\newcommand{\hsp}{\hspace{10pt}}
+\titlespacing*{\chapter}{0pt}{20pt}{20pt} % CHAPTER SPACING
+\titleformat{\chapter}[hang]{\Huge\bfseries}{Chapter \thechapter\hsp:\hsp }{0pt}{\Huge\bfseries}
+\titleformat{\chapter}[display]{\fontsize{20pt}{0pt}\bfseries}{}{2pt}{}
+\setlength{\parindent}{10ex}
+
+% Setting TOC and Section number depth
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+% line spacing in TOC
+\setlength{\cftbeforechapskip}{3pt} 
+
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\baselinestretch}{1.5}
+
+\onehalfspacing
+
+\usepackage{chngcntr}
+
+% \usepackage[nottoc,numbib]{tocbibind}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+
+\usepackage[font={small,it}]{caption}
+\selectlanguage{UKenglish}
+
+
+% Header and footer
+\usepackage{fancyhdr}
+\usepackage{etoolbox}

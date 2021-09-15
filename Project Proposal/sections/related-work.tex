@@ -1,27 +1,179 @@
-\section{Related Work}
+{\let\clearpage\relax\chapter{Existing Work}}
 
-As the large-scale migration towards the cloud and microservices started fairly recently the problem this research is trying to solve mostly affects large-scale enterprises there ain't a lot of published research on this domain. All the work done towards uncovering the root cause of failures by large co-operations either kept their finds for internal use to sell it as \ac{saas} product. 
+\section{Anomaly detection}
 
-One of the best implementations found on root cause analysis is from Datadog. They created a platform called watchdog \citep{Watchdog76:online} which monitors the entire system for anomalies and failures in the background. When a failure happens it tries to pull all the relevant stack traces and monitoring data to a single view so the developer can diagnose the problem easily. The problem with this solution is even though it was announced all the way back in July 2018, all that is available is currently in private beta which not everyone has access to.
-\\
-All the currently published work on microservices monitoring can be classified into 2 categories
-\begin{enumerate}
-\item Anomaly detection
-\item Root cause identification
-\end{enumerate}
+\begin{longtable}{| p{2cm} | p{4cm} | p{4.5cm} | p{4.5cm} |}
+\hline
+  \textbf{Citation} &
+  \textbf{Technology summary} &
+  \textbf{Improvements} &
+  \textbf{Limitations} \\ \hline
+  \cite{du2018anomaly} &
+  Tested most of common machine learning methods to detect anomalies and benchmarked them &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Used SLIs to monitored data
+    \item A lot of good metrics (input data)
+    \item Performance monitoring of services and containers
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Only be able to identify predetermined issues
+    \item Require a sidecar that includes a lot of overhead
+    \item Won't work with event-driven architectures (this is where most of the new systems are headed)
+    \item Uses Supervised learning and it's near impossible to find real-world data with labels
+  \end{itemize} \\ \hline
+  \cite{kumarage2018anomaly} &
+  The authors here are proposing a semi-supervised technique using a Variational Autoencoder to predict future time steps and calculate the difference between predicted and actual to detect anomalies. &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Due to the difficulty of finding labeled research data, they settled on using a semi-supervised technique.
+    \item Used randomized decision trees were utilized to select the most suitable features that correspond to each component.
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item The model won't be easily transformable for other systems
+    \item If more new key features were added to the system it will require a total retraining
+  \end{itemize} \\ \hline
+  \cite{kumarage2019generative} &
+  Uses a bidirectional \ac{gan} to predict future timesteps and uses MSE between prediction and real to determine the anomalies &
+  Experimented using a \ac{gan} to detect anomalies rather than using conventional autoencoders &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Accuracy is around 60% which is not really good to use in production with mission-critical systems.
+    \item As this is a \ac{gan}-based system, it may take a lot of resources to run with production systems.
+  \end{itemize} \\ \hline
+  \caption{Comparison of anomaly detection methods in distributed systems}
+\end{longtable}
 
-\subsection{Anomaly detection}
+\section{Root cause identification}
 
-Anomaly detection in time series is a field of its own. So in this case we will be forcing papers that are specialized in the cloud computing domain.
+\begin{longtable}{| p{2cm} | p{4cm} | p{4.5cm} | p{4.5cm} |}
+\hline
+  \textbf{Citation} &
+  \textbf{Technology summary} &
+  \textbf{Improvements} &
+  \textbf{Limitations} \\ \hline
+  \cite{wu2020microrca} &
+  Find Performance bottlenecks in distributed systems using an attribute graph to find anomaly propagation across services and machines &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Created a custom Faults Injection module
+    \item Uses an attribute graph to localize to faulty service
+    \item Application-agnostic by using a service mesh
+    \item Rely on service mesh to determine network topology
+    \item Uses unsupervised learning
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Only able to identify 3 types of issues
+    \item Looks only for performance anomalies
+    \item Use the slow response time of a microservice as the definition of an anomaly
+    \item Service meshes add a lot of overhead to systems
+    \item Required direct connection between services
+  \end{itemize} \\ \hline
+  \cite{gonzalez2017root} &
+  Detect failures in networks, using machine learning to generate knowledge graphs on historical data &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Build a predictable system
+    \item Automatic identification of dependencies between system events
+    \item Doesn't Need to rely on Domain experts
+    \item Generalized to different systems
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Limited to network issues
+    \item Even though the knowledge graph helped with visualization of the problem but still, people have to manually figure out what went wrong
+  \end{itemize} \\ \hline
+  \cite{chigurupati2017root} &
+  Proposed a way to detect Hardware failures in servers using a probabilistic graphical model which concisely describes the relationship between many random variables and their conditional independence &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Find hidden meaning in values that seems random
+    \item Used a probabilistic approach to better understand the relationship between inputs and outputs
+    \item Gives all the possible root cause to a given problem
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Limited to hardware issues
+    \item Require support from domain experts
+    \item Can't account for unforeseen error
+  \end{itemize} \\ \hline
+  \cite{samir2019dla} &
+  This detects and locates the anomalous behavior of microservices based on the observed response time using a \ac{hhmm} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Custom HHMM model
+    \item Self-healing mechanism
+    \item Focus on performance detection and identification at the container, node, and microservice level
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Input dataset scale is limited
+    \item Require a sidecar
+    \item Needs to predetermined thresholds
+  \end{itemize} \\ \hline
+  \caption{Comparison of root cause identification methods in distributed systems}
+\end{longtable}
 
-One of the earliest attempts on detecting anomalies in microservices was \cite{du2018anomaly}. In this authors tried using 4 different machine learning techniques to detect performance anomalies. To do this say used a simulated system and various fault injection mechanisms to create the dataset. In the end, they concluded K Nearest Neighbors classifier gives the most accurate classifications while Support vector machines have the worse.
+\section{Commercial products}
 
-A common way to detect anomalies in time series is using an autoencoder to reconstruct a given time series. After training the model should be able to come up with the generalized function about the given time series and it will be able to recreate any input sequence accurately. But when there is an anomaly in the input sequence models output will be vastly different from the input. We can use this reconstruction loss as a metric to uncover anomalies within the system. In \cite{kumarage2018anomaly} authors used the method to detect anomalies in distributed systems. In a continuation of their work \cite{kumarage2019generative} they tried doing the same thing by using a \ac{gan} but in the end, they concluded even though it showed a tendency towards better performance when the dataset gets bigger, with the dataset they had autoencoders perform well overall.
+\begin{longtable}{| p{4cm} | p{5.7cm} | p{5.7cm} |}
+\hline
+  \textbf{Name} &
+  \textbf{Futures} &
+  \textbf{Limitations} \\ \hline
+  Watchdog by Datadog &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Monitor the metric data of the entire system from the background.
+    \item Monitor logging data.
+    \item Highlight relevant components affected by an issue.
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Announced in 2018 but is still at private beta.
+    \item Require code changes and tight integration with datadog platform.
+    \item Available demos for root cause predicated seems to be engineered for demonstration purposes.
+  \end{itemize} \\ \hline
+  Applied Intelligence by New Relic &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Metric forecasting.
+    \item Anomaly detection.
+    \item Alert grouping to reduce noise.
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Lack of explainability for certain classifications.
+    \item All the telemetry data need to be sent to a third party.
+  \end{itemize} \\ \hline
+  \caption{Comparison of commercial products for root cause analysis}
+\end{longtable}
 
-Ever since DeepMind came up with wavenet which used a CNN to generate audio samples \citep{oord2016wavenet} researchers uncovering other potential use cases other than image-related tasks. One of those use cases was as CNN excels at pattern recognition, encoding time series data set into image-like data structures and use a CNN to identify abnormal patterns in it. On \cite{kim2018encoding} authors tried to using a novel technique to raw encode data into a pixel-like structure and found it could outperform the existing methods to detect anomalies in computer networks.
+% As the large-scale migration towards the cloud and microservices started fairly recently the problem this research is trying to solve mostly affects large-scale enterprises there ain't a lot of published research on this domain. All the work done towards uncovering the root cause of failures by large co-operations either kept their finds for internal use to sell it as \ac{saas} product. 
 
-\subsection{Root cause identification}
+% One of the best implementations found on root cause analysis is from Datadog. They created a platform called watchdog \citep{Watchdog76:online} which monitors the entire system for anomalies and failures in the background. When a failure happens it tries to pull all the relevant stack traces and monitoring data to a single view so the developer can diagnose the problem easily. The problem with this solution is even though it was announced all the way back in July 2018, all that is available is currently in private beta which not everyone has access to.
+% \\
+% All the currently published work on microservices monitoring can be classified into 2 categories
+% \begin{enumerate}
+% \item Anomaly detection
+% \item Root cause identification
+% \end{enumerate}
 
-Predicting the exact root cause of failure just using a standard machine learning model is a pretty difficult task since prediction space is not finite. In 2017 a team from Google X tried using the Bayesian Network to model the relationship between the state of the system and its effect on failures \citep{chigurupati2017root}. Using it they were able to accurately predict all the possible root causes of a hardware failure in certain systems but this model required to predefine all the possible error modes by domain experts which isn't really possible in a constantly evolving distributed system. There were similar attempts \cite{gonzalez2017root} to use machine learning to generate knowledge graphs on historical data and help developers come up with reasoning to failures although this eliminated a need for a domain expert, this also can't react to unseen errors.
+% \section{Anomaly detection}
 
-In a distributed system it's hard to spot real anomalies just by looking at monitoring data, but when there are huge spikes in response latencies or error rates it's a good indicator something must be wrong. So \cite{samir2019dla} used a \ac{hhmm} to uncover the possible affected services from changes in response time or error rates in one service and using that data to uncover the root cause of the issue. All of the papers discussed above have one problem in common they all assume the entire system is static but in reality, these services changes over time either with increased demand or new future implementations. To address this, \cite{wu2020microrca} developed a service that monitors all the running applications and their vitals. This also constructs an attributed graph that represents how each service interacts with the other. When the monitoring system detects an anomaly MicroRCA weight that graph with response time changes and tries to find the epicenter of the anomaly. The main problem with both of these approaches have is authors rely solely on slow response time as an indication of an anomaly but several other factors could course anomalous behaviors without changes in response times.
+% Anomaly detection in time series is a field of its own. So in this case we will be forcing papers that are specialized in the cloud computing domain.
+
+% One of the earliest attempts on detecting anomalies in microservices was \cite{du2018anomaly}. In this authors tried using 4 different machine learning techniques to detect performance anomalies. To do this say used a simulated system and various fault injection mechanisms to create the dataset. In the end, they concluded K Nearest Neighbors classifier gives the most accurate classifications while Support vector machines have the worse.
+
+% A common way to detect anomalies in time series is using an autoencoder to reconstruct a given time series. After training the model should be able to come up with the generalized function about the given time series and it will be able to recreate any input sequence accurately. But when there is an anomaly in the input sequence models output will be vastly different from the input. We can use this reconstruction loss as a metric to uncover anomalies within the system. In \cite{kumarage2018anomaly} authors used the method to detect anomalies in distributed systems. In a continuation of their work \cite{kumarage2019generative} they tried doing the same thing by using a \ac{gan} but in the end, they concluded even though it showed a tendency towards better performance when the dataset gets bigger, with the dataset they had autoencoders perform well overall.
+
+% Ever since DeepMind came up with wavenet which used a CNN to generate audio samples \citep{oord2016wavenet} researchers uncovering other potential use cases other than image-related tasks. One of those use cases was as CNN excels at pattern recognition, encoding time series data set into image-like data structures and use a CNN to identify abnormal patterns in it. On \cite{kim2018encoding} authors tried to using a novel technique to raw encode data into a pixel-like structure and found it could outperform the existing methods to detect anomalies in computer networks.
+
+% \section{Root cause identification}
+
+% Predicting the exact root cause of failure just using a standard machine learning model is a pretty difficult task since prediction space is not finite. In 2017 a team from Google X tried using the Bayesian Network to model the relationship between the state of the system and its effect on failures \citep{chigurupati2017root}. Using it they were able to accurately predict all the possible root causes of a hardware failure in certain systems but this model required to predefine all the possible error modes by domain experts which isn't really possible in a constantly evolving distributed system. There were similar attempts \cite{gonzalez2017root} to use machine learning to generate knowledge graphs on historical data and help developers come up with reasoning to failures although this eliminated a need for a domain expert, this also can't react to unseen errors.
+
+% In a distributed system it's hard to spot real anomalies just by looking at monitoring data, but when there are huge spikes in response latencies or error rates it's a good indicator something must be wrong. So \cite{samir2019dla} used a \ac{hhmm} to uncover the possible affected services from changes in response time or error rates in one service and using that data to uncover the root cause of the issue. All of the papers discussed above have one problem in common they all assume the entire system is static but in reality, these services changes over time either with increased demand or new future implementations. To address this, \cite{wu2020microrca} developed a service that monitors all the running applications and their vitals. This also constructs an attributed graph that represents how each service interacts with the other. When the monitoring system detects an anomaly MicroRCA weight that graph with response time changes and tries to find the epicenter of the anomaly. The main problem with both of these approaches have is authors rely solely on slow response time as an indication of an anomaly but several other factors could course anomalous behaviors without changes in response times.

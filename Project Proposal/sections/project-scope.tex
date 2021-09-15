@@ -1,8 +1,8 @@
-\section{Project Scope}
+{\let\clearpage\relax\chapter{Project Scope}}
 
 From the literature survey and talking with industry, experts author found many issues they can address when developing the system, but some of those problems like interpretability on autoencoder \citep{ribeiro2016should} are hard to solve by someone at a level of an undergraduate. As this project is done by one developer in less than one year, it won't be possible to create a fully functional monitoring platform like Datadog or New Relic. The Force of this project is to see if the author can develop a single model that can monitor all kinds of services after transfer learning with few examples. 
 
-\subsection{In-scope}
+\section{In-scope} \label{sec:in-scope}
 Following are the main forces of this project
 \begin{itemize}
     \item Evaluation Framework
@@ -32,7 +32,7 @@ Following are the main forces of this project
 
 
 
-\subsection{Out-scope}
+\section{Out-scope}
 Follow will not be covered during this project
 \begin{itemize}
     \item Evaluation Framework
@@ -44,8 +44,15 @@ Follow will not be covered during this project
     \begin{itemize}
         \item Interpretability - Describing a behavior of autoencoder is a difficult task that won't be covered during the project
         \item System won't be trained against data from a real production system due to the lack of public datasets
-        \item System won't have very high accuracy, as this will be the first line of defense this will try to avoid false positives to prevent adding more noise to alerting systems  
+        \item System won't have very high accuracy, as this will be the first line of defense this will try to avoid false positives to prevent adding more noise to alerting systems  \item Automatically identify system topology
         \item This will not be a drop-in replacement for existing monitoring systems, rather this will work with existing monitoring systems to reduce \ac{mttr}
     \end{itemize}
 \end{itemize}
 
+\begin{figure}[!ht]
+    \section{High-Level System Diagram}
+    \centering
+    \includegraphics[width=16cm]{assets/High-level-system-diagram.png}
+    \caption{High-level system diagram}
+    \label{fig:high-level-diagram}
+\end{figure}
