@@ -1,12 +1,13 @@
 
 
-{\let\clearpage\relax \chapter{Background}}
+% {\let\clearpage\relax \chapter{Background}}
+{\let\clearpage\relax \chapter{Problem Domain}}
 
 \section{Cloud Computing}
 With an emergence \ac{iaas} like Amazon Web Services (AWS) and Google Cloud Platform (GCP) there is a big surge in organizations trying to outsource their computing needs to third parties \citep{rimol_2021}. This is mainly due to the elasticity given by all the cloud providers. Users can easily scale up and down their infrastructures within minutes without making any commitment and all the major providers, bill users on what you use are what you pay model because cloud provider manages all the underlying infrastructure users doesn't have to worry about problems like hardware failures. In contrast in a self-hosted setting if the user wanted one extra GB of memory than what's available it requires a lot of effort and cost to full fill that requirement.
 
 \section{Cloud-Native Applications}
-During the 90s and early 2000s, all the applications were made as a big monolith from a single code base. Most of them were shipped as a single binary. Since those days applications were fairly simple this worked very well with little to no downsides. But when the 2010s came around there were a lot of specialized frameworks and programming languages and marketing teams wanted a lot of new futures quickly developed still maintaining reliability. But if the code base of the application was stored in a single repository, developers have to go through a long process to review and test if the changes won't break the current system and developers are also limited by the framework and programming language initial develops chosen for the project.
+During the 90s and early 2000s, all the applications were made as a big monolith from a single code base \citep{LessonsF52:online}. Most of them were shipped as a single binary. Since those days applications were fairly simple this worked very well with little to no downsides. But when the 2010s came around there were a lot of specialized frameworks and programming languages and marketing teams wanted a lot of new futures quickly developed still maintaining reliability \citep{di2018migrating,Microser52:online}. But if the code base of the application was stored in a single repository, developers have to go through a long process to review and test if the changes won't break the current system and developers are also limited by the framework and programming language initial develops chosen for the project.
 
 To tackle these problems there was a new way to develop applications was introduced, it's called "Microservices". The idea behind this concept is to break all the functionalities of big monolith applications into small individually scalable services and give ownership of each service to small teams of people who work separately. With this flow developers are free to use whatever tool they like to develop each service. Because these services are developed parallelly by different teams this increases the development velocity by order of magnitude. \citep{Understa56:online}
 

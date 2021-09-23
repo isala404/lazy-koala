@@ -1,8 +1,10 @@
-% \documentclass[a4paper]{article}
 \documentclass[12pt]{report}
 
 % Include all packages from file.
 \input{preamble}
+
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\baselinestretch}{1.5}
 
 % HEADER AND FOOTER--------------------------
 \patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
@@ -14,24 +16,29 @@
 \renewcommand{\headrulewidth}{0pt}
 % END HEADER AND FOOTER--------------------------
 
-% Page Numbering---------------------------------------------
-\pagenumbering{Roman}
 
 % Document begins here
 \begin{document}
+
 \input{cover-page} 
 
-\pagenumbering{roman}
+% Page Numbering---------------------------------------------
+\pagenumbering{Roman}
 
 % Table of Contents---------------------------------------------------
 \tableofcontents
 % List of Figures---------------------------------------------------
+\addcontentsline{toc}{chapter}{\listfigurename}
 \listoffigures
 % List of Tables---------------------------------------------------
+\addcontentsline{toc}{chapter}{\listtablename}
 {\let\clearpage\relax 
 \listoftables
 }
+\cleardoublepage
+\phantomsection
 % Include acronyms
+\addcontentsline{toc}{chapter}{List of Acronyms}
 \input{acronym}
 
 \input{sections/introduction}
@@ -42,8 +49,8 @@
 \input{sections/related-work}
 \input{sections/research/gap}
 \input{sections/research/contribution}
-\input{sections/research/question}
 \input{sections/research/challenge}
+\input{sections/research/question}
 \input{sections/research/aim}
 \input{sections/research/objective}
 \input{sections/project-scope}
@@ -54,9 +61,14 @@
 \cleardoublepage
 \phantomsection
 \renewcommand{\bibname}{References}
+\pagenumbering{Roman}
 \setcounter{page}{5}
-\pagenumbering{roman}
 \addcontentsline{toc}{chapter}{References}
 \bibliography{references.bib}
+
+% \begin{appendices}
+% \input{sections/appendix}
+% \end{appendices}
+
 \end{document}
 

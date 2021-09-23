@@ -1,12 +1,11 @@
 
 {\let\clearpage\relax \chapter{Project Management Methodology}}
 
-\section{Schedule}
+To manage task of this project authors decide to use \textbf{PRINCE2}. PRINCE2 built upon waterfall method which works best for projects with fixed deadlines and requirements with the added benefit of having regulated inputs and outputs \citep{WhatAreT79:online}.
 
 \section{Deliverables}
-
-
-\begin{longtable}{|p{11cm}|p{3.5cm}|}
+\setlength\LTleft{0mm}
+\begin{longtable}{|p{115mm}|p{35mm}|}
 \hline
 \textbf{Deliverable} & \textbf{Date} \\ \hline
 \textbf{Draft Project Proposal} & \multirow{2}{*}{02nd September 2021} \\
@@ -37,23 +36,33 @@ Finalize version of the thesis &  \\ \hline
 \end{longtable}
 
 
+\newpage
+\section{Schedule}
+% Gantt chart is a visualization of the task with their respective timelines. Refer Appendix \ref{appendix:gantt-chart} to find the gantt chart for this project.
+\begin{figure}[!ht]
+    % \chapter{Gantt Chart} \label{appendix:gantt-chart}
+    % \centering
+    \includegraphics[height=22cm]{assets/gantt-chart.jpg}
+\end{figure}
+
+
 \section{Resource Requirement}
 
 \subsection{Software Requirements}
 
-\begin{itemize}
-\item \textbf{Linux based operating system} - During this project author will be working with the Kubernetes ecosystem. Most of the tooling for Kubernetes like docker works best Linux kernel.
+\begin{itemize}[noitemsep,nolistsep] 
+\item \textbf{Linux based operating system} - During this project author will be working with the Kubernetes ecosystem. Most of the Kubernetes tooling are written to work with the Linux kernel.
 \item \textbf{Python} - Most of the tooling related to data science like TensorFlow and PyTorch are written as python libraries. Python also provides a lot of help built-in functions to  accelerate the prototyping process.
 \item \textbf{GoLang} - Since Kubernetes itself is built using GoLang, It has a very mature client library with a lot of documentation to deal with Kubernetes API.
-\item \textbf{Docker and K3D} - To create a Kubernetes cluster locally for development and testing.
+\item \textbf{Docker and K3d} - To create a Kubernetes cluster locally for development and testing.
 \item \textbf{PyCharm and GoLand} - These two are the best IDEs in the market when writing Python and Go projects and it could improve the productivity of developers by big merging. As students, we get a license to use both of those IDEs for free.
 \item \textbf{Overleaf / LateX}  - Managing a big document in both MS Word and Google Docs could be a cumbersome task. Especially when adding and removing things both of these software tends to mess up the layout. By using LateX we can declaratively define the layout so it will always behave as intended.
-\item \textbf{Google Drive and Github} - Offsite location to backup the codebase and related documents
-\item \textbf{ClickUp} - To manage the project and keep track of things to be done
+\item \textbf{Google Drive and Github} - Offsite location to backup the codebase and related documents.
+\item \textbf{ClickUp} - To manage the project and keep track of things to be done.
 \end{itemize}
 
 \subsection{Hardware Requirements}
-\begin{itemize}
+\begin{itemize}[noitemsep,nolistsep] 
     \item \textbf{A Quad-core CPU with AVX support} - Simulating a distributed system locally will take a lot of processing power. Having an AVX supported CPU will reduce the inference time when testing it on a cluster.
     \item \textbf{GPU with CUDA support and 2GB of VRAM} - Both Tensorflow and Pytorch depend on CUDA for hardware-accelerated training. Training on GPU could save a lot of time increases the number of trial and error iterations that could be done. Having more VRAM could help with building larger models.
     \item \textbf{16 GB Memory} - Running a microservices simulation locally will consume a lot of memory and while testing models will get loaded into RAM. Here having dual-channel memory will be preferable. 
@@ -61,14 +70,14 @@ Finalize version of the thesis &  \\ \hline
 \end{itemize}
 
 \subsection{Skill Requirements}
-\begin{itemize}
+\begin{itemize}[noitemsep,nolistsep] 
     \item \textbf{Experience working with Kubernetes} - The author will be developing a Kubernetes extension so they need to know the inner workings of Kubernetes.
     \item \textbf{Data engineering} -  Developing a data encoding technique requires a lot of knowledge in how to manipulate a given dataset.
     \item \textbf{Model engineering} - To complete the project, a completely new model has to be built from the ground up. So the author needs to have an in-depth idea about how to create a model in a machine learning framework and how different layers in the model work to fit them properly. 
 \end{itemize}
 
 \subsection{Data Requirements}
-\begin{itemize}
+\begin{itemize}[noitemsep,nolistsep] 
 \item \textbf{Monitoring dataset} -  This dataset can be collected using \hyperref[microsim]{MicroSim} tool author plan to develop to simulate distributed system.
 \end{itemize}
 

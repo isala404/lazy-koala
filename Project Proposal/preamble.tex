@@ -43,14 +43,12 @@
 \titleformat{\chapter}[display]{\fontsize{20pt}{0pt}\bfseries}{}{2pt}{}
 \setlength{\parindent}{10ex}
 
+
 % Setting TOC and Section number depth
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
 % line spacing in TOC
 \setlength{\cftbeforechapskip}{3pt} 
-
-\renewcommand{\contentsname}{Table of Contents}
-\renewcommand{\baselinestretch}{1.5}
 
 \onehalfspacing
 
@@ -67,3 +65,6 @@
 % Header and footer
 \usepackage{fancyhdr}
 \usepackage{etoolbox}
+
+\usepackage[titletoc]{appendix}
+\usepackage{changepage}

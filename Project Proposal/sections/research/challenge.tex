@@ -1,8 +1,9 @@
+
 {\let\clearpage\relax\chapter{Research Challenge}}
 
 Even though this project seems very straightforward and easy to implement from a high level, but it becomes tricky when attempting to reach targets defined in section \ref{sec:in-scope}.
 \\
-\begin{itemize}
+\begin{itemize}[leftmargin=*] 
 \item \textbf{Highly seasonal and noisy patterns} - Monitoring metrics on microservices on production tends to have very unpredictable patterns depending on the traffic that's sent to the service. The amount of traffic sent will depend on several external factors that are hard to determine. Modeling both temporal dependencies and interdependencies between monitoring data into a single graph will be very difficult and require a lot of fine-tuning and data engineering.
 \item \textbf{Overhead} - Modern deep learning models can solve any problem if we could give it an unlimited amount of data and processing power but In this case, models need to optimize for efficiency over accuracy since having a monitoring system that consumes a lot more resource than the actual target system isn't effective.
 \item \textbf{Fit into Kubernetes eco-system} - Kubernetes has become the de-facto standard to managing distributed systems \citep{WhatisCo78:online}. So the author is planning to create a Kubernetes extension that will bridge the connection between monitored service and monitoring model as shown in the figure \ref{fig:high-level-diagram}. But Kubernetes itself has a very steep learning curve, even the original developers themselves admitted it's too hard complex for beginners \cite{Googlead4:online}.
