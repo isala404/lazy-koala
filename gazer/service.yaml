@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bcc
+spec:
+  containers:
+  - command: [ "sh", "-c", "sleep 60d" ]
+    image: zlim/bcc
+    imagePullPolicy: IfNotPresent
+    name: bcc
+    resources: {}
+    securityContext:
+      privileged: true
+    volumeMounts:
+      - mountPath: /lib/modules
+        name: host-modules
+        readOnly: true
+      - mountPath: /usr/src
+        name: host-usr-src
+        readOnly: true
+  volumes:
+    - hostPath:
+        path: /lib/modules
+        type: Directory
+      name: host-modules
+    - hostPath:
+        path: /usr/src
+        type: Directory
+      name: host-usr-src
