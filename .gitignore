@@ -6,3 +6,7 @@
 Project Proposal/*
 !Project Proposal/*.tex
 !Project Proposal/*.bib
+
+
+## Python
+**/__pycache__/**
