@@ -1,0 +1,44 @@
+name: gazer
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: ghcr.io/mrsupiri/lazy-koala/gazer
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  app:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: gazer
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker build -t $IMAGE_NAME:latest .
+      - run: docker tag $IMAGE_NAME:latest $IMAGE_NAME:commit-${GITHUB_SHA:0:8}
+      - run: docker push $IMAGE_NAME --all-tags
+  init-headers:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: gazer/init-headers
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker build -t $IMAGE_NAME:init .
+      - run: docker tag $IMAGE_NAME:init $IMAGE_NAME:init-commit-${GITHUB_SHA:0:8}
+      - run: docker push $IMAGE_NAME --all-tags
