@@ -132,3 +132,4 @@ dmypy.json
 Project Proposal/*
 !Project Proposal/*.tex
 !Project Proposal/*.bib
+!Project Proposal/Project Proposal.pdf

@@ -1,8 +1,8 @@
 
 {\let\clearpage\relax\chapter{Research Challenge}}
 
-Even though this project seems very straightforward and easy to implement from a high level, but it becomes tricky when attempting to reach targets defined in section \ref{sec:in-scope}.
-\\
+Even though this project seems very straightforward and easy to implement from a high level, but it becomes tricky when attempting to reach targets defined in the section \ref{sec:in-scope}. For example, interpretability was one most requested feature from industry experts and a must-have trait for mission-critical systems \citep{ribeiro2016should}. But it was left out of the project scope due to its complexity especially when it comes to an \textbf{undergraduate project}. Other than that following are a few of the more difficult challenges the author is expected to face while conducting the research.\\
+
 \begin{itemize}[leftmargin=*] 
 \item \textbf{Highly seasonal and noisy patterns} - Monitoring metrics on microservices on production tends to have very unpredictable patterns depending on the traffic that's sent to the service. The amount of traffic sent will depend on several external factors that are hard to determine. Modeling both temporal dependencies and interdependencies between monitoring data into a single graph will be very difficult and require a lot of fine-tuning and data engineering.
 \item \textbf{Overhead} - Modern deep learning models can solve any problem if we could give it an unlimited amount of data and processing power but In this case, models need to optimize for efficiency over accuracy since having a monitoring system that consumes a lot more resource than the actual target system isn't effective.

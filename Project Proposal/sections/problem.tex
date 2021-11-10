@@ -9,13 +9,15 @@
 
 % Even though there are a lot of great products available with all has a few common issues, one of the main issues is it's up to developers to implement metric exports and tracing in their services. As a person who did his placement in a small to medium size startup the author first hand, both managers and developers hesitate to spend time on things like these. Although platforms like Datadog support open initiatives like \href{https://opentelemetry.io/}{opentelemetry} to take the full power of these platforms services have to be architectured towards the observability platform that gonna get used, once committed it's very hard to migrate to another solution. Finally, all these services require users to send over all of their key data including logs to get the most out of it and it could open up a lot of security issues and privacy concerns down the road.
 
+\newpage
+
 {\let\clearpage\relax \chapter{Problem Definition}}
 
 One of the main problems in monitoring microservices is the sheer number of data they generate. It's humanly impossible to monitor the metrics of all the services and it's hard for a single person to understand the entire system. To overcome this \acp{sres} use abstracted metrics called \acp{sli} which measure the quality of the service at a higher level. \acp{sli} will tell when there is an issue in the system, but it's very hard to understand where the actual problem is from it along. To understand the root cause of the problem \acp{sres} need to dig into \acp{apm} of all the services and go through the logs of each of the troubling services.
 
 When the system consists of 100s or 1000s of services that are interdepended it's really hard to find where the actual issue is coming from and it may require the attention from all the service owners of failing services to go through the logs and \acp{apm} and identify the actual root cause of the failure.
-This could greatly increase the \ac{mttr} and waste a lot of developer time just looking at logs.
+This could greatly increase the \ac{mttr} and waste a lot of developer time just looking at logs. \\
 
 \section{Problem Statement}
 
-Modern distributed systems are becoming big and complex so that when a failure happens it requires collaboration with a lot of people to find the root cause.  Implementing a machine learning model which will watch over all the services and reacts to anomalies in real-time could greatly reduce the \ac{mttr}.
+Modern distributed systems are becoming big and complex so that when a failure happens it requires collaboration with a lot of people to find the root cause.  Implementing a machine learning model which will watch over all the services and reacts to anomalies in real-time could greatly reduce the \ac{mttr}.\\

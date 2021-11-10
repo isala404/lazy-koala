@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 \usepackage{newtxtext,newtxmath}
 \usepackage[utf8]{inputenc}
-\usepackage[a4paper,left=25mm, right=25mm, top=25mm, bottom=25mm]{geometry} %Paper margins
+\usepackage[a4paper,left=24.5mm, right=24.5mm, top=24.5mm, bottom=24.5mm]{geometry} %Paper margins
 \usepackage{titlesec}
 \usepackage{enumitem} % Custom enumerations
 \usepackage[titles]{tocloft}
@@ -61,6 +61,7 @@
 \usepackage[font={small,it}]{caption}
 \selectlanguage{UKenglish}
 
+\usepackage{floatrow}
 
 % Header and footer
 \usepackage{fancyhdr}
@@ -68,3 +69,20 @@
 
 \usepackage[titletoc]{appendix}
 \usepackage{changepage}
+
+
+% TITLE FORMATS
+% CHAPTER SPACING & FONT
+\titleformat{\chapter}[hang]{\fontsize{16pt}{0pt}\bfseries}{\thechapter}{1em}{} 
+% \titlespacing*{\chapter}{0pt}{20pt}{10pt} 
+
+% SECTION FONT
+\titleformat{\section}[hang]{\fontsize{14pt}{0}\bfseries}{\thesection}{1em}{}
+% \titlespacing*{\section}{0pt}{20pt}{10pt} 
+
+% SUBSECTION FONT AND SIZE
+\titleformat{\subsection}[hang]{\fontsize{12pt}{0}\bfseries}{\thesubsection}{1em}{}
+% \titlespacing*{\subsection}{0pt}{15pt}{10pt} 
+
+\titleformat{\subsubsection}[hang]{\fontsize{12pt}{0}\itshape}{\thesubsubsection}{1em}{}
+% \titlespacing*{\subsubsection}{0pt}{15pt}{10pt} 
