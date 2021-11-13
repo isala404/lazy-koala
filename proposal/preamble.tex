@@ -1,0 +1,88 @@
+\usepackage[UKenglish]{babel}
+
+\usepackage{setspace}  % LINE SPACING
+\usepackage{tikz}
+\usepackage{titlepic}
+\usepackage{graphicx}
+\usepackage{newtxtext,newtxmath}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=24.5mm, right=24.5mm, top=24.5mm, bottom=24.5mm]{geometry} %Paper margins
+\usepackage{titlesec}
+\usepackage{enumitem} % Custom enumerations
+\usepackage[titles]{tocloft}
+
+\usepackage{acronym}
+
+\usepackage{hyperref} % Links
+
+% Referencing
+\usepackage{natbib} % Harvard referencing
+% \usepackage[comma,colon]{natbib}
+\citestyle{aysep={,}}
+\bibliographystyle{agsm}
+
+% Tables
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{xstring}
+\usepackage{geometry}
+\usepackage{array}
+
+
+% Fonts size
+\usepackage[font={small,it}]{caption}
+
+% Date
+\usepackage[useregional]{datetime2}
+
+\usetikzlibrary{calc}
+\newcommand\HRule{\rule{\textwidth}{1pt}}
+\newcommand{\hsp}{\hspace{10pt}}
+\titlespacing*{\chapter}{0pt}{20pt}{20pt} % CHAPTER SPACING
+\titleformat{\chapter}[hang]{\Huge\bfseries}{Chapter \thechapter\hsp:\hsp }{0pt}{\Huge\bfseries}
+\titleformat{\chapter}[display]{\fontsize{20pt}{0pt}\bfseries}{}{2pt}{}
+\setlength{\parindent}{10ex}
+
+
+% Setting TOC and Section number depth
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+% line spacing in TOC
+\setlength{\cftbeforechapskip}{3pt} 
+
+\onehalfspacing
+
+\usepackage{chngcntr}
+
+% \usepackage[nottoc,numbib]{tocbibind}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+
+\usepackage[font={small,it}]{caption}
+\selectlanguage{UKenglish}
+
+\usepackage{floatrow}
+
+% Header and footer
+\usepackage{fancyhdr}
+\usepackage{etoolbox}
+
+\usepackage[titletoc]{appendix}
+\usepackage{changepage}
+
+
+% TITLE FORMATS
+% CHAPTER SPACING & FONT
+\titleformat{\chapter}[hang]{\fontsize{16pt}{0pt}\bfseries}{\thechapter}{1em}{} 
+% \titlespacing*{\chapter}{0pt}{20pt}{10pt} 
+
+% SECTION FONT
+\titleformat{\section}[hang]{\fontsize{14pt}{0}\bfseries}{\thesection}{1em}{}
+% \titlespacing*{\section}{0pt}{20pt}{10pt} 
+
+% SUBSECTION FONT AND SIZE
+\titleformat{\subsection}[hang]{\fontsize{12pt}{0}\bfseries}{\thesubsection}{1em}{}
+% \titlespacing*{\subsection}{0pt}{15pt}{10pt} 
+
+\titleformat{\subsubsection}[hang]{\fontsize{12pt}{0}\itshape}{\thesubsubsection}{1em}{}
+% \titlespacing*{\subsubsection}{0pt}{15pt}{10pt} 

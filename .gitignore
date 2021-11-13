@@ -3,9 +3,10 @@
 
 
 # Project Proposal
-Project Proposal/*
-!Project Proposal/*.tex
-!Project Proposal/*.bib
+proposal/*
+!proposal/*.tex
+!proposal/*.bib
+!proposal/project-proposal.pdf
 
 
 ## Python
