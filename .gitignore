@@ -3,9 +3,6 @@
 
 
 # Project Proposal
-proposal/*
-!proposal/*.tex
-!proposal/*.bib
 !proposal/project-proposal.pdf
 
 
