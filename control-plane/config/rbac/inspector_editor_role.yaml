@@ -1,0 +1,24 @@
+# permissions for end users to edit inspectors.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: inspector-editor-role
+rules:
+- apiGroups:
+  - lazykoala.lazykoala.isala.me
+  resources:
+  - inspectors
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - lazykoala.lazykoala.isala.me
+  resources:
+  - inspectors/status
+  verbs:
+  - get

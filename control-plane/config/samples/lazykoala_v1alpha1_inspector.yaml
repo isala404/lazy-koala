@@ -1,0 +1,10 @@
+apiVersion: lazykoala.lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: inspector-sample
+spec:
+  service:
+    name: order-service
+    namespace: default
+  modelURI: path/to/checkpoint.ckpt
+

@@ -1,0 +1,20 @@
+# permissions for end users to view inspectors.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: inspector-viewer-role
+rules:
+- apiGroups:
+  - lazykoala.lazykoala.isala.me
+  resources:
+  - inspectors
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - lazykoala.lazykoala.isala.me
+  resources:
+  - inspectors/status
+  verbs:
+  - get
