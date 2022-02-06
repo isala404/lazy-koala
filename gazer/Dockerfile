@@ -1,8 +1,8 @@
-FROM alpine:edge
+FROM alpine:3.15
 
-RUN apk add bcc-tools py3-pip py3-numpy py3-pandas
+RUN apk add bcc-tools py3-pip py3-numpy py3-pandas py3-bcc
 
-RUN pip install termplotlib
+RUN pip install termplotlib pyinotify pyyaml
 
 WORKDIR /gazer
 
