@@ -1,3 +1,4 @@
+import os
 import threading
 import time
 import termplotlib as tpl
@@ -6,6 +7,17 @@ from bcc import BPF
 from socket import inet_ntop, AF_INET
 from struct import pack
 from config import config_watcher
+import requests
+from prometheus_client import Histogram, Counter, Gauge
+
+ms = Histogram("request_latency", "TCP event latency", ["namespace", "serviceName", "podName"])
+tx_kb = Histogram("tx_kb", "Number of sent kilobytes during TCP event", ["namespace", "serviceName", "podName"])
+rx_kb = Histogram("rx_kb", "Number of received kilobytes during TCP event", ["namespace", "serviceName", "podName"])
+request_sent = Counter("requests_sent", "Total request sent", ["namespace", "serviceName", "podName"])
+request_received = Counter("request_received", "Total request received", ["namespace", "serviceName", "podName"])
+backlog = Gauge("backlog", "Description of gauge", ["namespace", "serviceName", "podName", "level"])
+cpu = Histogram("cpu_usage", "CPU usage", ["namespace", "serviceName", "podName"])
+memory = Histogram("memory_usage", "Memory usage", ["namespace", "serviceName", "podName"])
 
 
 class Gazer:
@@ -13,6 +25,8 @@ class Gazer:
     syn_df = pd.DataFrame(columns=["backlog", "slot", "saddr", "lport", "value", "outdated"])
     bpf_text = ""
     console_mode = False
+    kube_api = os.getenv("KUBERNETES_SERVICE_HOST", "kubernetes.default.svc")
+    kube_token = ""
 
     def __init__(self, console_mode=False):
         self.console_mode = console_mode
@@ -25,6 +39,12 @@ class Gazer:
         with open('syn_backlog.c', 'r') as f:
             bpf_text += f.read()
 
+        try:
+            with open('/var/run/secrets/kubernetes.io/serviceaccount/token', 'r') as f:
+                self.kube_token = f.read()
+        except FileNotFoundError:
+            print("Kube token was not set")
+
         bpf_text = bpf_text.replace('FILTER_PID', '')
         self.bpf_text = bpf_text.replace('ADDRFILTER', '')
         self.b = BPF(text=self.bpf_text)
@@ -32,26 +52,34 @@ class Gazer:
         self.syn_backlog_buffer = self.b['syn_backlog']
 
     def ipv4_request_event(self, cpu, data, size):
-        event = self.b["ipv4_events"].event(data)
-        LADDR = inet_ntop(AF_INET, pack("I", event.saddr))
-        RADDR = inet_ntop(AF_INET, pack("I", event.daddr))
+        event = self.b['ipv4_events'].event(data)
+        event = {
+            "PID": event.pid,
+            "COMM": event.task.decode('utf-8', 'replace'),
+            "LADDR": inet_ntop(AF_INET, pack("I", event.saddr)),
+            "LPORT": event.ports >> 32,
+            "RADDR": inet_ntop(AF_INET, pack("I", event.daddr)),
+            "RPORT": event.ports & 0xffffffff,
+            "TX_KB": event.tx_b,
+            "RX_KB": event.rx_b,
+            "MS": float(event.span_us) / 1000,
+        }
 
-        if LADDR in config_watcher.config and RADDR in config_watcher.config:
-            # TODO: Write to prometheus
-            pass
+        # Write to prometheus
+        if event['LADDR'] in config_watcher.config:
+            pod = config_watcher.config[event['LADDR']]
+            print("Updating", pod['name'])
+            ms.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['MS'])
+            tx_kb.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['TX_KB'])
+            rx_kb.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['RX_KB'])
+            request_sent.labels(pod['namespace'], pod['serviceName'], pod['name']).inc()
+
+            if event['RADDR'] in config_watcher.config:
+                rpod = config_watcher.config[event['RADDR']]
+                request_received.labels(rpod['namespace'], rpod['serviceName']).inc()
 
         if self.console_mode:
-            self.request_df = self.request_df.append({
-                "PID": event.pid,
-                "COMM": event.task.decode('utf-8', 'replace'),
-                "LADDR": LADDR,
-                "LPORT": event.ports >> 32,
-                "RADDR": RADDR,
-                "RPORT": event.ports & 0xffffffff,
-                "TX_KB": event.tx_b,
-                "RX_KB": event.rx_b,
-                "MS": float(event.span_us) / 1000,
-            }, ignore_index=True)
+            self.request_df = self.request_df.append(event, ignore_index=True)
             self.request_df = self.request_df[-10:]
 
     def poll_requests(self):
@@ -59,7 +87,24 @@ class Gazer:
             self.b.perf_buffer_poll()
 
     def poll_kube_api(self):
-        pass
+        for pod in config_watcher.config.values():
+            try:
+                cpu_usage = 0
+                memory_usage = 0
+                r = requests.get(
+                    f"https://{self.kube_api}/apis/metrics.k8s.io/v1beta1/namespaces/{pod['namespace']}/pods/{pod['name']}",
+                    headers={"Authorization": f"Bearer {self.kube_token}"}, verify=False)
+                data = r.json()
+                for container in data['containers']:
+                    cpu_usage += int(container['usage']['cpu'])
+                    memory_usage += int(container['usage']['memory'][:-2])
+
+                # Write to prometheus
+                cpu.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(cpu_usage)
+                memory.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(memory_usage)
+            except Exception as e:
+                print(e)
+        time.sleep(40)
 
     def poll_syn_backlog(self):
         while True:
@@ -68,9 +113,10 @@ class Gazer:
             for row in data:
                 saddr = inet_ntop(AF_INET, pack("I", row[0].saddr))
 
+                # Write to prometheus
                 if saddr in config_watcher.config:
-                    # TODO: Write to prometheus
-                    pass
+                    pod = config_watcher.config[saddr]
+                    backlog.labels(pod['namespace'], pod['serviceName'], pod['name'], row[0].slot).set(row[1].value)
 
                 if self.console_mode:
                     self.syn_df = self.syn_df.append({
@@ -120,6 +166,11 @@ class Gazer:
         poll_requests.daemon = True
         poll_requests.start()
 
+        poll_kube_api = threading.Thread(target=self.poll_kube_api, args=())
+        poll_kube_api.daemon = True
+        poll_kube_api.start()
+
         if not self.console_mode:
             poll_syn_backlog.join()
             poll_requests.join()
+            poll_kube_api.join()
