@@ -18,11 +18,12 @@ spec:
     metadata:
       labels:
         name: gazer
+      annotations:
+        lazy-koala/scrape: 'true'
     spec:
       containers:
         - name: gazer
-          #          command: [ "sh", "-c", "sleep 60d" ]
-          image: ghcr.io/mrsupiri/lazy-koala/gazer:1644303713
+          image: ghcr.io/mrsupiri/lazy-koala/gazer:latest
           ports:
             - containerPort: 8000
               name: metrics
@@ -143,7 +144,6 @@ spec:
       serviceAccountName: lazy-koala
       containers:
       - name: prometheus
-#        command: [ "sh", "-c", "sleep 60d" ]
         image: prom/prometheus:v2.33.1
         ports:
         - containerPort: 9090
@@ -232,6 +232,9 @@ data:
         kubernetes_sd_configs:
         - role: pod
         relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_annotationpresent_lazy_koala_scrape]
+          action: keep
+          regex: true
         - source_labels: [__meta_kubernetes_pod_container_port_name]
           regex: metrics
           action: keep
@@ -245,23 +248,23 @@ metadata:
   namespace: lazy-koala
 data:
   config.yaml: |
-    10.244.0.7:
-      name: service-1-aaf5fced-749b94b988-9h7jz
+    10.244.1.15:
+      name: service-1-0de9ab8e-65bc59564d-f7rhp
       serviceName: service-1
       namespace: default
-      node: minikube
-    10.244.0.6:
-      name: service-2-aaf5fced-cf6647556-vpwzk
+      node: minikube-m02
+    10.244.1.14:
+      name: service-2-0de9ab8e-6fff4f8956-r9qlt
       serviceName: service-2
       namespace: default
-      node: minikube
-    10.244.0.3:
-      name: service-3-aaf5fced-5478b64d59-k956v
+      node: minikube-m02
+    10.244.1.16:
+      name: service-3-0de9ab8e-75cc987cdc-ltcvr
       serviceName: service-3
       namespace: default
-      node: minikube
-    10.244.0.4:
-      name: service-4-aaf5fced-656b456747-tr7nc
+      node: minikube-m02
+    10.244.1.17:
+      name: service-4-0de9ab8e-79d69d9c99-vlpdv
       serviceName: service-4
       namespace: default
-      node: minikube
+      node: minikube-m02

@@ -10,14 +10,14 @@ from config import config_watcher
 import requests
 from prometheus_client import Histogram, Counter, Gauge
 
-ms = Histogram("request_latency", "TCP event latency", ["namespace", "serviceName", "podName"])
-tx_kb = Histogram("tx_kb", "Number of sent kilobytes during TCP event", ["namespace", "serviceName", "podName"])
-rx_kb = Histogram("rx_kb", "Number of received kilobytes during TCP event", ["namespace", "serviceName", "podName"])
+ms = Histogram("request_duration_seconds", "TCP event latency", ["namespace", "serviceName", "podName"])
+tx_kb = Histogram("transmitted_bytes", "Number of sent bytes during TCP event", ["namespace", "serviceName", "podName"])
+rx_kb = Histogram("acknowledged_bytes", "Number of received bytes during TCP event", ["namespace", "serviceName", "podName"])
 request_sent = Counter("requests_sent", "Total request sent", ["namespace", "serviceName", "podName"])
 request_received = Counter("request_received", "Total request received", ["namespace", "serviceName", "podName"])
-backlog = Gauge("backlog", "Description of gauge", ["namespace", "serviceName", "podName", "level"])
-cpu = Histogram("cpu_usage", "CPU usage", ["namespace", "serviceName", "podName"])
-memory = Histogram("memory_usage", "Memory usage", ["namespace", "serviceName", "podName"])
+backlog = Gauge("backlog", "Request backlog", ["namespace", "serviceName", "podName", "level"])
+cpu = Gauge("cpu_seconds", "CPU usage", ["namespace", "serviceName", "podName"])
+memory = Gauge("memory_usage_bytes", "Memory usage", ["namespace", "serviceName", "podName"])
 
 
 class Gazer:
@@ -25,7 +25,7 @@ class Gazer:
     syn_df = pd.DataFrame(columns=["backlog", "slot", "saddr", "lport", "value", "outdated"])
     bpf_text = ""
     console_mode = False
-    kube_api = os.getenv("KUBERNETES_SERVICE_HOST", "kubernetes.default.svc")
+    kube_api = os.getenv("KUBERNETES_SERVICE_HOST", "localhost:8001")
     kube_token = ""
 
     def __init__(self, console_mode=False):
@@ -60,16 +60,15 @@ class Gazer:
             "LPORT": event.ports >> 32,
             "RADDR": inet_ntop(AF_INET, pack("I", event.daddr)),
             "RPORT": event.ports & 0xffffffff,
-            "TX_KB": event.tx_b,
-            "RX_KB": event.rx_b,
+            "TX_KB": float(event.tx_b),
+            "RX_KB": float(event.rx_b),
             "MS": float(event.span_us) / 1000,
         }
 
         # Write to prometheus
         if event['LADDR'] in config_watcher.config:
             pod = config_watcher.config[event['LADDR']]
-            print("Updating", pod['name'])
-            ms.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['MS'])
+            ms.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['MS'] / 1000000)
             tx_kb.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['TX_KB'])
             rx_kb.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['RX_KB'])
             request_sent.labels(pod['namespace'], pod['serviceName'], pod['name']).inc()
@@ -97,11 +96,11 @@ class Gazer:
                 data = r.json()
                 for container in data['containers']:
                     cpu_usage += int(container['usage']['cpu'])
-                    memory_usage += int(container['usage']['memory'][:-2])
+                    memory_usage += int(container['usage']['memory'][:-2]) * 1024
 
                 # Write to prometheus
-                cpu.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(cpu_usage)
-                memory.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(memory_usage)
+                cpu.labels(pod['namespace'], pod['serviceName'], pod['name']).set(cpu_usage)
+                memory.labels(pod['namespace'], pod['serviceName'], pod['name']).set(memory_usage)
             except Exception as e:
                 print(e)
         time.sleep(40)
