@@ -1,7 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lazy-koala
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: gazer
+  namespace: lazy-koala
   labels:
     app: gazer
 spec:
@@ -12,18 +18,28 @@ spec:
     metadata:
       labels:
         name: gazer
+      annotations:
+        lazy-koala/scrape: 'true'
     spec:
       containers:
         - name: gazer
-          # command: [ "sh", "-c", "sleep 60d" ]
           image: ghcr.io/mrsupiri/lazy-koala/gazer:latest
+          ports:
+            - containerPort: 8000
+              name: metrics
           imagePullPolicy: IfNotPresent
           resources:
             requests:
               ephemeral-storage: "2Gi"
           env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
             - name: PYTHONUNBUFFERED
               value: "1"
+            - name: PYTHONWARNINGS
+              value: "ignore:Unverified HTTPS request"
           securityContext:
             privileged: true
             capabilities:
@@ -51,8 +67,12 @@ spec:
             - name: debug
               mountPath: /sys/kernel/debug
               readOnly: false
+            - name: config
+              mountPath: "/gazer/config"
+              readOnly: true
       hostNetwork: true
       hostPID: true
+      serviceAccountName: lazy-koala
       initContainers:
         - name: init-headers
           image: ghcr.io/mrsupiri/lazy-koala/gazer:init
@@ -102,3 +122,149 @@ spec:
         - name: debug
           hostPath:
             path: /sys/kernel/debug
+        - name: config
+          configMap:
+            name: gazer-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: lazy-koala
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      serviceAccountName: lazy-koala
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.33.1
+        ports:
+        - containerPort: 9090
+          name: default
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus
+      volumes:
+      - name: config-volume
+        configMap:
+         name: prometheus-config
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: lazy-koala
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes/metrics
+    verbs:
+      - get
+  - apiGroups: [ "" ]
+    resources:
+      - nodes
+      - services
+      - endpoints
+      - pods
+      - namespaces
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - "metrics.k8s.io"
+    resources:
+      - podmetrics
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: lazy-koala
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: lazy-koala
+subjects:
+  - kind: ServiceAccount
+    name: lazy-koala
+    namespace: lazy-koala
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: lazy-koala
+  namespace: lazy-koala
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: lazy-koala
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 10s
+    scrape_configs:
+      - job_name: 'lazy-koala'
+        scrape_interval: 1s
+        metrics_path: /
+        kubernetes_sd_configs:
+        - role: pod
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_annotationpresent_lazy_koala_scrape]
+          action: keep
+          regex: true
+        - source_labels: [__meta_kubernetes_pod_container_port_name]
+          regex: metrics
+          action: keep
+        - source_labels: [__meta_kubernetes_pod_container_name]
+          target_label: gazer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gazer-config
+  namespace: lazy-koala
+data:
+  config.yaml: |
+    10.244.1.15:
+      name: service-1-0de9ab8e-65bc59564d-f7rhp
+      serviceName: service-1
+      namespace: default
+      node: minikube-m02
+    10.244.1.14:
+      name: service-2-0de9ab8e-6fff4f8956-r9qlt
+      serviceName: service-2
+      namespace: default
+      node: minikube-m02
+    10.244.1.16:
+      name: service-3-0de9ab8e-75cc987cdc-ltcvr
+      serviceName: service-3
+      namespace: default
+      node: minikube-m02
+    10.244.1.17:
+      name: service-4-0de9ab8e-79d69d9c99-vlpdv
+      serviceName: service-4
+      namespace: default
+      node: minikube-m02
