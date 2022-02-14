@@ -15,7 +15,23 @@ spec:
     singular: inspector
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - jsonPath: .spec.namespace
+      name: Namespace
+      type: string
+    - jsonPath: .spec.deploymentRef
+      name: Target Deployment
+      type: string
+    - jsonPath: .spec.serviceRef
+      name: Target ClusterIP
+      type: string
+    - jsonPath: .spec.modelURI
+      name: Model URI
+      type: string
+    - jsonPath: .status.status
+      name: Status
+      type: string
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: Inspector is the Schema for the inspectors API
@@ -35,39 +51,37 @@ spec:
           spec:
             description: InspectorSpec defines the desired state of Inspector
             properties:
-              modelURI:
-                type: string
-              service:
+              deploymentRef:
                 description: Foo is an example field of Inspector. Edit inspector_types.go
                   to remove/update
-                properties:
-                  name:
-                    type: string
-                  namespace:
-                    type: string
-                required:
-                - name
-                - namespace
-                type: object
+                type: string
+              modelURI:
+                type: string
+              namespace:
+                type: string
+              serviceRef:
+                type: string
             required:
+            - deploymentRef
             - modelURI
-            - service
+            - namespace
+            - serviceRef
             type: object
           status:
             description: InspectorStatus defines the observed state of Inspector
             properties:
-              inspector:
+              monitoredIPs:
                 description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
                   of cluster Important: Run "make" to regenerate code after modifying
                   this file'
-                properties:
-                  name:
-                    type: string
-                  namespace:
-                    type: string
-                required:
-                - name
-                - namespace
+                items:
+                  type: string
+                type: array
+              podsSelector:
+                additionalProperties:
+                  type: string
+                description: MatchingLabels filters the list/delete operation on the
+                  given set of labels.
                 type: object
               status:
                 enum:
@@ -76,7 +90,8 @@ spec:
                 - Error
                 type: string
             required:
-            - inspector
+            - monitoredIPs
+            - podsSelector
             - status
             type: object
         type: object

@@ -1,0 +1,28 @@
+name: controller
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: ghcr.io/mrsupiri/lazy-koala/controller
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: control-plane
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker build -t $IMAGE_NAME:latest .
+      - run: docker tag $IMAGE_NAME:latest $IMAGE_NAME:commit-${GITHUB_SHA:0:8}
+      - run: docker push $IMAGE_NAME --all-tags

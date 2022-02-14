@@ -3,8 +3,8 @@ kind: Inspector
 metadata:
   name: inspector-sample
 spec:
-  service:
-    name: order-service
-    namespace: default
+  deploymentRef: service-2-5e7b1ab0
+  serviceRef: service-2-5e7b1ab0
+  namespace: default
   modelURI: path/to/checkpoint.ckpt
 

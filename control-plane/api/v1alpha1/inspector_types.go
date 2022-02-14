@@ -18,6 +18,7 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
@@ -35,8 +36,10 @@ type InspectorSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Inspector. Edit inspector_types.go to remove/update
-	Service  DeploymentReference `json:"service"`
-	ModelURI string              `json:"modelURI"`
+	DeploymentRef string `json:"deploymentRef"`
+	ServiceRef    string `json:"serviceRef"`
+	Namespace     string `json:"namespace"`
+	ModelURI      string `json:"modelURI"`
 }
 
 type Status string
@@ -51,13 +54,19 @@ const (
 type InspectorStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Inspector DeploymentReference `json:"inspector"`
+	MonitoredIPs []string              `json:"monitoredIPs"`
+	PodsSelector client.MatchingLabels `json:"podsSelector"`
 	// +kubebuilder:validation:Enum=Creating;Running;Error
 	Status Status `json:"status"`
 }
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
+//+kubebuilder:printcolumn:JSONPath=".spec.namespace",name="Namespace",type="string"
+//+kubebuilder:printcolumn:JSONPath=".spec.deploymentRef",name="Target Deployment",type="string"
+//+kubebuilder:printcolumn:JSONPath=".spec.serviceRef",name="Target ClusterIP",type="string"
+//+kubebuilder:printcolumn:JSONPath=".spec.modelURI",name="Model URI",type="string"
+//+kubebuilder:printcolumn:JSONPath=".status.status",name="Status",type="string"
 
 // Inspector is the Schema for the inspectors API
 type Inspector struct {
