@@ -3,6 +3,14 @@ kind: Namespace
 metadata:
   name: lazy-koala
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gazer-config
+  namespace: lazy-koala
+data:
+  config.yaml: |
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -19,7 +27,7 @@ spec:
       labels:
         name: gazer
       annotations:
-        lazy-koala/scrape: 'true'
+        lazy-koala/scrape: "true"
     spec:
       containers:
         - name: gazer
@@ -80,7 +88,7 @@ spec:
           securityContext:
             privileged: true
             capabilities:
-              add: [ "SYS_ADMIN" ]
+              add: ["SYS_ADMIN"]
           volumeMounts:
             - name: lsb-release
               mountPath: /etc/lsb-release.host
@@ -143,18 +151,19 @@ spec:
     spec:
       serviceAccountName: lazy-koala
       containers:
-      - name: prometheus
-        image: prom/prometheus:v2.33.1
-        ports:
-        - containerPort: 9090
-          name: default
-        volumeMounts:
-        - name: config-volume
-          mountPath: /etc/prometheus
+        - name: prometheus
+          image: prom/prometheus:v2.33.1
+          ports:
+            - containerPort: 9090
+              name: default
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus
+      nodeName: minikube
       volumes:
-      - name: config-volume
-        configMap:
-         name: prometheus-config
+        - name: config-volume
+          configMap:
+            name: prometheus-config
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -167,7 +176,7 @@ rules:
       - nodes/metrics
     verbs:
       - get
-  - apiGroups: [ "" ]
+  - apiGroups: [""]
     resources:
       - nodes
       - services
@@ -240,31 +249,3 @@ data:
           action: keep
         - source_labels: [__meta_kubernetes_pod_container_name]
           target_label: gazer
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: gazer-config
-  namespace: lazy-koala
-data:
-  config.yaml: |
-    10.244.1.15:
-      name: service-1-0de9ab8e-65bc59564d-f7rhp
-      serviceName: service-1
-      namespace: default
-      node: minikube-m02
-    10.244.1.14:
-      name: service-2-0de9ab8e-6fff4f8956-r9qlt
-      serviceName: service-2
-      namespace: default
-      node: minikube-m02
-    10.244.1.16:
-      name: service-3-0de9ab8e-75cc987cdc-ltcvr
-      serviceName: service-3
-      namespace: default
-      node: minikube-m02
-    10.244.1.17:
-      name: service-4-0de9ab8e-79d69d9c99-vlpdv
-      serviceName: service-4
-      namespace: default
-      node: minikube-m02

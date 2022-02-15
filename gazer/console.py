@@ -70,7 +70,7 @@ def draw_menu(stdscr: curses.window):
             k = stdscr.getch()
 
 
-gazer = Gazer(console=True)
+gazer = Gazer(console_mode=True)
 gazer.poll_data_in_bg()
 
 curses.wrapper(draw_menu)

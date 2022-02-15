@@ -12,7 +12,8 @@ from prometheus_client import Histogram, Counter, Gauge
 
 ms = Histogram("request_duration_seconds", "TCP event latency", ["namespace", "serviceName", "podName"])
 tx_kb = Histogram("transmitted_bytes", "Number of sent bytes during TCP event", ["namespace", "serviceName", "podName"])
-rx_kb = Histogram("acknowledged_bytes", "Number of received bytes during TCP event", ["namespace", "serviceName", "podName"])
+rx_kb = Histogram("acknowledged_bytes", "Number of received bytes during TCP event",
+                  ["namespace", "serviceName", "podName"])
 request_sent = Counter("requests_sent", "Total request sent", ["namespace", "serviceName", "podName"])
 request_received = Counter("request_received", "Total request received", ["namespace", "serviceName", "podName"])
 backlog = Gauge("backlog", "Request backlog", ["namespace", "serviceName", "podName", "level"])
@@ -68,6 +69,7 @@ class Gazer:
         # Write to prometheus
         if event['LADDR'] in config_watcher.config:
             pod = config_watcher.config[event['LADDR']]
+
             ms.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['MS'] / 1000000)
             tx_kb.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['TX_KB'])
             rx_kb.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['RX_KB'])
@@ -75,7 +77,7 @@ class Gazer:
 
             if event['RADDR'] in config_watcher.config:
                 rpod = config_watcher.config[event['RADDR']]
-                request_received.labels(rpod['namespace'], rpod['serviceName']).inc()
+                request_received.labels(rpod['namespace'], rpod['serviceName'], pod['name']).inc()
 
         if self.console_mode:
             self.request_df = self.request_df.append(event, ignore_index=True)
@@ -88,6 +90,8 @@ class Gazer:
     def poll_kube_api(self):
         for pod in config_watcher.config.values():
             try:
+                if pod['isService']:
+                    continue
                 cpu_usage = 0
                 memory_usage = 0
                 r = requests.get(
@@ -115,6 +119,7 @@ class Gazer:
                 # Write to prometheus
                 if saddr in config_watcher.config:
                     pod = config_watcher.config[saddr]
+
                     backlog.labels(pod['namespace'], pod['serviceName'], pod['name'], row[0].slot).set(row[1].value)
 
                 if self.console_mode:
