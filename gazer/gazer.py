@@ -79,9 +79,9 @@ class Gazer:
                 rpod = config_watcher.config[event['RADDR']]
                 request_received.labels(rpod['namespace'], rpod['serviceName'], pod['name']).inc()
 
-        if self.console_mode:
-            self.request_df = self.request_df.append(event, ignore_index=True)
-            self.request_df = self.request_df[-10:]
+            if self.console_mode:
+                self.request_df = self.request_df.append(event, ignore_index=True)
+                self.request_df = self.request_df[-25:]
 
     def poll_requests(self):
         while True:
@@ -122,15 +122,15 @@ class Gazer:
 
                     backlog.labels(pod['namespace'], pod['serviceName'], pod['name'], row[0].slot).set(row[1].value)
 
-                if self.console_mode:
-                    self.syn_df = self.syn_df.append({
-                        "backlog": row[0].backlog,
-                        "slot": row[0].slot,
-                        "saddr": inet_ntop(AF_INET, pack("I", row[0].saddr)),
-                        "lport": row[0].lport,
-                        "value": row[1].value,
-                        "outdated": False,
-                    }, ignore_index=True)
+                    if self.console_mode:
+                        self.syn_df = self.syn_df.append({
+                            "backlog": row[0].backlog,
+                            "slot": row[0].slot,
+                            "saddr": inet_ntop(AF_INET, pack("I", row[0].saddr)),
+                            "lport": row[0].lport,
+                            "value": row[1].value,
+                            "outdated": False,
+                        }, ignore_index=True)
             self.syn_backlog_buffer.clear()
             time.sleep(5)
 
@@ -159,7 +159,7 @@ class Gazer:
     def request_log_text(self):
         if self.request_df.empty:
             return ""
-        return self.request_df.tail(10).__str__()
+        return self.request_df.tail(25).__str__()
 
     def poll_data_in_bg(self):
         poll_syn_backlog = threading.Thread(target=self.poll_syn_backlog, args=())

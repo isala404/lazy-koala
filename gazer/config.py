@@ -14,10 +14,13 @@ class ConfigWatcher(pyinotify.ProcessEvent):
         self.read_config()
 
     def read_config(self):
-        with open(r'config/config.yaml') as file:
-            self.config = yaml.load(file, Loader=yaml.FullLoader)
-            self.config = dict(filter(lambda elem: elem[1]['isService'] or elem[1]['node'] == NODE_NAME,
-                                      self.config.items()))
+        try:
+            with open(r'config/config.yaml') as file:
+                self.config = yaml.load(file, Loader=yaml.FullLoader)
+                self.config = dict(filter(lambda elem: elem[1]['isService'] or elem[1]['node'] == NODE_NAME,
+                                          self.config.items()))
+        except:
+            self.config = None
 
     def process_IN_CLOSE_WRITE(self, evt):
         self.read_config()
