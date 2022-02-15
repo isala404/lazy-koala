@@ -54,6 +54,7 @@ type ScrapePoint struct {
 //+kubebuilder:rbac:groups=lazykoala.isala.me,resources=inspectors/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=lazykoala.isala.me,resources=inspectors/finalizers,verbs=update
 //+kubebuilder:rbac:groups="",resources=pods;services;namespaces,verbs=get;watch;list
+//+kubebuilder:rbac:groups="apps",resources=deployments,verbs=get;watch;list
 //+kubebuilder:rbac:groups="",resources=configmaps,verbs=get;watch;list;update;patch
 //+kubebuilder:rbac:groups="",resources=events,verbs=create;patch
 

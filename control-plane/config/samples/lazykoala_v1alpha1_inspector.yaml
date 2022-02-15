@@ -1,6 +1,41 @@
 apiVersion: lazykoala.isala.me/v1alpha1
 kind: Inspector
 metadata:
-  name: inspector-sample
+  name: service-1-6c63f0f5
 spec:
-  # TODO(user): Add fields here
+  deploymentRef: service-1-6c63f0f5
+  serviceRef: service-1-6c63f0f5
+  namespace: default
+  modelURI: path/to/checkpoint.ckpt
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-2-6c63f0f5
+spec:
+  deploymentRef: service-2-6c63f0f5
+  serviceRef: service-2-6c63f0f5
+  namespace: default
+  modelURI: path/to/checkpoint.ckpt
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-3-6c63f0f5
+spec:
+  deploymentRef: service-3-6c63f0f5
+  serviceRef: service-3-6c63f0f5
+  namespace: default
+  modelURI: path/to/checkpoint.ckpt
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-4-6c63f0f5
+spec:
+  deploymentRef: service-4-6c63f0f5
+  serviceRef: service-4-6c63f0f5
+  namespace: default
+  modelURI: path/to/checkpoint.ckpt
+---
+
