@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: inspectors.lazykoala.lazykoala.isala.me
+  name: inspectors.lazykoala.isala.me
 spec:
-  group: lazykoala.lazykoala.isala.me
+  group: lazykoala.isala.me
   names:
     kind: Inspector
     listKind: InspectorList

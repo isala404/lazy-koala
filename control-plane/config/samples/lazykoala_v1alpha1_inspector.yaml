@@ -1,10 +1,6 @@
-apiVersion: lazykoala.lazykoala.isala.me/v1alpha1
+apiVersion: lazykoala.isala.me/v1alpha1
 kind: Inspector
 metadata:
   name: inspector-sample
 spec:
-  deploymentRef: service-2-5e7b1ab0
-  serviceRef: service-2-5e7b1ab0
-  namespace: default
-  modelURI: path/to/checkpoint.ckpt
-
+  # TODO(user): Add fields here

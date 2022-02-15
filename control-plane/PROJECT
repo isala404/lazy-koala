@@ -1,14 +1,14 @@
-domain: lazykoala.isala.me
+domain: isala.me
 layout:
 - go.kubebuilder.io/v3
-projectName: control-plane
+projectName: control-plane-2
 repo: github.com/MrSupiri/LazyKoala
 resources:
 - api:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: lazykoala.isala.me
+  domain: isala.me
   group: lazykoala
   kind: Inspector
   path: github.com/MrSupiri/LazyKoala/api/v1alpha1

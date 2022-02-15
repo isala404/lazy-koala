@@ -5,7 +5,7 @@ metadata:
   name: inspector-viewer-role
 rules:
 - apiGroups:
-  - lazykoala.lazykoala.isala.me
+  - lazykoala.isala.me
   resources:
   - inspectors
   verbs:
@@ -13,7 +13,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - lazykoala.lazykoala.isala.me
+  - lazykoala.isala.me
   resources:
   - inspectors/status
   verbs:

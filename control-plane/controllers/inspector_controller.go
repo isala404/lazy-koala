@@ -19,6 +19,8 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"gopkg.in/yaml.v3"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
@@ -30,7 +32,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
-	"time"
 
 	lazykoalav1alpha1 "github.com/MrSupiri/LazyKoala/api/v1alpha1"
 )
@@ -49,9 +50,9 @@ type ScrapePoint struct {
 	IsService   bool    `yaml:"isService"`
 }
 
-//+kubebuilder:rbac:groups=lazykoala.lazykoala.isala.me,resources=inspectors,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=lazykoala.lazykoala.isala.me,resources=inspectors/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=lazykoala.lazykoala.isala.me,resources=inspectors/finalizers,verbs=update
+//+kubebuilder:rbac:groups=lazykoala.isala.me,resources=inspectors,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=lazykoala.isala.me,resources=inspectors/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=lazykoala.isala.me,resources=inspectors/finalizers,verbs=update
 //+kubebuilder:rbac:groups="",resources=pods;services;namespaces,verbs=get;watch;list
 //+kubebuilder:rbac:groups="",resources=configmaps,verbs=get;watch;list;update;patch
 //+kubebuilder:rbac:groups="",resources=events,verbs=create;patch

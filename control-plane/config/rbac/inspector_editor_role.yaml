@@ -5,7 +5,7 @@ metadata:
   name: inspector-editor-role
 rules:
 - apiGroups:
-  - lazykoala.lazykoala.isala.me
+  - lazykoala.isala.me
   resources:
   - inspectors
   verbs:
@@ -17,7 +17,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - lazykoala.lazykoala.isala.me
+  - lazykoala.isala.me
   resources:
   - inspectors/status
   verbs:
