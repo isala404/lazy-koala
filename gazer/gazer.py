@@ -15,7 +15,7 @@ tx_kb = Histogram("transmitted_bytes", "Number of sent bytes during TCP event", 
 rx_kb = Histogram("acknowledged_bytes", "Number of received bytes during TCP event",
                   ["namespace", "serviceName", "podName"])
 request_sent = Counter("requests_sent", "Total request sent", ["namespace", "serviceName", "podName"])
-request_received = Counter("request_received", "Total request received", ["namespace", "serviceName", "podName"])
+request_received = Counter("requests_received", "Total request received", ["namespace", "serviceName", "podName"])
 backlog = Gauge("backlog", "Request backlog", ["namespace", "serviceName", "podName", "level"])
 cpu = Gauge("cpu_seconds", "CPU usage", ["namespace", "serviceName", "podName"])
 memory = Gauge("memory_usage_bytes", "Memory usage", ["namespace", "serviceName", "podName"])
@@ -70,18 +70,20 @@ class Gazer:
         if event['LADDR'] in config_watcher.config:
             pod = config_watcher.config[event['LADDR']]
 
+            if event['RADDR'] in config_watcher.config:
+                rpod = config_watcher.config[event['RADDR']]
+                if not rpod['isService']:
+                    return
+                request_received.labels(rpod['namespace'], rpod['serviceName'], rpod['name']).inc()
+
             ms.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['MS'] / 1000000)
             tx_kb.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['TX_KB'])
             rx_kb.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['RX_KB'])
             request_sent.labels(pod['namespace'], pod['serviceName'], pod['name']).inc()
 
-            if event['RADDR'] in config_watcher.config:
-                rpod = config_watcher.config[event['RADDR']]
-                request_received.labels(rpod['namespace'], rpod['serviceName'], pod['name']).inc()
-
             if self.console_mode:
                 self.request_df = self.request_df.append(event, ignore_index=True)
-                self.request_df = self.request_df[-25:]
+                self.request_df = self.request_df[-10:]
 
     def poll_requests(self):
         while True:
@@ -159,7 +161,7 @@ class Gazer:
     def request_log_text(self):
         if self.request_df.empty:
             return ""
-        return self.request_df.tail(25).__str__()
+        return self.request_df.tail(10).__str__()
 
     def poll_data_in_bg(self):
         poll_syn_backlog = threading.Thread(target=self.poll_syn_backlog, args=())

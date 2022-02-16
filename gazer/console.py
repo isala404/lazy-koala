@@ -45,8 +45,8 @@ def draw_menu(stdscr: curses.window):
             statusbarstr = "Press 'q' to exit | STATUS BAR | Pos: {}, {}".format(cursor_x, cursor_y)
 
             stdscr.addstr(0, 0, "Requests", curses.color_pair(1))
-            stdscr.addstr(2, 0, "f\n"*25, curses.color_pair(1))
-            stdscr.addstr(28, 0, gazer.syn_backlog_text(), curses.color_pair(1))
+            stdscr.addstr(2, 0, gazer.request_log_text(), curses.color_pair(1))
+            stdscr.addstr(15, 0, gazer.syn_backlog_text(), curses.color_pair(1))
 
             # Render status bar
             stdscr.attron(curses.color_pair(3))

@@ -19,7 +19,9 @@ class ConfigWatcher(pyinotify.ProcessEvent):
                 self.config = yaml.load(file, Loader=yaml.FullLoader)
                 self.config = dict(filter(lambda elem: elem[1]['isService'] or elem[1]['node'] == NODE_NAME,
                                           self.config.items()))
-        except:
+                print("Config Updated:", self.config)
+        except Exception as e:
+            print("Error while updating config:", e)
             self.config = None
 
     def process_IN_CLOSE_WRITE(self, evt):
@@ -33,3 +35,4 @@ wdd = wm.add_watch("config/config.yaml", pyinotify.IN_CLOSE_WRITE)
 config_watcher_thread = threading.Thread(target=notifier.loop, args=())
 config_watcher_thread.daemon = True
 config_watcher_thread.start()
+print("Started Gazing on", NODE_NAME)
