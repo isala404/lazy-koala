@@ -134,7 +134,7 @@ func (r *InspectorReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	for _, pod := range podList.Items {
 		scrapePoints[pod.Status.PodIP] = ScrapePoint{
 			Name:        pod.ObjectMeta.Name,
-			ServiceName: inspector.Spec.DeploymentRef,
+			ServiceName: inspector.ObjectMeta.Name,
 			Namespace:   inspector.Spec.Namespace,
 			Node:        &pod.Spec.NodeName,
 			IsService:   false,
@@ -152,7 +152,7 @@ func (r *InspectorReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 
 	scrapePoints[serviceRef.Spec.ClusterIP] = ScrapePoint{
 		Name:        serviceRef.ObjectMeta.Name,
-		ServiceName: inspector.Spec.DeploymentRef,
+		ServiceName: inspector.ObjectMeta.Name,
 		Namespace:   inspector.Spec.Namespace,
 		Node:        nil,
 		IsService:   true,
