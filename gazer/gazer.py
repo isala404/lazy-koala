@@ -9,6 +9,7 @@ from struct import pack
 from config import config_watcher
 import requests
 from prometheus_client import Histogram, Counter, Gauge
+import re
 
 ms = Histogram("request_duration_seconds", "TCP event latency", ["namespace", "serviceName", "podName"])
 tx_kb = Histogram("transmitted_bytes", "Number of sent bytes during TCP event", ["namespace", "serviceName", "podName"])
@@ -101,8 +102,8 @@ class Gazer:
                     headers={"Authorization": f"Bearer {self.kube_token}"}, verify=False)
                 data = r.json()
                 for container in data['containers']:
-                    cpu_usage += int(container['usage']['cpu'])
-                    memory_usage += int(container['usage']['memory'][:-2]) * 1024
+                    cpu_usage += int(re.sub('\D', '', container['usage']['cpu']))
+                    memory_usage += int(re.sub('\D', '', container['usage']['memory'])) * 1024
 
                 # Write to prometheus
                 cpu.labels(pod['namespace'], pod['serviceName'], pod['name']).set(cpu_usage)
@@ -180,3 +181,10 @@ class Gazer:
             poll_syn_backlog.join()
             poll_requests.join()
             poll_kube_api.join()
+
+def extract_number(text):
+    res = [int(i) for i in text.split() if i.isdigit()]
+    if len(res) == 1:
+        return int(res)
+    else:
+        return 0
