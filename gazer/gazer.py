@@ -20,6 +20,7 @@ request_received = Counter("requests_received", "Total request received", ["name
 backlog = Gauge("backlog", "Request backlog", ["namespace", "serviceName", "podName", "level"])
 cpu = Gauge("cpu_seconds", "CPU usage", ["namespace", "serviceName", "podName"])
 memory = Gauge("memory_usage_bytes", "Memory usage", ["namespace", "serviceName", "podName"])
+request_exchanges = Counter("request_exchanges", "Request exchanges between services", ["origin", "destination"])
 
 
 class Gazer:
@@ -76,6 +77,7 @@ class Gazer:
                 if not rpod['isService']:
                     return
                 request_received.labels(rpod['namespace'], rpod['serviceName'], rpod['name']).inc()
+                request_exchanges.labels(pod['serviceName'], rpod['serviceName']).inc()
 
             ms.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['MS'] / 1000000)
             tx_kb.labels(pod['namespace'], pod['serviceName'], pod['name']).observe(event['TX_KB'])
@@ -123,7 +125,8 @@ class Gazer:
                 if saddr in config_watcher.config:
                     pod = config_watcher.config[saddr]
 
-                    backlog.labels(pod['namespace'], pod['serviceName'], pod['name'], row[0].slot).set(row[1].value)
+                    backlog.labels(pod['namespace'], pod['serviceName'], pod['name'], int(row[0].slot)).set(
+                        int(row[1].value))
 
                     if self.console_mode:
                         self.syn_df = self.syn_df.append({
@@ -181,10 +184,3 @@ class Gazer:
             poll_syn_backlog.join()
             poll_requests.join()
             poll_kube_api.join()
-
-def extract_number(text):
-    res = [int(i) for i in text.split() if i.isdigit()]
-    if len(res) == 1:
-        return int(res)
-    else:
-        return 0
