@@ -150,9 +150,19 @@ spec:
         app: prometheus
     spec:
       serviceAccountName: gazer
+      securityContext:
+        runAsUser: 65534
+        runAsNonRoot: true
+        runAsGroup: 65534
+        fsGroup: 65534
       containers:
         - name: prometheus
           image: prom/prometheus:v2.33.1
+          args:
+            [
+              "--storage.tsdb.path=/data",
+              "--config.file=/etc/prometheus/prometheus.yml",
+            ]
           ports:
             - containerPort: 9090
               name: default
@@ -160,7 +170,7 @@ spec:
             - name: config-volume
               mountPath: /etc/prometheus
             - name: prom-pvc
-              mountPath: /etc/prometheus/data
+              mountPath: /data
       volumes:
         - name: config-volume
           configMap:
@@ -177,7 +187,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  volumeMode: Filesystem
   resources:
     requests:
       storage: 8Gi
