@@ -1,0 +1,95 @@
+
+\section{Research Objectives}
+
+\newcommand\robProblemIdentification{
+When selecting the problem author wanted to pursue, they had 3 main goals.
+\begin{enumerate}[leftmargin=*,noitemsep,nolistsep] 
+\item The problem domain should be something they enjoy working in.
+\item At the end of the research should have done a meaningful impact on the target domain, both in the theoretical and practical aspect,
+\item It should be challenging to achieve and results should speak about themselves.
+\vspace{-7mm}
+\end{enumerate}
+}
+
+\newcommand\robLiteratureReview{
+Conduct a Literature review on root cause analysis to, 
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item To find the current methods used to anomaly detection and localization.
+\item Uncover issues with current approaches.
+\item Understand how advancement in other related domains can apply to this domain.
+\vspace{-7mm}
+\end{itemize}
+}
+
+
+\newcommand\robDevelopingEvaluation{
+During the literature survey, one problem the author identified was there isn’t a uniform dataset when it comes to training and evaluating models to detect anomalies in microservices. Most of the researchers used private datasets to train and test their work.
+To address this author is developing,
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item A tool that can easily simulate a distributed system in a cloud-native setting.
+\item A tool inject anomalies into the running services.
+\vspace{-7mm}
+\end{itemize}
+}
+
+\newcommand\robPublishPlayground{
+The author is hoping to publish a paper about the above-mentioned tool so the future researchers will have a unified way to train, test, and benchmark their system without having to reinvent the wheel again and again.
+}
+
+\newcommand\robDataGathering{
+In order to create model to detect anomalies the author will,
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item Simulate distributed system.
+\item Simulate traffic inside the system
+\item Collect monitoring data while it's running
+\vspace{-7mm}
+\end{itemize}
+}
+
+\newcommand\robDevelopingEncoding{
+Since these micro services services will report very different values even at idle. To normalize data from all the services to one format author will,
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item Evaluate current data encoding methods like \cite{zhang2019deep}.
+\item Find the best one fit and optimize it to this use case.
+\item Test if there is any improvement by using this method. 
+\vspace{-7mm}
+\end{itemize}
+}
+
+
+\newcommand\robDevelopingModel{
+According to \cite{kumarage2019generative} Autoencoders tend to perform best when it comes to anomaly detection. But during the literature survey it was raveled Conversational Autoencoders weren't tested. So author tries to develop a  Conversational Autoencoders and test how it will perform.
+}
+
+
+\newcommand\robTesting{
+Following things will be tested during the testing phase, 
+\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+\item How will the system classify long-term fluctuations.
+\item How will the system classify short-term fluctuations.
+\item Can the system understand the mapping between core metrics like CPU and Memory usages.
+\item Accuracy of fault detection.
+\item Accuracy of root cause localization.
+\vspace{-7mm}
+\end{itemize}
+}
+
+\newcommand\robIntegration{
+Having a fancy model doesn’t add means anything if it’s very hard to use in a real system. So the author is hoping to develop a Kubernetes extension that will map the model with any service given by the user.
+}
+
+
+\begin{longtable}{|p{38mm}|p{95mm}|p{17mm}|}
+\hline
+\textbf{Research Objectives}          & \textbf{Explanation}      & \textbf{Learning Outcome} \\ \hline
+Problem identification                & \robProblemIdentification & LO1                       \\ \hline
+Literature review                     & \robLiteratureReview      & LO3, LO4, LO6             \\ \hline
+Developing an evaluation framework    & \robDevelopingEvaluation  & LO7                       \\ \hline
+Publish a paper about that playground & \robPublishPlayground     & LO7                       \\ \hline
+Data gathering and analysis           & \robDataGathering         & LO7                       \\ \hline
+Developing encoding method            & \robDevelopingEncoding    & LO2, LO5, LO7             \\ \hline
+Developing the model                  & \robDevelopingModel       & LO2, LO5, LO7             \\ \hline
+Testing and evaluation                & \robTesting               & LO8, LO9                  \\ \hline
+Integration                           & \robIntegration           & LO7                       \\ \hline
+\caption{Research objectives}
+\end{longtable}

@@ -1,0 +1,67 @@
+\documentclass[12pt]{report}
+
+% Include all packages from file.
+\input{preamble}
+
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\baselinestretch}{1.5}
+
+% HEADER AND FOOTER--------------------------
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{Anomaly Detection \& Root Cause Analysis In Distributed System}}
+\rfoot{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{\thepage}}
+\lfoot{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{Isala Piyarisi | 2018421}}
+\renewcommand{\headrulewidth}{0pt}
+% END HEADER AND FOOTER--------------------------
+
+
+% Document begins here
+\begin{document}
+
+\input{cover-page} 
+
+% Page Numbering---------------------------------------------
+\pagenumbering{Roman}
+
+% Table of Contents---------------------------------------------------
+\tableofcontents
+% List of Figures---------------------------------------------------
+\addcontentsline{toc}{chapter}{\listfigurename}
+% \cleardoublepage
+{\let\clearpage\relax 
+\listoffigures
+}
+% List of Tables---------------------------------------------------
+\addcontentsline{toc}{chapter}{\listtablename}
+{\let\clearpage\relax 
+\listoftables
+}
+% \cleardoublepage
+\phantomsection
+% Include acronyms
+\addcontentsline{toc}{chapter}{List of Acronyms}
+{\let\clearpage\relax 
+\input{acronym}
+}
+\addcontentsline{toc}{chapter}{Abstract}
+\pagenumbering{arabic}
+\input{chapters/abstract}
+\input{chapters/introduction/main}
+\input{chapters/requirement-specification/main}
+\input{chapters/system-design/main}
+\input{chapters/implementation/main}
+
+\cleardoublepage
+\phantomsection
+\renewcommand{\bibname}{References}
+\pagenumbering{Roman}
+\setcounter{page}{5}
+\addcontentsline{toc}{chapter}{References}
+\bibliography{references.bib}
+
+\input{chapters/appendix/main}
+
+\end{document}
+
