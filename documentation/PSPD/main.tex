@@ -23,21 +23,25 @@
 \input{cover-page} 
 
 % Page Numbering---------------------------------------------
-\pagenumbering{Roman}
+\pagenumbering{roman}
+
+\input{chapters/abstract}
+\addcontentsline{toc}{chapter}{Abstract}
 
 % Table of Contents---------------------------------------------------
 \tableofcontents
 % List of Figures---------------------------------------------------
-\addcontentsline{toc}{chapter}{\listfigurename}
 % \cleardoublepage
-{\let\clearpage\relax 
+{\let\clearpage\relax
 \listoffigures
 }
+\addcontentsline{toc}{chapter}{\listfigurename}
 % List of Tables---------------------------------------------------
-\addcontentsline{toc}{chapter}{\listtablename}
 {\let\clearpage\relax 
 \listoftables
 }
+\addcontentsline{toc}{chapter}{\listtablename}
+
 % \cleardoublepage
 \phantomsection
 % Include acronyms
@@ -45,9 +49,7 @@
 {\let\clearpage\relax 
 \input{acronym}
 }
-\addcontentsline{toc}{chapter}{Abstract}
-\pagenumbering{arabic}
-\input{chapters/abstract}
+
 \input{chapters/introduction/main}
 \input{chapters/requirement-specification/main}
 \input{chapters/system-design/main}
@@ -57,7 +59,7 @@
 \phantomsection
 \renewcommand{\bibname}{References}
 \pagenumbering{Roman}
-\setcounter{page}{5}
+% \setcounter{page}{5}
 \addcontentsline{toc}{chapter}{References}
 \bibliography{references.bib}
 

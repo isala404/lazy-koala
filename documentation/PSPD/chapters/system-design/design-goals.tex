@@ -1,8 +1,22 @@
 \section{Design Goals}
-\begin{enumerate}
-\item Modularity
-\item Efficacy
-\item No Code Change
-\item Adaptability
-\item Scalability
-\end{enumerate}
+\begin{longtable}{|p{22mm}|p{131mm}|}
+\hline
+\textbf{Design Goal} &
+    \textbf{Description} \\ \hline
+    Modularity &
+    Since this is designed to work in a cloud-native environment, it’s considered best practice to have all the components loosely coupled, and during the requirement engineering phase two of the industry experts, expressed their interests to integrate this project into some of their existing toolings. \\ \hline
+    
+    Lightweight &
+    As this was designed to be a supporting system to existing distributed systems, it needs to be as lightweight as possible to justify the use of this. If the supporting system is consuming more resources than the target system it won’t be practical to use. \\ \hline
+    
+    No Code Change &
+    It’s highly unlikely for developers to update all the services in a distributed system to match with a monitoring system. So to increase adaptability, this system should be able to work without any instrumentation from the developers’ side. \\ \hline
+    
+    Extensibility &
+    One of the core goals of this project is to be a starting place for future researchers who are looking into root cause analysis. So having this toolkit extensible will greatly help their efforts. \\ \hline
+    
+    Scalability &
+    Since the main target audience of this product is large enterprises with huge systems, this system should be able to scale up their level in order to be relevant. \\ \hline
+
+    \caption{Project Design Goals (Self Composed)}
+\end{longtable}
