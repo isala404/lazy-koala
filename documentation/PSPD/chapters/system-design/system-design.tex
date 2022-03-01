@@ -2,33 +2,60 @@
 
 \subsection{Design Paradigm}
 
+When building a software application there are 2 main design paradigms to choose from to organize the code structure. Object-Oriented Analysis and Design (OOAD) which is very popular among programming languages such as Java and C\# is a way of mimicking the behavior of real-world objects and how they interact real-world. However, this project has a lot of components that are loosely coupled and implemented in many different languages and frameworks Structured Systems Analysis and Design (SSADM) was chosen as the design paradigm.
+
 \subsection{Data-flow diagram}
+
+The Data-flow diagram explains the flow of request data within the system and how each process in the system interacts with each other at a high level.
+
 \begin{figure}[H]
-    \includegraphics[width=14cm]{assets/system-design/data-flow.png}
-    \caption{Data-flow diagram (self-composed))}
+    \setlength{\fboxsep}{10pt}
+    \fbox{\includegraphics[width=14cm]{assets/system-design/data-flow.png}}
+    \caption{Data-flow diagram (self-composed)}
     \label{fig:data-flow}
 \end{figure}
 
 \subsection{Sequence Diagram}
 
+Sequences diagrams are meant to showcase the flow of instructions within sub-components of the system. Digrams below explains how the system reacts when two of the main core functionality are invoked.
+
 \begin{figure}[H]
-    \includegraphics[width=14cm]{assets/system-design/sequence-diagram-1.png}
-    \caption{Sequence Diagram for checking Check for root cause (self-composed))}
+    \centering
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/system-design/sequence-diagram-1.png}
+        \caption{Check for root cause}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/system-design/sequence-diagram-2.png}
+        \caption{Calculate anomaly score}
+    \end{subfigure}
+    \hfill
+       \caption{Sequence Diagrams (self-composed)}
 \end{figure}
 
-\begin{figure}[H]
-    \includegraphics[width=14cm]{assets/system-design/sequence-diagram-2.png}
-    \caption{Sequence Diagram for calculating anomaly score (self-composed))}
-\end{figure}
+\subsection{UI Design}
 
-\subsection{UI Mockups}
+Since this project was developed as a Kubernetes native application most of the functionality work as a daemon process in the background. However, there are two use cases where having a visual user interface greatly increases the usability of this project. UI mockups attached below showcase two of those use-cases. Figure \ref{fig:ui-home} displays how developers will be able to inspect the topology of the system and find issues in a realtime while, Figure \ref{fig:ui-settings} showcase the settings page which is used to tag interested services in the system which needs to be monitored.
 
 \begin{figure}[H]
-    \includegraphics[width=14cm]{assets/system-design/ui-home.png}
-    \caption{UI Mockup - Service Topology  (self-composed))}
-\end{figure}
-
-\begin{figure}[H]
-    \includegraphics[width=14cm]{assets/system-design/ui-settings.png}
-    \caption{UI Mockup - Settings (self-composed))}
+    \centering
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/system-design/ui-home.png}
+        \caption{Inspector View}
+        \label{fig:ui-home}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/system-design/ui-settings.png}
+        \caption{Settings View}
+        \label{fig:ui-settings}
+    \end{subfigure}
+    \hfill
+    % \label{fig:ui-mocks}
+    \caption{UI Mockup (self-composed)}
 \end{figure}

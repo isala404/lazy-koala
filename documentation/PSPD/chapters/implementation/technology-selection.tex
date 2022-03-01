@@ -1,13 +1,98 @@
 \section{Technology Selection}
 \subsection{Technology Stack}
-\begin{figure}[H]
+
+\begin{figure}[H] 
     \includegraphics[width=16cm]{assets/implementation/technology-stack.png}
     \caption{Technology Stack (self-composed)}
     \label{fig:technology-stack}
 \end{figure}
 
+At grasp, this seems like a lot for the project of undergraduate but each and every tool and technology listed here provide a vital functionality to make the final prototype efficient and reliable as much as possible in order to stand through to the design goals listed above.
+
 \subsection{Programming Language}
-\subsection{Selection of Development Framework}
+
+This project was built using five different programming languages which were chosen due to their unique features that are required from different components in the system.
+
+\begin{itemize}
+    \item \textbf{GoLang} - Go is a programming language invented by Google that took a lot of inspiration from C but with modern features like memory safety, automatic garbage collection, and built-in concurrency. Due to this nature Go has used to build Kubernetes itself and all most all the tooling around Kubernetes relies on as their language of choice. Since this project tries to extend some functionality of Kubernetes, it was highly recommended to use Go to built parts of the system that interface with Kubernetes tooling.
+    \item \textbf{Python} - Python is known as the go-to language for data science but in this project, Python had another critical role. There is a library called BCC which streamlines the connection to the Linux \ac{ebpf} API. So both data science and telemetry extraction components are built using Python.
+    \item \textbf{C} - Linux \ac{ebpf} API allows userspace applications to submit some sandboxed programs into kernel space at runtime and kernel responsible for compiling and executing them along with kernel calls. But since this is a Linux kernel feature all the sandboxed programs need to be written in C so the kernel can understand it.
+    \item \textbf{TypeScript} - For frontend applications, programming languages are limited to Javascript and TypeScript. The TypeScript was chosen for this project since TypeScript offers a lot of compile-time checks which prevent accidental bugs from sneaking into the production application.
+    \item \textbf{Rust} - Out of all tools and technologies this may be the only replaceable technology. Rust will be used in the Sherlock module to interface with the machine learning model. Even though Python or even Go could be viable alternatives to this, Rust has the lowest memory and CPU footprint of any modern programming language. Since one of the design goals of this project is to have the lowest overhead possible author was stalled on relying on Rust for this task.
+\end{itemize}
+
+
+
 \subsection{Libraries Utilized}
-\subsection{IDE’s Utilized}
-\subsection{Summary of Technology selection}
+Software libraries prevent software engineers from reinventing the wheel every time they want to perform some common functionality by empowering them with abstractions they can use to perform the task they wanted so they can force on important things. To build this project a number of libraries were used both in UI and backend components.
+
+
+\subsubsection{Frontend}
+\begin{itemize}
+    \item \textbf{ReactJS} - Since this is hosted application a web-based UI made the most sense. In order to build a web-based frontend, there are a few common methods, it is possible to use a vanilla HTML stack and build everything from scratch but for this project, UIs needs to be interactive and that left the author with three viable choices, ReactJS, VueJS, and Svelte. Since the author was more familer with ReactJS he choose to rely on it for the UI implementation.
+    \item \textbf{Mantine} - Mantine is React component library which helps developers use the prebuilt component like date pickers without having to code them from scratch. Viable alternatives for this is Boostrap, MaterialUI, and Ant Design. The author settled on Mantine due to its user-friendliness and rich TypeScript support.
+    \item \textbf{D3.js} - D3.js is a UI library that helps to create interactive graphs. This library was used to create the service topology graph. There weren't any alternatives for this that allowed to render \textbf{directed graphs} with interactivity.
+\end{itemize}
+
+
+\subsubsection{Backend}
+\begin{itemize}
+    \item \textbf{Kubebuilder} - Kubebuilder is an SDK that is used to build Custom Kubernetes Operators. This is created and maintained by the Kubernetes special interest group themself along with the community support. The only viable alternative for this is called Operator SDK which is developed by the community with the support of RedHat. Since the author had prior experience with Kubebuilder and its inner working, it was decided to rely upon it.
+    \item \textbf{BCC} - BCC is a frontend to Linux \ac{ebpf} API which makes deploying kernel probes and retrieving data from them very easy. Other than relying on C interfaces this was the only viable solution. 
+    \item \textbf{Pandas} - Pandas is data  manipulation and analysis library that was used in both Gazer and Sherlock module.
+    \item \textbf{Numpy} - Is considered a holy grail when it comes to data science work in Python. Even libraries like Tensorflow and PyTorch rely on this manipulation of multi-dimensional arrays and matrices. In the training phase of Sherlock, NumPy was heavily used to preprocess the datasets.
+    \item \textbf{PyTorch Lightning} - PyTorch Lightning is a layer of abstraction on top of the PyTorch library. The author chose to opt into the PyTorch ecosystem rather than the Tensorflow ecosystem since during the last 1-2 years Tensorflow got a lot of criticism to be unoptimized for modern data science and the author also wanted some hands-on experience working with PyTorch since it seemed like the industry is moving towards PyTorch dominated era.
+\end{itemize}
+
+\subsection{Persistence storages}
+
+\begin{itemize}
+    \item \textbf{Prometheus} - Prometheus is a time series database that doubles as a data scraping agent. Prometheus uses the pull method in contrast to normal pushing methods to update the database. During the requirement engineering phase, it was discovered the vast majority of companies rely on Prometheus. So for this project also author decided to rely on it as the primary database for storing metric data due to its popularity and well integration with Kubernetes.
+    \item \textbf{etcd} - etcd is key-value data store which is built into the core of Kubernetes. The Lazy-Koala operator realies on this to both sync up the monitoring config with gazer instances as well as keep track of all the monitored services.
+    \item \textbf{GCP Artifact Registry} - Artifact Registry store trained models and docker containers. Viable alternatives are Github Container Registry, DockerHub, and Azure Container Registry. GCP Artifact Registry was chosen due to competitive pricing and cutting-edge feature like AI-powered vulnerability scanning. 
+\end{itemize}
+
+\subsection{Developer tools utilized}
+\begin{itemize}
+    \item Vite.js
+    \item Docker
+    \item Github Actions
+    \item VSCode
+    \item PyCharm
+    \item GoLand
+    \item Git
+\end{itemize}
+
+\subsection{Production tools}
+\begin{itemize}
+    \item Tensorflow Servings
+    \item Kubernetes
+\end{itemize}
+
+\subsection{Summary of technology selection}
+
+\begin{longtable}{|p{43mm}|p{110mm}|}
+    \hline
+    \textbf{Component} &
+    \textbf{Tools/Technologies Used} \\ \hline
+
+    Kubernetes Operator &
+    Go, etcd, Kubebuilder, Kube-API, Controller Manager, GoLand \\ \hline
+
+    Gazer &
+    C, Python, Prometheus, BCC, Pandas, \ac{ebpf}, Kube-API, PyCharm \\ \hline
+
+    Sherlock - Training Phase &
+    Python, Prometheus, Pandas, Numpy, PyTorch Lighting, PyCharm \\ \hline
+
+    Sherlock - Production &
+    Rust, Prometheus, Tensorflow Servings, Artifact Registry \\ \hline
+
+    User Interface &
+    TypeScript, React, Mantine, D3.js, Vite, VSCode \\ \hline
+
+    Common for all &
+    Docker, Github Actions, Git, Kubernetes \\ \hline
+
+    \caption{Summary of technology selection (Self Composed)}
+\end{longtable}
