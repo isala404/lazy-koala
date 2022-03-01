@@ -2,7 +2,37 @@
 
 \subsection{Literature Review}
 
-To find the root course of fault in a distributed system, three components are required, instrumentation, anomaly detection, and root course localization. Those three must work together to give a final prediction. From these three, anomaly detection has a lot of possible pathways to approach the problem. This is mainly due to anomaly detection being a broad topic that isn't limited to cloud computing. For the sake of this project using a semi-supervised technique with a convolutional autoencoder network seemed like the idle approach since those networks are lightweight and more reliable when it comes to generalizing. For instrumentation use of a Linux kernel feature called \ac{ebpf} seemed the current treading method due to it being very lightweight and not requiring any code changes to the existing system. Finally for the root course localization almost all the published work used graphed based method one way or another due to the nature of the problem being always dynamic. So the author decide to rely on a weighted graph to find a possible root course after an anomaly is detected.
+To find the root course of fault in a distributed system, three components are required: instrumentation, anomaly detection, and root course localization. A literature review was conducted on each of the components to derive the requirements needed to build an automated root course analysis platform.
+
+% To find the root course of fault in a distributed system, three components are required, instrumentation, anomaly detection, and root course localization. Those three must work together to give a final prediction. From these three, anomaly detection has a lot of possible pathways to approach the problem. This is mainly due to anomaly detection being a broad topic that isn't limited to cloud computing. For the sake of this project using a semi-supervised technique with a convolutional autoencoder network seemed like the idle approach since those networks are lightweight and more reliable when it comes to generalizing. For instrumentation use of a Linux kernel feature called \ac{ebpf} seemed the current treading method due to it being very lightweight and not requiring any code changes to the existing system. Finally for the root course localization almost all the published work used graphed based method one way or another due to the nature of the problem being always dynamic. So the author decide to rely on a weighted graph to find a possible root course after an anomaly is detected.
+
+\begin{longtable}{|p{105mm}|p{50mm}|}
+    \hline
+    \textbf{Finding} &
+    \textbf{Citation} \\ \hline
+    
+    \ac{ebpf} is a modern, low overhead technique to extract telemetry by tracing Linux kernel calls. &
+    \cite{LKMLIngo52:online} \\ \hline
+    
+    To find the root course of fault in a distributed system, three components are required: instrumentation, anomaly detection, and root course localization. &
+    \cite{wu2020microrca} \\ \hline
+    
+    Unsupervised learning algorithms excel at pattern unknown identifying. &
+    \cite{silver2017mastering}, \cite{kumarage2018anomaly}, \cite{khoshnevisan2019rsm} \\ \hline
+    Convolutional autoencoder network could give the best performance to resources required ratio when it comes to detecting anomalies. &
+    \cite{zhang2019deep}, \cite{khoshnevisan2019rsm} \\ \hline
+    
+    Root course could be identified weighting anomaly scores in directed graphs. &
+    \cite{samir2019dla}, \cite{wu2020microrca}, \cite{ma2020automap}, \cite{meng2020localizing} \\ \hline
+    There isn’t a common benchmarking or testing platform to test root causes of finding algorithms. &
+    \cite{wu2020microrca}, \cite{soldani2021anomaly} \\ \hline
+    
+    Kubernetes is the go to method to manage distributed systems &
+    \cite{CloudNat36:online} \\ \hline
+
+    \caption{Requirements derived from literature review (self-composed)}
+    
+\end{longtable}
 
 \subsection{Interviews}
 
@@ -40,7 +70,6 @@ A set of qualitative interviews was conducted to gather external feedback and op
     Almost all the technical experts I have talked to agreed-upon Kubernetes is the way to manage distributed systems in the modern era and building this system tailor-made to Kubernetes was a wise choice. &
     “I think there's been a lot of, uh, or an interesting shift that's been happening in this and it's sort of driven by Kubernetes.” \newline- Matthias Rampke (00:25:11)
     \newline
-    \newline
     “I mean, in the last five years, obviously Kubernetes blew up. That's been huge for the Dev-Ops community.” \newline- Jacob Payne (00:16:38) \\ \hline
     
     
@@ -59,13 +88,44 @@ A set of qualitative interviews was conducted to gather external feedback and op
 
 \subsection{Self-evaluation}
 
-During the Self-evaluation of the existing system, it was made clear using \ac{ebpf} as the instrumentation technique has many benefits which range from very low overhead to fast and easier deployment but It comes with a few cons as well. The most notable example of this is the reliability of the collected data. Since \ac{ebpf} tracing works in lower of the TCP stack, there is a higher chance for corrupted data when compared to application layer level tracing which has all the bad packets filtered out. Still, the data points needed for this system like request rate can be calculated with good accuracy.
 
-Another reoccurring factor that was identified during this process was the use of Kubernetes. According to a recent survey done by Cloud Native Computing Foundation, 91\% of respondents stated they rely on Kubernetes to manage their container infrastructure \citep{CloudNat36:online}. So building the proposed system tailor-made for Kubernetes would reap the maximum benefit.
+
+\begin{longtable}{|p{50mm}|p{105mm}|}
+    \hline
+    \textbf{Criteria} &
+    \textbf{Finding} \\ \hline
+
+    Telemetry extraction method &
+    Service meshes are currently the most common way of extracting telemetry but there is a huge focus on \ac{ebpf} related products due it’s efficiency. \\ \hline
+
+    New trends in DevOps &
+    From CI/CD to GitOps, DevOps engineers are trying to automate everything that can be automated to minimize the human errors \citep{CloudNat36:online}. \\ \hline
+
+    Case studies on recent high profile outages &
+    Few months ago Microsoft experienced a global outage that took more than 24 hours to fully recover from due to a single bad update to one of their authentication systems \citep{Microsof81:online}. \\ \hline
+    
+    \caption{Requirements derived from self-evaluation (self-composed)}
+\end{longtable}
+
+% During the Self-evaluation of the existing system, it was made clear using \ac{ebpf} as the instrumentation technique has many benefits which range from very low overhead to fast and easier deployment but It comes with a few cons as well. The most notable example of this is the reliability of the collected data. Since \ac{ebpf} tracing works in lower of the TCP stack, there is a higher chance for corrupted data when compared to application layer level tracing which has all the bad packets filtered out. Still, the data points needed for this system like request rate can be calculated with good accuracy.
+
+% Another reoccurring factor that was identified during this process was the use of Kubernetes. According to a recent survey done by Cloud Native Computing Foundation, 91\% of respondents stated they rely on Kubernetes to manage their container infrastructure \citep{CloudNat36:online}. So building the proposed system tailor-made for Kubernetes would reap the maximum benefit.
 
 \subsection{Brainstorming}
 
-There are two main ways to implement a system that interfaces with Kubernetes. From those creating standalone services that talk to Kubernetes API is the most straightforward method. But during Google Summer of Code 2021, the author worked on a project which uses a Kubernetes operator framework which is used to extend the functionality of Kubernetes. After evaluating both options it was decided to rely on the Kubernetes operator framework to build the controller for this project since it's a proven and reliable method to build services that interface with Kubernetes \citep{Introduc93:online}.
+\begin{longtable}{|p{50mm}|p{105mm}|}
+    \hline
+    \textbf{Criteria} &
+    \textbf{Finding} \\ \hline
+
+    Best way to detect anomalies &
+    Learning objective of an autoencoder is given X input, Output X. Even though this doesn’t make sense as it is, this process allows the network to deeply understand the underlying function of the given data distribution. So after training at right conditions the model can output a value very close to input resulting in low reconstruction loss. But if the input data is something the model hasn’t seen during the training process (norvel anomaly) model will produce a higher reconstruction loss. This can be used as a signal to identify the health of service. \\ \hline
+
+    System architecture &
+    There are two main ways to implement a system that interfaces with Kubernetes. From those creating standalone services that talk to Kubernetes API is the most straightforward method. But during Google Summer of Code 2021, the author worked on a project which uses a Kubernetes operator framework which is used to extend the functionality of Kubernetes. After evaluating both options it was decided to rely on the Kubernetes operator framework to build the controller for this project since it's a proven and reliable method to build services that interface with Kubernetes \citep{Introduc93:online}. \\ \hline
+
+    \caption{Requirements derived from brainstorming (self-composed)}
+\end{longtable}
 
 \subsection{Prototyping}
 
