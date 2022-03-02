@@ -63,7 +63,10 @@ Read from the database}
     \item Inspect the graph.
 \end{CompactEnumerate}}
 {{N/A}
-{N/A}
+{\textbf{E1}: the operator returns non 200 status code.
+\vspace{-4mm}\begin{enumerate}
+    \item Show the error to the user.
+\vspace{-7mm}\end{enumerate}}
 {N/A}}
 
 
@@ -112,7 +115,10 @@ Read from the database}
     \item Store it in local memory.
 \end{CompactEnumerate}}
 {{N/A}
-{N/A}
+{\textbf{E1}: database is unreachable
+\vspace{-4mm}\begin{enumerate}
+    \item Retry in the next iteration.
+\vspace{-7mm}\end{enumerate}}
 {\begin{CompactItemizes}
     \item Updated local memory with current reconstruction loss.
 \end{CompactItemizes}}}

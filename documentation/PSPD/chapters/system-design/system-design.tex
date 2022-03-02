@@ -9,11 +9,17 @@ When building a software application there are 2 main design paradigms to choose
 The Data-flow diagram explains the flow of request data within the system and how each process in the system interacts with each other at a high level.
 
 \begin{figure}[H]
-    \setlength{\fboxsep}{10pt}
-    \fbox{\includegraphics[width=14cm]{assets/system-design/data-flow.png}}
-    \caption{Data-flow diagram (self-composed)}
-    \label{fig:data-flow}
+    \includegraphics[width=15cm]{assets/system-design/data-flow-level-1.png}
+    \caption{Data-flow diagram - level 1 (self-composed)}
+    % \label{fig:data-flow}
 \end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=15cm]{assets/system-design/data-flow-level-2.png}
+    \caption{Data-flow diagram - level 2 (self-composed)}
+    % \label{fig:data-flow}
+\end{figure}
+
 
 \subsection{Sequence Diagram}
 
@@ -21,13 +27,13 @@ Sequences diagrams are meant to showcase the flow of instructions within sub-com
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.8\textwidth}
+    \begin{subfigure}[b]{0.70\textwidth}
         \centering
         \includegraphics[width=\textwidth]{assets/system-design/sequence-diagram-1.png}
         \caption{Check for root cause}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.79\textwidth}
+    \begin{subfigure}[b]{0.70\textwidth}
         \centering
         \includegraphics[width=\textwidth]{assets/system-design/sequence-diagram-2.png}
         \caption{Calculate anomaly score}
