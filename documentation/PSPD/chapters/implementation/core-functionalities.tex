@@ -1,15 +1,14 @@
 \section{Implementation of Core Functionalities}
 
-This project contains 3 componets work togather in order to makeup the entire system. In this section the inner working of each of those components will be explained.
+This project contains three componets that work togather in order to makeup the entire system. In this section the inner working of each of those components will be explained.
 
 \subsection{Lazy-Koala Operator}
 
-Lazy-Koala operator is the heart of the entire project which is responsible for binding all other components together. In the context of Kubernetes, an operator is an agent that's running on the cluster which is responsible for keeping one or more dedicated resources in sync with the desired state. 
+Lazy-Koala operator is the heart of the entire project. It is responsible for binding all other components together. In the context of Kubernetes, an operator is an agent that's running on the cluster, which is responsible for keeping one or more dedicated resources in sync with the desired state. 
 
-For example, Kubernetes has a built-in resource named "Pod" which is the smallest deployable object in Kubernetes. So when a system administrator asked the Kube-API to create a pod out of a certain Docker container, Kube-API will create a resource object and attach it to the operator. Once that's done the pod operator will parse the pod resource specification and pod out of it. If for some reason the pod crashes or the administrator change the specification of the pod, the operator will be notified and it will run its reconciliation function to match the observed state with the desired state.
+For example, Kubernetes has a built-in resource named "Pod" which is the smallest deployable object in Kubernetes. So when a system administrator asked the Kube-API to create a pod out of a certain Docker container, Kube-API will create a resource object and attach it to the pod operator. Once that's done the pod operator will parse the pod resource specification and create a pod out of it. If for some reason the pod crashes or the administrator change the specification of the pod, the operator will be notified and it will re-run its reconciliation function to match the observed state with the desired state.
 
-Coming back to the Lazy-Koala operator, it has a Custom Resource Definition (CRD) called inspector. In its specification, there are three required values. Deployment reference, DNS reference, and an URL to download the model that was fine-tuned for this specific deployment. So once a resource was deployed, the operator will first get the Pods related to the deployment and populate the "scrapePoints" data structure
-with the IP of each of those. Then it's going to find out the IP address mapped to the DNS reference append that to the "scrapePoints". Then the operator will append all the scrapePoints to ConfigMap which was deployed as part of the installation process. This ConfigMap gets mounted to every Gazer instance via Kubernetes volumes system so the change here will instantly be reflected with the Gazer instances. As a final step, an instance of Sherlock will be provisioned with the model given in the specification.
+Coming back to the Lazy-Koala operator, it has a Custom Resource Definition (CRD) called Inspector. In its specification, there are three required values. Deployment reference, DNS reference, and an URL to download the model that was fine-tuned for this specific deployment. So once a resource was deployed, the operator will first get the pods related to the deployment and populate the "scrapePoints" data structure with the IP address of each pod. Then it's going to find out the IP address mapped to the DNS reference and append that to the "scrapePoints". Then the operator will compare the new scrapePoints hashmap with scrapePoints hashmap which was created in the previous iteration and identify which needs to be added and which needs to be removed from the "gazer-config". After that the operator will pull down "gazer-config" ConfigMap runs through the calculated changelog and send a patch request to kube-api with the new state. Since this ConfigMap gets mounted to every Gazer instance via Kubernetes volumes system the changes made here will instantly be reflected with the Gazer instances. As a final step, an instance of Sherlock will be provisioned with the model given in the specification.
 
 Figure \ref{fig:reconcile-loop} shows a part of this reconciliation loop, which get repeated every time there is a change to an existing resource or whenever the user creates a new variant of this resource.
 
@@ -23,7 +22,9 @@ Figure \ref{fig:reconcile-loop} shows a part of this reconciliation loop, which 
 
 \subsection{Gazer}
 
-Gazer is the telemetry exraction agent
+Gazer is the telemetry extraction agent that's get scheduled to run on every node one the cluster using a Kubernetes DaemonSet. Gazer is implemented in Python with the help of a library called BCC which acts as a frontend for \ac{ebpf} API. Gazer contains two kernel probes that get submitted to the kernel space at the startup. 
+
+The first probe is a TCP SYN backlog monitor that keeps track of the backlog size of the TCP SYN queue. Every TCP connection starts with a 3-way handshake and the SYN packet is the first packet that will be sent from the client in this sequence. The entire request is kept on hold till this packet is acknowledged by the system. Hence unusually higher SYN backlog is a strong signal of something going wrong. Figure \ref{fig:backlog-probe} showcase the core part of this probe and how the backlog size is calculated.
 
 \begin{figure}[H]
     \includegraphics[width=14cm]{assets/implementation/backlog-probe.png}
@@ -31,11 +32,22 @@ Gazer is the telemetry exraction agent
     \label{fig:backlog-probe}
 \end{figure}
 
+Next is a tracepoint probe that gets invoked whenever inet\_sock\_set\_state kernel function is called. This probe exact five key data points from every TCP request. Transmitting and receiving IP address, the number of bytes sent and received and the time taken to complete the entire request. All these data are shipped to the userspace via a perf buffer. In user space, these raw data get enriched with the data collected from kube-api. 
 
+As shown in the figure \ref{fig:gazer-enrich}, since gazer already has a list of interesting IP address, it first check whether the request was made from an interesting IP address in the list given by the Lazy-Koala operator (here only the transmitting IP is checked since every request get duplicate pair of entries, one for the request, one for the response and all the other attributes are shared among that pair). If it's found, the phaser tries to identify the receiving IP address too. If that's found a request received and counter for that particular service is increased. Then the phaser moves on to record the number of bytes sent and received and the time taken to complete under the service. Finally, these data are exposed via an HTTP server so that the Prometheus scraper can read it and store it in the database so it can be consumed by sherlock.
 
+\begin{figure}[H]
+    \includegraphics[width=14cm]{assets/implementation/gazer-enrich.png}
+    \caption{Code used to enrich tcp event data (self-composed)}
+    \label{fig:gazer-enrich}
+\end{figure}
 
 
 \subsection{Sherlock}
+
+Sherlock the AI engine which predict anomaly scores for each service which in turned used by the operator to figure our possible root causes for an particular issue. From a high level, this works by polling service telemetry for a predetermined number of time steps and running it through an convolutional autoencoder which tries reconstruct the input data sequence. The diffince between the input sequence and output sequence is called the reconstruct error and this will be use as the anomaly score for this specific service. Eventhough that processed seems stright forward, a number of prepocessing steps has to be taken in order to make it easier on the model to converge on the learning goal.
+
+Since the collected metric data has different units, each feature of the dataset has a different range. This makes the training process very inefficient hence the model has to learn the concept of scales and unit first and the backpropagation algorithm works best when the output values of the network are between 0-1 \citep{sola1997importance}. So to normalize this dataset slightly modified version of the min-max normalization equation was used. This was done due to the fact that in most typical conditions metric values fluctuate between a fixed and limited range. If the min-max normalization function was applied as it is, the model may be hypersensitive to the slightest function. So adding this padding on both high and low end acts as an attention mechanism that helps the model to look for large variations rather than focusing on smaller ones.
 
 \begin{figure}[H]
     \includegraphics[width=14cm]{assets/implementation/normalize-data.png}
@@ -60,8 +72,11 @@ Gazer is the telemetry exraction agent
         \label{fig:after-normalization}
     \end{subfigure}
     \hfill
-       \caption{Comparsion of a data point before and after normalization (self-composed)}
+       \caption{Comparsion of a data point before and after the data normalization (self-composed)}
 \end{figure}
+
+% After the normalization dataset is formated to 
+During the requirement engineering process it was found out even though RNN tends to perform better with time-series data convolutional autoencoders are very efficient at detecting anomalies from time-series data. so after the normalization step metric data is encoded into an image-like structure that can be input into a convolutional autoencoder.
 
 \begin{figure}[H]
     \includegraphics[width=7cm]{assets/implementation/visualize-representation.png}
