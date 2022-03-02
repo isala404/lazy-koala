@@ -14,7 +14,7 @@ To find the root course of fault in a distributed system, three components are r
     \ac{ebpf} is a modern, low overhead technique to extract telemetry by tracing Linux kernel calls. &
     \cite{LKMLIngo52:online} \\ \hline
     
-    To find the root course of fault in a distributed system, three components are required: instrumentation, anomaly detection, and root course localization. &
+    To find the root course of a fault in a distributed system, three components are required: instrumentation, anomaly detection, and root course localization. &
     \cite{wu2020microrca} \\ \hline
     
     Unsupervised learning algorithms excel at pattern unknown identifying. &
@@ -37,7 +37,7 @@ To find the root course of fault in a distributed system, three components are r
 \subsection{Interviews}
 
 A set of qualitative interviews was conducted to gather external feedback and opinion about the project and proposed system. For this, a senior production engineer, a Senior software engineer, a software engineer, and a trainee DevOps engineer were interviewed. The following table breaks down themes that were emerged after analyzing the transcript and finding based on that.
-
+\newpage
 \begin{longtable}{|p{30mm}|p{61mm}|p{60mm}|}
     \hline
     \textbf{Theme} &
@@ -51,11 +51,7 @@ A set of qualitative interviews was conducted to gather external feedback and op
     \newline
     “I mean, figuring out the problem is always hard because you're under stress.” - Jacob Payne (00:23:27)
     \\ \hline
-    
-    
-    Service Meshes &
-    Experts have a “love-hate” relationship with Service Meshes. Service Meshes a lot of utility functions and useful data for debugging. But at the same time, they require a lot of resources to configure and maintain. &
-    “Going through a service mesh is a big investment, so I think there is a space for a smaller thing.” \newline- Matthias Rampke (00:05:04) \\ \hline
+
     
     
     ML for RCA &
@@ -71,7 +67,11 @@ A set of qualitative interviews was conducted to gather external feedback and op
     “I think there's been a lot of, uh, or an interesting shift that's been happening in this and it's sort of driven by Kubernetes.” \newline- Matthias Rampke (00:25:11)
     \newline
     “I mean, in the last five years, obviously Kubernetes blew up. That's been huge for the Dev-Ops community.” \newline- Jacob Payne (00:16:38) \\ \hline
+        
     
+    Service Meshes &
+    Experts have a “love-hate” relationship with Service Meshes. Service Meshes a lot of utility functions and useful data for debugging. But at the same time, they require a lot of resources to configure and maintain. &
+    “Going through a service mesh is a big investment, so I think there is a space for a smaller thing.” \newline- Matthias Rampke (00:05:04) \\ \hline
     
     Proposed Architecture &
     During interviews, the author showed the Alpha version of the product with the high-level system diagram, and all the interviewees were impressed by it and excited to get their hand on the final product. &
@@ -95,8 +95,11 @@ A set of qualitative interviews was conducted to gather external feedback and op
     \textbf{Criteria} &
     \textbf{Finding} \\ \hline
 
+    Ways to integrate with Kubernetes &
+    There are two main ways to implement a system that interfaces with Kubernetes. From those creating standalone services that talk to Kubernetes API is the most straightforward method. But during Google Summer of Code 2021, the author worked on a project which uses a Kubernetes operator framework which is used to extend the functionality of Kubernetes. After evaluating both options it was decided to rely on the Kubernetes operator framework to build the controller for this project since it's a proven and reliable method to build services that interface with Kubernetes \citep{Introduc93:online}. \\ \hline
+
     Telemetry extraction method &
-    Service meshes are currently the most common way of extracting telemetry but there is a huge focus on \ac{ebpf} related products due it’s efficiency. \\ \hline
+    Service meshes are currently the most common way of extracting telemetry but there is a huge focus on \ac{ebpf} related products due to it’s efficiency. \\ \hline
 
     New trends in DevOps &
     From CI/CD to GitOps, DevOps engineers are trying to automate everything that can be automated to minimize the human errors \citep{CloudNat36:online}. \\ \hline
@@ -119,10 +122,7 @@ A set of qualitative interviews was conducted to gather external feedback and op
     \textbf{Finding} \\ \hline
 
     Best way to detect anomalies &
-    Learning objective of an autoencoder is given X input, Output X. Even though this doesn’t make sense as it is, this process allows the network to deeply understand the underlying function of the given data distribution. So after training at right conditions the model can output a value very close to input resulting in low reconstruction loss. But if the input data is something the model hasn’t seen during the training process (norvel anomaly) model will produce a higher reconstruction loss. This can be used as a signal to identify the health of service. \\ \hline
-
-    System architecture &
-    There are two main ways to implement a system that interfaces with Kubernetes. From those creating standalone services that talk to Kubernetes API is the most straightforward method. But during Google Summer of Code 2021, the author worked on a project which uses a Kubernetes operator framework which is used to extend the functionality of Kubernetes. After evaluating both options it was decided to rely on the Kubernetes operator framework to build the controller for this project since it's a proven and reliable method to build services that interface with Kubernetes \citep{Introduc93:online}. \\ \hline
+    Learning objective of an autoencoder is given X input, Output X. Even though this doesn’t make sense as it is, this process allows the network to deeply understand the underlying function of the given data distribution. So after training at right conditions the model can output a value very close to input resulting in low reconstruction loss. But if the input data is something the model hasn’t seen during the training process (norvel anomaly) model will produce a higher reconstruction loss. This could be used as a signal to identify the health of service. \\ \hline
 
     \caption{Requirements derived from brainstorming (self-composed)}
 \end{longtable}

@@ -4,33 +4,35 @@
 
 \newcommand\robProblemIdentification{
 When selecting the problem author wanted to pursue, they had 3 main goals.
-\begin{enumerate}[leftmargin=*,noitemsep,nolistsep] 
-\item The problem domain should be something they enjoy working in.
-\item At the end of the research should have done a meaningful impact on the target domain, both in the theoretical and practical aspect,
-\item It should be challenging to achieve and results should speak about themselves.
-\vspace{-7mm}
+\begin{enumerate}[leftmargin=*,noitemsep,nolistsep,label=RO\arabic*:] 
+    \item The problem domain should be something they enjoy working in.
+    \item At the end of the research should have done a meaningful impact on the target domain, both in the theoretical and practical aspect,
+    \item It should be challenging to achieve and results should speak about themselves.
+    \vspace{-7mm}
 \end{enumerate}
 }
 
 \newcommand\robLiteratureReview{
 Conduct a Literature review on root cause analysis to, 
-\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-\item To find the current methods used to anomaly detection and localization.
-\item Uncover issues with current approaches.
-\item Understand how advancement in other related domains can apply to this domain.
-\vspace{-7mm}
-\end{itemize}
+\begin{enumerate}[leftmargin=*,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{3}
+    \item To find the current methods used to anomaly detection and localization.
+    \item Uncover issues with current approaches.
+    \item Understand how advancement in other related domains can apply to this domain.
+    \vspace{-7mm}
+\end{enumerate}
 }
 
 
 \newcommand\robDevelopingEvaluation{
 During the literature survey, one problem the author identified was there isn’t a uniform dataset when it comes to training and evaluating models to detect anomalies in microservices. Most of the researchers used private datasets to train and test their work.
 To address this author is developing,
-\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-\item A tool that can easily simulate a distributed system in a cloud-native setting.
-\item A tool inject anomalies into the running services.
-\vspace{-7mm}
-\end{itemize}
+\begin{enumerate}[leftmargin=*,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{5}
+    \item A tool that can easily simulate a distributed system in a cloud-native setting.
+    \item A tool inject anomalies into the running services.
+    \vspace{-7mm}
+\end{enumerate}
 }
 
 \newcommand\robPublishPlayground{
@@ -39,22 +41,24 @@ The author is hoping to publish a paper about the above-mentioned tool so the fu
 
 \newcommand\robDataGathering{
 In order to create model to detect anomalies the author will,
-\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-\item Simulate distributed system.
-\item Simulate traffic inside the system
-\item Collect monitoring data while it's running
-\vspace{-7mm}
-\end{itemize}
+\begin{enumerate}[leftmargin=15mm,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{7}
+    \item Simulate distributed system.
+    \item Simulate traffic inside the system
+    \item Collect monitoring data while it's running
+    \vspace{-7mm}
+\end{enumerate}
 }
 
 \newcommand\robDevelopingEncoding{
-Since these micro services services will report very different values even at idle. To normalize data from all the services to one format author will,
-\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-\item Evaluate current data encoding methods like \cite{zhang2019deep}.
-\item Find the best one fit and optimize it to this use case.
-\item Test if there is any improvement by using this method. 
-\vspace{-7mm}
-\end{itemize}
+Since these micro services will report very different values even at idle. To normalize data from all the services to one format author will,
+\begin{enumerate}[leftmargin=15mm,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{10}
+    \item Evaluate current data encoding methods like \cite{zhang2019deep}.
+    \item Find the best one fit and optimize it to this use case.
+    \item Test if there is any improvement by using this method. 
+    \vspace{-7mm}
+\end{enumerate}
 }
 
 
@@ -65,14 +69,15 @@ According to \cite{kumarage2019generative} Autoencoders tend to perform best whe
 
 \newcommand\robTesting{
 Following things will be tested during the testing phase, 
-\begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-\item How will the system classify long-term fluctuations.
-\item How will the system classify short-term fluctuations.
-\item Can the system understand the mapping between core metrics like CPU and Memory usages.
-\item Accuracy of fault detection.
-\item Accuracy of root cause localization.
+\begin{enumerate}[leftmargin=15mm,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{13}
+    \item How will the system classify long-term fluctuations.
+    \item How will the system classify short-term fluctuations.
+    \item Can the system understand the mapping between core metrics like CPU and Memory usages.
+    \item Accuracy of fault detection.
+    \item Accuracy of root cause localization.
 \vspace{-7mm}
-\end{itemize}
+\end{enumerate}
 }
 
 \newcommand\robIntegration{
@@ -80,7 +85,7 @@ Having a fancy model doesn’t add means anything if it’s very hard to use in 
 }
 
 
-\begin{longtable}{|p{38mm}|p{95mm}|p{17mm}|}
+\begin{longtable}{|p{20mm}|p{105mm}|p{17mm}|}
 \hline
 \textbf{Research Objectives}          & \textbf{Explanation}      & \textbf{Learning Outcome} \\ \hline
 Problem identification                & \robProblemIdentification & LO1                       \\ \hline
