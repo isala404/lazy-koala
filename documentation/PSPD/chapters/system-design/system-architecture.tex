@@ -1,6 +1,6 @@
 \section{System Architecture}
 
-System architecture design gives a birds-eye view of how all the components in the system communicate with each other. This helps us to understand the dependencies and reasonability of each component. Since this system is designed to run on a microservices-based environment, a design n-tier architecture was used to physically separate check components in the system to have better reliability and scalability.
+System architecture design gives a birds-eye view of how all the components in the system communicate with each other. This helps us to understand the dependencies and responsibilities of each component. Since this system is designed to run on a microservices-based environment, an n-tier design architecture was used to physically separate the components in the system to have better a reliability and scalability.
 
 \begin{figure}[H]
     \includegraphics[width=14cm]{assets/system-design/tier-architecture.png}
@@ -18,6 +18,8 @@ The presentation tier will be entirely running in the client's computer while de
 \end{itemize}
 
 \subsection{Logic Tier}
+
+The logic tier will contain three custom microservices that depend on Kubernetes's core modules to operate.
 
 \begin{itemize}
     \item \textbf{\ac{lazy-koala-operator}} - The \ac{lazy-koala-operator} is the main bridge between Kubernetes APIs and this system. It also contains a proxy server that securely redirects incoming client requests to kube-apiserver.
