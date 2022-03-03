@@ -8,12 +8,19 @@ Lazy-Koala operator is the heart of the entire project. It is responsible for bi
 
 For example, Kubernetes has a built-in resource named "Pod" which is the smallest deployable object in Kubernetes. So when a system administrator asked the Kube-API to create a pod out of a certain Docker container, Kube-API will create a resource object and attach it to the pod operator. Once that's done the pod operator will parse the pod resource specification and create a pod out of it. If for some reason the pod crashes or the administrator change the specification of the pod, the operator will be notified and it will re-run its reconciliation function to match the observed state with the desired state.
 
+\begin{figure}[H]
+    \includegraphics[width=11.5cm]{assets/implementation/kubernetes-control-loop.png}
+    \caption{Kubernetes control loop \citep{hausenblas2019programming}}
+    % \label{fig:reconcile-loop}
+\end{figure}
+
+
 Coming back to the Lazy-Koala operator, it has a Custom Resource Definition (CRD) called Inspector. In its specification, there are three required values. Deployment reference, DNS reference, and an URL to download the model that was fine-tuned for this specific deployment. So once a resource was deployed, the operator will first get the pods related to the deployment and populate the "scrapePoints" data structure with the IP address of each pod. Then it's going to find out the IP address mapped to the DNS reference and append that to the "scrapePoints". Then the operator will compare the new scrapePoints hashmap with scrapePoints hashmap which was created in the previous iteration and identify which needs to be added and which needs to be removed from the "gazer-config". After that the operator will pull down "gazer-config" ConfigMap runs through the calculated changelog and send a patch request to kube-api with the new state. Since this ConfigMap gets mounted to every Gazer instance via Kubernetes volumes system the changes made here will instantly be reflected with the Gazer instances. As a final step, an instance of Sherlock will be provisioned with the model given in the specification.
 
 Figure \ref{fig:reconcile-loop} shows a part of this reconciliation loop, which get repeated every time there is a change to an existing resource or whenever the user creates a new variant of this resource.
 
 \begin{figure}[H]
-    \includegraphics[height=11.5cm]{assets/implementation/reconcile-loop.png}
+    \includegraphics[height=15cm]{assets/implementation/reconcile-loop.png}
     \caption{Operator Reconciliation Loop (self-composed)}
     \label{fig:reconcile-loop}
 \end{figure}
@@ -50,7 +57,7 @@ Sherlock the AI engine which predict anomaly scores for each service which in tu
 Since the collected metric data has different units, each feature of the dataset has a different range. This makes the training process very inefficient hence the model has to learn the concept of scales and unit first and the backpropagation algorithm works best when the output values of the network are between 0-1 \citep{sola1997importance}. So to normalize this dataset slightly modified version of the min-max normalization equation was used. This was done due to the fact that in most typical conditions metric values fluctuate between a fixed and limited range. If the min-max normalization function was applied as it is, the model may be hypersensitive to the slightest function. So adding this padding on both high and low end acts as an attention mechanism that helps the model to look for large variations rather than focusing on smaller ones.
 
 \begin{figure}[H]
-    \includegraphics[width=14cm]{assets/implementation/normalize-data.png}
+    \includegraphics[width=12cm]{assets/implementation/normalize-data.png}
     \caption{Data normalization function (self-composed)}
     \label{fig:normalize-data}
 \end{figure}
@@ -79,7 +86,7 @@ Since the collected metric data has different units, each feature of the dataset
 During the requirement engineering process it was found out even though RNN tends to perform better with time-series data convolutional autoencoders are very efficient at detecting anomalies from time-series data. so after the normalization step metric data is encoded into an image-like structure that can be input into a convolutional autoencoder.
 
 \begin{figure}[H]
-    \includegraphics[width=7cm]{assets/implementation/visualize-representation.png}
+    \includegraphics[height=7cm]{assets/implementation/visualize-representation.png}
     \caption{Visualization of encoded time series (self-composed)}
     \label{fig:visualize-representation}
 \end{figure}

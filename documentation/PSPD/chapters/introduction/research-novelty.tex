@@ -1,7 +1,14 @@
 \section{The Novelty of the Research}
 
-After a literature survey, the author concluded that finding the root cause of any failure within a distributed system is a challenging issue. This is mainly due to the fact that this problem can't be mapped to a fixed set of inputs and outputs, which is a basic requirement for almost all types of neural networks that are readily available. Furthermore, almost all the researchers working on this problem domain have built their own solution for simulating a distributed system, since there isn't any open dataset on service monitoring. This could be mainly due to the fact that these datasets could contain sensitive information. 
+\subsection{Problem Novelty}
 
-Most of the currently established researches were done towards, creating statistical models like clustering and linear regression. Even though these algorithms perform very well in small-scale systems, they can struggle to keep up the large-scale, noisy monitoring data that are found in medium to large size systems. Another problem that was recognized was none of these papers properly addressed the issue of constant changes in services. Most published research considers target services as static but in reality, these services can change even many times per day \citep{GoingtoM51:online}.
+After a literature survey, the author concluded that finding the root cause of any failure within a distributed system is a challenging issue. This is mainly due to the fact that this problem can't be mapped to a fixed set of inputs and outputs, which is a basic requirement for almost all types of neural networks that are readily available. 
 
-Finally, when it comes to scraping service telemetry the author is utilizing a fairly new technique called \ac{ebpf} which works by talking to the underlying kernel of the operating system and trying to spy the target service by intercepting low-level system calls.
+% Furthermore, almost all the researchers working on this problem domain have built their own solution for simulating a distributed system, since there isn't any open dataset on service monitoring. This could be mainly due to the fact that these datasets could contain sensitive information. 
+
+Most of the currently established researches were done towards, creating statistical models like clustering and linear regression. Even though these algorithms perform very well in small-scale systems, they can struggle to keep up the large-scale, noisy monitoring data that are found in medium to large size systems. Another problem that was recognized was none of these papers properly addressed the issue of constant changes in services. Most published research considers target services as static but in reality, these services can change, even many times per day \citep{GoingtoM51:online}.
+
+\subsection{Solution Novelty}
+
+
+The focus of this project is to create an adaptable and scalable series of components that ranges from instrumentation to root cause analysis, which can be well integrated to an existing systems or can be extended to fit newer use cases. To achieve this the author is utilizing a fairly new technique called \ac{ebpf} for instrumentation, which is a Linux kernel API that can be used to track kernel events such as TCP socket changes to understand the network layer of each application running on the system. Finally, for anomaly detection, a convolutional autoencoder with a novel data encoding method was used to keep the system as lightweight as possible, while still having acceptable accuracies for classifications.
