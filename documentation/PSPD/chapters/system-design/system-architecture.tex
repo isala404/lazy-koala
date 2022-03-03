@@ -20,7 +20,7 @@ The presentation tier will be entirely running in the client's computer while de
 \subsection{Logic Tier}
 
 \begin{itemize}
-    \item \textbf{Operator} - The operator is the main bridge between Kubernetes APIs and this system. It also contains a proxy server that securely redirects incoming client requests to kube-apiserver.
+    \item \textbf{\ac{lazy-koala-operator}} - The \ac{lazy-koala-operator} is the main bridge between Kubernetes APIs and this system. It also contains a proxy server that securely redirects incoming client requests to kube-apiserver.
     \item \textbf{\ac{gazer}} - An instance of \ac{gazer} will be running on every node in the Kubernetes cluster which passively extracts telemetry and sends them over to the Prometheus server for later processing.
     \item \textbf{\ac{sherlock}} - AI engine periodically query Prometheus to get the current status of all the monitored service. Then it calculates an anomaly score for each service and pushes it to Prometheus so it can be sent back to the presentation layer
     \item \textbf{kube-apiserver} - This is an API provided by Kubernetes that help to read and update the cluster status programmatically.

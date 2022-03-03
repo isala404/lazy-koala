@@ -3,7 +3,7 @@
 \UseCaseDescription
 {UC-01}
 {Deploy Lazy Koala}
-{Install Lazy Koala operator to a Kubernetes cluster}
+{Install \ac{lazy-koala-operator} to a Kubernetes cluster}
 {Reliability Engineer}
 {\begin{CompactItemizes}
     \item A Kubernetes cluster running.
@@ -22,12 +22,12 @@
     \item Apply Kubernetes Manifest found in the code repository.
     \item Kube API acknowledges the changes.
 \end{CompactEnumerate}}
-{\textbf{E1}: A operator couldn’t achieve desired state
+{\textbf{E1}: A \ac{lazy-koala-operator} couldn’t achieve desired state
 \vspace{-4mm}\begin{enumerate}
-    \item The operator retries to achieve the desired state with an exponential backoff
+    \item The \ac{lazy-koala-operator} retries to achieve the desired state with an exponential backoff
 \vspace{-7mm}\end{enumerate}}
 {\begin{CompactItemizes}
-    \item Lazy Koala operator deployed on the cluster.
+    \item \ac{lazy-koala-operator} deployed on the cluster.
     \item Instance of \ac{gazer} deployed on every node.
     \item New permission rules are registered with Kube API.
 \end{CompactItemizes}}}
@@ -40,8 +40,8 @@
 {Reliability Engineer}
 {\begin{CompactItemizes}
     \item kubectl installed and configured to talk to a Kubernetes cluster.
-    \item The Kubernetes cluster has a Lazy Koala operator deployed.
-    \item Established port forwarding connection with Lazy Koala operator.
+    \item The Kubernetes cluster has a \ac{lazy-koala-operator} deployed.
+    \item Established port forwarding connection with \ac{lazy-koala-operator}.
 \end{CompactItemizes}}
 {N/A}
 {N/A}
@@ -77,7 +77,7 @@
 {Reliability Engineer}
 {\begin{CompactItemizes}
     \item kubectl installed and configured to talk to a Kubernetes cluster.
-    \item The Kubernetes cluster has a Lazy Koala operator deployed.
+    \item The Kubernetes cluster has a \ac{lazy-koala-operator} deployed.
 \end{CompactItemizes}}
 {N/A}
 {N/A}
@@ -91,29 +91,29 @@
 \end{CompactEnumerate}}
 {N/A}
 {\begin{CompactItemizes}
-    \item All the resources provisioned by Lazy Koala including the operator itself get removed from the cluster.
+    \item All the resources provisioned by Lazy Koala including the \ac{lazy-koala-operator} itself get removed from the cluster.
 \end{CompactItemizes}}}
 
 \vspace{-2em}
 \UseCaseDescription
 {UC-11}
 {Reconcile on modified resources}
-{Whenever a resource owned by the Lazy Koala operator gets modified, kubelet invokes the reconciliation loop on the operator.}
+{Whenever a resource owned by the \ac{lazy-koala-operator} gets modified, kubelet invokes the reconciliation loop on the \ac{lazy-koala-operator}.}
 {Kubelet}
 {\begin{CompactItemizes}
-    \item Lazy Koala operator is deployed
+    \item \ac{lazy-koala-operator} is deployed
 \end{CompactItemizes}}
 {Read the cluster state}
 {N/A}
 {\begin{CompactEnumerate}
     \item Resources get modified.
-    \item Kubelet invokes a reconciliation loop on the operator.
+    \item Kubelet invokes a reconciliation loop on the \ac{lazy-koala-operator}.
     \item Check if the change is interesting.
     \item Update children resources accordingly.
 \end{CompactEnumerate}}
 {{\begin{CompactEnumerate}
     \item Resources get modified.
-    \item Kubelet invokes a reconciliation loop on the operator.
+    \item Kubelet invokes a reconciliation loop on the \ac{lazy-koala-operator}.
     \item Check if the change is interesting.
     \item Stop execution.
 \end{CompactEnumerate}}
