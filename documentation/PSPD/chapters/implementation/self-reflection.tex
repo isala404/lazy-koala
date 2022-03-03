@@ -8,9 +8,9 @@ Even though the start of the implementation phase was a bit rocky, with time the
     \label{fig:service-benchmark}
 \end{figure}
 
-At the current stage of the project, all the functionality of Gazer is implemented properly and telemetry scraping works as expected (Refer Appendix \ref{appendix:prometheus-dashboard} for Prometheus dashboard). Although some of the functionality of the operator was left out due to the limited time, notably the operator doesn't provision an instance of Sherlock due to the model delivery process hasn't been finalized.
+At the current stage of the project, all the functionality of \ac{gazer} is implemented properly and telemetry scraping works as expected (Refer Appendix \ref{appendix:prometheus-dashboard} for Prometheus dashboard). Although some of the functionality of the operator was left out due to the limited time, notably the operator doesn't provision an instance of \ac{sherlock} due to the model delivery process hasn't been finalized.
 
-Initial results of Sherlock show that the author's hypothesis about the machine learning model architecture is feasible. Figure \ref{fig:normal-state} show encoded metric status while the system was stable and the reconstruction from Sherlock shows a smaller output. This means reconstruction error is low hence the lower anomaly score. When it comes to \ref{fig:abnormal-state} there is a large difference between the input and output data frames. This is because the model hasn't seen metric levels like these and trying to stick to what it has been trained on. Hence the large reconstruction error.
+Initial results of \ac{sherlock} show that the author's hypothesis about the machine learning model architecture is feasible. Figure \ref{fig:normal-state} show encoded metric status while the system was stable and the reconstruction from \ac{sherlock} shows a smaller output. This means reconstruction error is low hence the lower anomaly score. When it comes to \ref{fig:abnormal-state} there is a large difference between the input and output data frames. This is because the model hasn't seen metric levels like these and trying to stick to what it has been trained on. Hence the large reconstruction error.
 
 \begin{figure}[H]
     \centering
@@ -28,7 +28,7 @@ Initial results of Sherlock show that the author's hypothesis about the machine 
         \label{fig:abnormal-state}
     \end{subfigure}
     \hfill
-       \caption{Initial results of the Sherlock model (self-composed)}
+       \caption{Initial results of the \ac{sherlock} model (self-composed)}
 \end{figure}
 
 \section{Video Demo}

@@ -74,16 +74,16 @@ Read from the database}
 \UseCaseDescription
 {UC-07}
 {Extract telemetry}
-{Every 5 second Gazer will scrape the metric server}
+{Every 5 second \ac{gazer} will scrape the metric server}
 {System Timer}
 {\begin{CompactItemizes}
-    \item Gazer is deployed to the cluster
+    \item \ac{gazer} is deployed to the cluster
 \end{CompactItemizes}}
 {N/A}
 {Write to the database}
 {\begin{CompactEnumerate}
     \item poll\_kube\_api function get invoked.
-    \item Gazer looks at the config file and finds out the service it’s responsible for.
+    \item \ac{gazer} looks at the config file and finds out the service it’s responsible for.
     \item Query metric server for each of the service names.
     \item Store it in local memory.
 \end{CompactEnumerate}}
@@ -103,7 +103,7 @@ Read from the database}
 {Check for Anomalies in each of the service}
 {System Timer}
 {\begin{CompactItemizes}
-    \item An Instance of Sherlock is deployed.
+    \item An Instance of \ac{sherlock} is deployed.
 \end{CompactItemizes}}
 {N/A}
 {Write to the database}

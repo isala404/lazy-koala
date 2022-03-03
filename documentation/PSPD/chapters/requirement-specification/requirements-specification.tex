@@ -89,15 +89,15 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
         
     \functionalRequirement
     {FR05}
-    {Lazy Koala should deploy an instance of Gazer to every node in the cluster.}
-    {In the Kubernetes cluster every node has a separate instance of the Linux kernel. So for every instance of Linux kernel, an instance gazer must be present to ensure all the relevant data is captured.}
+    {Lazy Koala should deploy an instance of \ac{gazer} to every node in the cluster.}
+    {In the Kubernetes cluster every node has a separate instance of the Linux kernel. So for every instance of Linux kernel, an instance \ac{gazer} must be present to ensure all the relevant data is captured.}
     {Critical}
     {UC-01, UC-10}
     
         
     \functionalRequirement
     {FR06}
-    {Gazer should intersect all “inet\_sock\_set\_state” kernel calls and export the relevant data to Prometheus.}
+    {\ac{gazer} should intersect all “inet\_sock\_set\_state” kernel calls and export the relevant data to Prometheus.}
     {Whenever a userspace application makes a TCP call this kernel method is called to communicate with the network interface. Inspecting the data structures of this will allow us to extract a lot of information about each TCP calls.}
     {Critical}
     {UC-07, UC-09}
@@ -105,7 +105,7 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
         
     \functionalRequirement
     {FR07}
-    {Gazer periodically polls the size of “sk\_ack\_backlog” for interested ports to export the relevant data to Prometheus.}
+    {\ac{gazer} periodically polls the size of “sk\_ack\_backlog” for interested ports to export the relevant data to Prometheus.}
     {This kernel data structure holds the TCP connections that are left to be acknowledged. Knowing the size of this queue will help to understand the efficiency of each service.}
     {Important}
     {UC-07, UC-09}
@@ -113,7 +113,7 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
         
     \functionalRequirement
     {FR08}
-    {Gazer should poll Kubernetes metric server periodically and export the relevant data to Prometheus.}
+    {\ac{gazer} should poll Kubernetes metric server periodically and export the relevant data to Prometheus.}
     {Sudden changes in CPU and Memory usage will be a good indication for an anomaly. So using those to be processed later will be wise.}
     {Critical}
     {UC-07, UC-09}
@@ -121,31 +121,31 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
         
     \functionalRequirement
     {FR09}
-    {Lazy Koala should periodically check for changes in monitored services and update the Gazer ConfigMap.}
-    {Kubelet is watching over all the services on the system and restarts them if they become unhealthy. With that, the IP address of that service is gonna change and Lazy Koala is responsible to let the gazer know of such changes.}
+    {Lazy Koala should periodically check for changes in monitored services and update the \ac{gazer} ConfigMap.}
+    {Kubelet is watching over all the services on the system and restarts them if they become unhealthy. With that, the IP address of that service is gonna change and Lazy Koala is responsible to let the \ac{gazer} know of such changes.}
     {Important}
     {UC-10, UC-11}
     
         
     \functionalRequirement
     {FR10}
-    {Gazer should react to config updates in realtime.}
-    {When a lazy koala pushes a new config, gazer should look for the new IPs without requiring a complete reset. Which is time consuming and expensive.}
+    {\ac{gazer} should react to config updates in realtime.}
+    {When a lazy koala pushes a new config, \ac{gazer} should look for the new IPs without requiring a complete reset. Which is time consuming and expensive.}
     {Luxury}
     {UC-10, UC-11}
     
         
     \functionalRequirement
     {FR11}
-    {Lazy Koala should provision an instance of Sherlock for each of the monitored services.}
-    {Sherlock is responsible for analyzing all the metric data exported from Gazer.}
+    {Lazy Koala should provision an instance of \ac{sherlock} for each of the monitored services.}
+    {\ac{sherlock} is responsible for analyzing all the metric data exported from \ac{gazer}.}
     {Critical}
     {UC-10, UC-11}
     
         
     \functionalRequirement
     {FR12}
-    {Sherlock should periodically calculate the anomaly score for each of the monitored services and export it to Prometheus.}
+    {\ac{sherlock} should periodically calculate the anomaly score for each of the monitored services and export it to Prometheus.}
     {Anomaly score is used by the UI to understand the spread of an anomaly.}
     {Critical}
     {UC-08, UC-09}
@@ -197,12 +197,12 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     Desirable \\ \hline
     
     NFR4 &
-    Gazer should be limited to using only 100 mCPUs and 80MB of memory. &
+    \ac{gazer} should be limited to using only 100 mCPUs and 80MB of memory. &
     Performance &
     Important \\ \hline
     
     NFR5 &
-    Sherlock should be limited to using only 100 mCPUs and 100MB of memory. &
+    \ac{sherlock} should be limited to using only 100 mCPUs and 100MB of memory. &
     Performance &
     Desirable \\ \hline
     
@@ -212,7 +212,7 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     Critical \\ \hline
     
     NFR7 &
-    Reconstruction error of Sherlock should be under 0.1\% &
+    Reconstruction error of \ac{sherlock} should be under 0.1\% &
     Performance &
     Desirable \\ \hline
     
