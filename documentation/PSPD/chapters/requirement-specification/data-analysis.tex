@@ -17,12 +17,12 @@ To find the root course of fault in a distributed system, three components are r
     To find the root course of a fault in a distributed system, three components are required: instrumentation, anomaly detection, and root course localization. &
     \cite{wu2020microrca} \\ \hline
     
-    Unsupervised learning algorithms excel at pattern unknown identifying. &
+    Unsupervised learning algorithms excel at identifying unknown pattern. &
     \cite{silver2017mastering}, \cite{kumarage2018anomaly}, \cite{khoshnevisan2019rsm} \\ \hline
-    Convolutional autoencoder network could give the best performance to resources required ratio when it comes to detecting anomalies. &
+    Convolutional autoencoder network will give the best performance to resources required ratio when it comes to detecting anomalies. &
     \cite{zhang2019deep}, \cite{khoshnevisan2019rsm} \\ \hline
     
-    Root course could be identified weighting anomaly scores in directed graphs. &
+    Root course could be identified by weighting anomaly scores in directed graphs. &
     \cite{samir2019dla}, \cite{wu2020microrca}, \cite{ma2020automap}, \cite{meng2020localizing} \\ \hline
     There isn’t a common benchmarking or testing platform to test root causes of finding algorithms. &
     \cite{wu2020microrca}, \cite{soldani2021anomaly} \\ \hline
@@ -36,7 +36,7 @@ To find the root course of fault in a distributed system, three components are r
 
 \subsection{Interviews}
 
-A set of qualitative interviews was conducted to gather external feedback and opinion about the project and proposed system. For this, a senior production engineer, a Senior software engineer, a software engineer, and a trainee DevOps engineer were interviewed. The following table breaks down themes that were emerged after analyzing the transcript and finding based on that.
+A set of qualitative interviews was conducted to gather external feedback and opinion about the project and proposed system. For this, a senior production engineer, a Senior software engineer, a software engineer, and a trainee DevOps engineer were interviewed. The following table breaks down themes that were emerged after analyzing the transcript and findings based on that.
 \newpage
 \begin{longtable}{|p{30mm}|p{61mm}|p{60mm}|}
     \hline
@@ -45,7 +45,7 @@ A set of qualitative interviews was conducted to gather external feedback and op
     \textbf{Evidence} \\ \hline
     
     Finding the root cause &
-    Almost all the interviewees agreed that whenever there is an outrage, it’s a cumbersome task to find the root course of that outage. Having a system that makes this experience even slightly better would have huge implications. &
+    Almost all the interviewees agreed that whenever there is an outage, it’s a cumbersome task to find the root course of that outage. Having a system that makes this experience even slightly better would have huge implications. &
     "I mean so often, sometimes it's identifying what the problem even is.” - Matthias Rampke (00:31:39)
     \newline
     \newline
@@ -55,7 +55,7 @@ A set of qualitative interviews was conducted to gather external feedback and op
     
     
     ML for RCA &
-    This is a bit of a gray area. One of the experts I interviewed said he had a long history of working with time series forecasting and results are generally mediocre due to the sheer number of external factors. But since this is closed system results may vary. &
+    This is a bit of a gray area. One of the experts I interviewed said he had a long history of working with time series forecasting and results are generally mediocre due to the sheer number of external factors. But since this is a closed system results may vary. &
     “Ideally it helps me understand why the AI thinks this service is the problem.” \newline- Matthias Rampke (00:35:51)
     \newline
     \newline
@@ -70,11 +70,11 @@ A set of qualitative interviews was conducted to gather external feedback and op
         
     
     Service Meshes &
-    Experts have a “love-hate” relationship with Service Meshes. Service Meshes a lot of utility functions and useful data for debugging. But at the same time, they require a lot of resources to configure and maintain. &
+    Experts have a “love-hate” relationship with Service Meshes. Service Meshes offers a lot of utility functions and useful data for debugging. But at the same time, they require a lot of resources to configure and maintain. &
     “Going through a service mesh is a big investment, so I think there is a space for a smaller thing.” \newline- Matthias Rampke (00:05:04) \\ \hline
     
     Proposed Architecture &
-    During interviews, the author showed the Alpha version of the product with the high-level system diagram, and all the interviewees were impressed by it and excited to get their hand on the final product. &
+    During interviews, the author showed the Alpha version of the product along with the high-level system diagram, and all the interviewees were impressed by it and excited to get their hand on the final product. &
     “I'm really looking forward to seeing it in action.”  \newline- Matthias Rampke (00:11:10)
     \newline
     \newline
@@ -105,7 +105,7 @@ A set of qualitative interviews was conducted to gather external feedback and op
     From CI/CD to GitOps, DevOps engineers are trying to automate everything that can be automated to minimize the human errors \citep{CloudNat36:online}. \\ \hline
 
     Case studies on recent high profile outages &
-    Few months ago Microsoft experienced a global outage that took more than 24 hours to fully recover from due to a single bad update to one of their authentication systems \citep{Microsof81:online}. \\ \hline
+    Few months ago Microsoft experienced a global outage that took more than 24 hours to fully recover from. This waas due to a single bad update to one of their authentication systems \citep{Microsof81:online}. \\ \hline
     
     \caption{Requirements derived from self-evaluation (self-composed)}
 \end{longtable}
@@ -122,7 +122,7 @@ A set of qualitative interviews was conducted to gather external feedback and op
     \textbf{Finding} \\ \hline
 
     Best way to detect anomalies &
-    Learning objective of an autoencoder is given X input, Output X. Even though this doesn’t make sense as it is, this process allows the network to deeply understand the underlying function of the given data distribution. So after training at right conditions the model can output a value very close to input resulting in low reconstruction loss. But if the input data is something the model hasn’t seen during the training process (norvel anomaly) model will produce a higher reconstruction loss. This could be used as a signal to identify the health of service. \\ \hline
+    Learning objective of an autoencoder is given X input, Output X. Even though this doesn’t make sense as it is, this process allows the network to deeply understand the underlying function of the given data distribution. So after training at right conditions the model can output a value very close to input resulting in low reconstruction loss. But if the input data is something the model hasn’t seen during the training process (novel anomaly) model will produce a higher reconstruction loss. This could be used as a signal to identify the health of service. \\ \hline
 
     \caption{Requirements derived from brainstorming (self-composed)}
 \end{longtable}

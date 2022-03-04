@@ -1,6 +1,6 @@
 \section{Requirements Specifications}
 
-Since this project touched the deep ends of both \ac{sre} and data science expectations and prioritizes of the system must be managed to achieve a reliable and functioning system at end of the deadline. So to achieve this MoSCoW prioritization system was used.
+Since this project touched the deep ends of both \ac{sre} and data science expectations. The prioritizes of the system must be managed to achieve a reliable and functioning system at end of the deadline. So to achieve this MoSCoW prioritization model was used.
 
 \begin{longtable}{|p{25mm}|p{128mm}|}
 \hline
@@ -8,13 +8,13 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     \textbf{Description} \\ \hline
     
     Critical  &
-    Requirements which need to be met in order to have minimum viable state. \\ \hline
+    Requirements which need to be met in order to have minimum viable product. \\ \hline
 
     Important &
     Requirements that need to be completed to have a usable product. \\ \hline
 
     Luxury &
-    Nice to have requirements that improve the quality of life of the system. \\ \hline
+    Nice to have requirements that would improve the quality of life of the system. \\ \hline
 \caption{Requirement oriorities (self-composed)}
 \end{longtable}
 
@@ -58,14 +58,14 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
 
     \functionalRequirement
     {FR01}
-    {Users should be able to deploy the Lazy Koala to an existing Kubernetes cluster.}
-    {Lazy koala should work on any Linux-based Kubernetes cluster with version 1.22 or higher without any additional configuration from the user's end.}
+    {Users should be able to deploy the \ac{lazy-koala-operator} to an existing Kubernetes cluster.}
+    {\ac{lazy-koala-operator} should work on any Linux-based Kubernetes cluster with version 1.22 or higher without any additional configuration from the user's end.}
     {Critical}
     {UC-01}
     
     \functionalRequirement
     {FR02}
-    {Users should be able to remove Lazy Koala completely from the cluster.}
+    {Users should be able to remove the \ac{lazy-koala-operator} completely from the cluster.}
     {Once uninstalled all the provisioned resources should be cleaned up by the \ac{lazy-koala-operator} itself. }
     {Important}
     {UC-03}
@@ -81,7 +81,7 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
         
     \functionalRequirement
     {FR04}
-    {Users should be able to see the services monitored by Lazy Koala.}
+    {Users should be able to see the services monitored by \ac{lazy-koala-operator}}
     {System should be transparent to the user about monitored and unmonitored service.}
     {Luxury}
     {UC-05}
@@ -89,8 +89,8 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
         
     \functionalRequirement
     {FR05}
-    {Lazy Koala should deploy an instance of \ac{gazer} to every node in the cluster.}
-    {In the Kubernetes cluster every node has a separate instance of the Linux kernel. So for every instance of Linux kernel, an instance \ac{gazer} must be present to ensure all the relevant data is captured.}
+    {\ac{lazy-koala-operator} should deploy an instance of \ac{gazer} to every node in the cluster.}
+    {In the Kubernetes cluster every node has a separate instance of the Linux kernel. So for every instance of Linux kernel, an instance of \ac{gazer} must be present to ensure all the relevant data is captured.}
     {Critical}
     {UC-01, UC-10}
     
@@ -98,14 +98,14 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     \functionalRequirement
     {FR06}
     {\ac{gazer} should intersect all “inet\_sock\_set\_state” kernel calls and export the relevant data to Prometheus.}
-    {Whenever a userspace application makes a TCP call this kernel method is called to communicate with the network interface. Inspecting the data structures of this will allow us to extract a lot of information about each TCP calls.}
+    {Whenever a userspace application makes a TCP call, this kernel method is invoked to communicate with the network interface. Inspecting the data structures of this will allow us to extract a lot of information about each TCP calls.}
     {Critical}
     {UC-07, UC-09}
     
         
     \functionalRequirement
     {FR07}
-    {\ac{gazer} periodically polls the size of “sk\_ack\_backlog” for interested ports to export the relevant data to Prometheus.}
+    {\ac{gazer} periodically poll the size of “sk\_ack\_backlog” for interested ports to export the relevant data to Prometheus.}
     {This kernel data structure holds the TCP connections that are left to be acknowledged. Knowing the size of this queue will help to understand the efficiency of each service.}
     {Important}
     {UC-07, UC-09}
@@ -114,15 +114,15 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     \functionalRequirement
     {FR08}
     {\ac{gazer} should poll Kubernetes metric server periodically and export the relevant data to Prometheus.}
-    {Sudden changes in CPU and Memory usage will be a good indication for an anomaly. So using those to be processed later will be wise.}
+    {Sudden changes in CPU and Memory usage will be a good indication for an anomaly. So exporting those to be processed later will be wise.}
     {Critical}
     {UC-07, UC-09}
     
         
     \functionalRequirement
     {FR09}
-    {Lazy Koala should periodically check for changes in monitored services and update the \ac{gazer} ConfigMap.}
-    {Kubelet is watching over all the services on the system and restarts them if they become unhealthy. With that, the IP address of that service is gonna change and Lazy Koala is responsible to let the \ac{gazer} know of such changes.}
+    {\ac{lazy-koala-operator} should periodically check for changes in monitored services and update the \ac{gazer} ConfigMap.}
+    {Kubelet is watching over all the services on the system and restarts them if they become unhealthy. With that, the IP address of that service is gonna change and \ac{lazy-koala-operator} is responsible to let the \ac{gazer} know of such changes.}
     {Important}
     {UC-10, UC-11}
     
@@ -130,7 +130,7 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     \functionalRequirement
     {FR10}
     {\ac{gazer} should react to config updates in realtime.}
-    {When a lazy koala pushes a new config, \ac{gazer} should look for the new IPs without requiring a complete reset. Which is time consuming and expensive.}
+    {When a \ac{lazy-koala-operator} pushes a new config, \ac{gazer} should look for the new IPs without requiring a complete reset. Which is time consuming and expensive.}
     {Luxury}
     {UC-10, UC-11}
     
@@ -138,7 +138,7 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     \functionalRequirement
     {FR11}
     {Lazy Koala should provision an instance of \ac{sherlock} for each of the monitored services.}
-    {\ac{sherlock} is responsible for analyzing all the metric data exported from \ac{gazer}.}
+    {\ac{sherlock} is responsible for analyzing all the metric data that are exported from \ac{gazer}.}
     {Critical}
     {UC-10, UC-11}
     
@@ -153,7 +153,7 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
         
     \functionalRequirement
     {FR13}
-    {Lazy Koala should have a Web UI visualized service topology.}
+    {\ac{lazy-koala-operator} should have a Web UI to visualize the service topology.}
     {UI should help users to visualize the spread of an anomaly throughout all of the monitored service.}
     {Important}
     {UC-04, UC-05, UC-06}
@@ -161,8 +161,8 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
         
     \functionalRequirement
     {FR14}
-    {Lazy Koala should add a finalizer for each of the provisioned resources.}
-    {Finalizers ensure the parent of a resource won’t be deleted before all the children are cleaned up which avoids leaving the cluster with orphaned resources that won’t be cleaned up.}
+    {\ac{lazy-koala-operator} should add a finalizer for each of the provisioned resources.}
+    {Finalizers ensure the parent of a resource won’t be deleted before all the children are cleaned up. This avoids leaving the cluster with orphaned resources that won’t be cleaned up without user intervention.}
     {Important}
     {UC-03}
     
@@ -182,22 +182,22 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     \textbf{Priority Level} \\ \hline
     
     NFR1 &
-    Lazy Koala should follow Principle of Least Privilege when accessing Kubernetes APIs. &
+    \ac{lazy-koala-operator} should follow Principle of Least Privilege when accessing Kubernetes APIs. &
     Security &
     Critical \\ \hline
     
     NFR2 &
-    Systems should have fragment architecture so each component can be individually scaled to save resources. &
+    Systems should have fragmented architecture so each component can be individually scaled in order to save resources. &
     Scalability &
     Critical \\ \hline
     
     NFR3 &
-    Each component should work individually such that users can install part of the system they are interested in. &
+    Each component should work individually such that users can install parts of the system they are interested in. &
     Usability &
     Desirable \\ \hline
     
     NFR4 &
-    \ac{gazer} should be limited to using only 100 mCPUs and 80MB of memory. &
+    \ac{gazer} should be limited for using only 100 mCPUs and 80MB of memory. &
     Performance &
     Important \\ \hline
     
@@ -207,7 +207,7 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     Desirable \\ \hline
     
     NFR6 &
-    Lazy Koala should be packaged as a Helm Chart for ease of use. &
+    \ac{lazy-koala-operator} should be packaged as a Helm Chart for ease of use. &
     Usability &
     Critical \\ \hline
     
@@ -217,12 +217,12 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
     Desirable \\ \hline
     
     NFR8 &
-    Lazy Koala’s reconciliation loop should use exponential backoff when an error occurred while reconciling a config change. &
+    \ac{lazy-koala-operator}’s reconciliation loop should use exponential backoff technique when there is an error while reconciling for a config change. &
     Reliability &
     Critical \\ \hline
     
     NFR9 &
-    Follow Coding best practices and rely on linter. &
+    Follow Coding best practices and rely on linters for code formatting. &
     Maintainability &
     Desirable \\ \hline
     

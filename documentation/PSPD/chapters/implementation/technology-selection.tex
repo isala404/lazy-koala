@@ -7,7 +7,7 @@
     \label{fig:technology-stack}
 \end{figure}
 
-At a grasp, this seems like a lot for the project of undergraduate but each and every tool and technology listed here provide a vital functionality to make the final prototype efficient and reliable as much as possible in order to stand through to the design goals listed above.
+At a grasp, this seems like a lot of toolings for a project of undergraduate level but each and every tool and technology listed here provide a vital functionality to make the final prototype efficient and reliable as much as possible in order to stand through to the design goals listed above.
 
 \subsection{Programming Language}
 
@@ -24,14 +24,14 @@ This project was built using five different programming languages which were cho
 
 
 \subsection{Libraries Utilized}
-Software libraries prevent software engineers from reinventing the wheel every time they want to perform some common functionality by empowering them with abstractions they can use to perform the task they wanted so they can force on important things. To build this project a number of libraries were used both in UI and backend components.
+Software libraries prevent software engineers from reinventing the wheel every time they want to perform some common functionality. This is done by empowering them with abstractions they can use to perform the task they wanted so they can focus on important things. To build this project a number of libraries were used both in UI and backend components.
 
 
 \subsubsection{Frontend}
 \begin{itemize}
-    \item \textbf{ReactJS} - Since this is hosted application a web-based UI made the more. In order to build a web-based frontend, there are a few common methods, it is possible to use a vanilla HTML stack and build everything from scratch but for this project, UIs needs to be interactive and that left the author with three viable choices, ReactJS, VueJS, and Svelte. Since the author was more familiar with ReactJS he chose to rely on it for the UI implementation.
-    \item \textbf{Mantine} - Mantine is React component library which helps developers to use the prebuilt component like date pickers without having to code them from scratch. Viable alternatives for this is Boostrap, MaterialUI, and Ant Design. The author settled on Mantine due to its user-friendliness and rich TypeScript support.
-    \item \textbf{D3.js} - D3.js is a UI library that helps to create interactive graphs. This library was used to create the service topology graph. There weren't any alternatives for this that allowed to render \textbf{directed graphs} with interactivity.
+    \item \textbf{ReactJS} - Since this is a hosted application a web-based UI made more sense. In order to build a web-based frontend, there are a few common methods, it is possible to use a vanilla HTML stack and build everything from scratch but for this project, UIs needs to be interactive and that left the author with three viable choices, ReactJS, VueJS, and Svelte. Since the author was more familiar with ReactJS he chose to rely on it for the UI implementation.
+    \item \textbf{Mantine} - Mantine is a React component library which helps developers to use the prebuilt component like date pickers without having to code them from scratch. Viable alternatives for this is Boostrap, MaterialUI, and Ant Design. The author settled on Mantine due to its user-friendliness and rich TypeScript support.
+    \item \textbf{D3.js} - D3.js is a UI library that helps to create interactive graphs. This library was used to create the service topology graph. There weren't any alternatives for this that allowed to render directed graphs with interactivity.
 \end{itemize}
 
 
@@ -40,27 +40,27 @@ Software libraries prevent software engineers from reinventing the wheel every t
     \item \textbf{Kubebuilder} - Kubebuilder is a SDK that is used to build Custom Kubernetes Operators. This is created and maintained by the Kubernetes special interest group themself along with the community support. The only viable alternative for this is called Operator SDK which is developed by the community with the support of RedHat. Since the author had prior experience with Kubebuilder and its inner working, it was decided to rely upon it.
     \item \textbf{BCC} - BCC is a frontend to Linux \ac{ebpf} API which makes deploying kernel probes and retrieving data from them very easy. Other than relying on C interfaces this was the only viable solution. 
     \item \textbf{Pandas} - Pandas is a data manipulation and an analysis library that was used in both \ac{gazer} and \ac{sherlock} module.
-    \item \textbf{Numpy} - Is considered a holy grail when it comes to data science work in Python. Even libraries like Tensorflow and PyTorch rely on this manipulation of multi-dimensional arrays and matrices. In the training phase of \ac{sherlock}, NumPy was heavily used to preprocess the datasets.
-    \item \textbf{PyTorch Lightning} - PyTorch Lightning is a layer of abstraction on top of the PyTorch library. The author chose to opt into the PyTorch ecosystem rather than the Tensorflow ecosystem since during the last 1-2 years Tensorflow got a lot of criticism to be unoptimized for modern data science and the author also wanted some hands-on experience working with PyTorch since it seemed like the industry is moving towards PyTorch dominated era.
+    \item \textbf{Numpy} - Is considered a holy grail when it comes to data science work in Python. Even libraries like Tensorflow and PyTorch rely on this for manipulation of multi-dimensional arrays and matrices. In the training phase of \ac{sherlock}, NumPy was heavily used to preprocess the datasets.
+    \item \textbf{PyTorch Lightning} - PyTorch Lightning is a layer of abstraction on top of the PyTorch library. The author chose to opt-into the PyTorch ecosystem rather than the Tensorflow ecosystem because, during the last 1-2 years Tensorflow got a lot of criticism to for being unoptimized for modern data science. The author also wanted some hands-on experience working with PyTorch since the industry seems to be moving towards PyTorch dominated era.
 \end{itemize}
 
 \subsection{Persistence Storages}
 
 \begin{itemize}
-    \item \textbf{Prometheus} - Prometheus is a time series database that doubles as a data scraping agent. Prometheus uses the pull method in contrast to normal pushing methods to update the database. During the requirement engineering phase, it was discovered the vast majority of companies rely on Prometheus. So for this project also author decided to rely on it as the primary database for storing metric data due to its popularity and well integration with Kubernetes.
-    \item \textbf{etcd} - etcd is a key-value data store which is built into the core of Kubernetes. The \ac{lazy-koala-operator} realies on this to both sync up the monitoring config with \ac{gazer} instances as well as keep track of all the monitored services.
-    \item \textbf{GCP Artifact Registry} - Artifact Registry stores the trained models and docker containers. Viable alternatives for this are Github Container Registry, DockerHub, and Azure Container Registry. GCP Artifact Registry was chosen for this due to it's competitive pricing and cutting-edge feature like AI-powered vulnerability scanning. 
+    \item \textbf{Prometheus} - Prometheus is a time series database that doubles as a data scraping agent. Prometheus uses the pull method in contrast to normal pushing methods to update the database. During the requirement engineering phase, it was discovered the vast majority of companies rely on Prometheus. So for this project author decided to rely on it as the primary database for storing metric data due to its popularity and well integration with Kubernetes.
+    \item \textbf{etcd} - etcd is a key-value data store which is built into the core of Kubernetes. The \ac{lazy-koala-operator} relies on this to both sync up the monitoring config with \ac{gazer} instances as well as keep track of all the monitored services.
+    \item \textbf{GCP Artifact Registry} - Artifact Registry stores the trained models and docker containers. Viable alternatives for this are Github Container Registry, DockerHub, and Azure Container Registry. GCP Artifact Registry was chosen for this due to it's competitive pricing and cutting-edge features like AI-powered vulnerability scanning. 
 \end{itemize}
 
 \subsection{Developer Tools Utilized}
 \begin{itemize}
-    \item \textbf{Vite} - A Javascript build tool that can convert TypeScript code into well-optimized Javascript. Vite was selected over webpack due to its efficiency to build times.
+    \item \textbf{Vite} - A Javascript build tool that can convert TypeScript code into well-optimized Javascript. Vite was selected over webpack due to its efficiency in build times.
     \item \textbf{Docker} - A container management tool, which can pack software into a lightweight self-containing package that can be deployed in Kubernetes.
     \item \textbf{Github Actions} - Automated CI/CD platform which is built into Github platform.
     \item \textbf{VSCode} - Code editor used to create frontend UIs.
     \item \textbf{PyCharm} - IDE used to develop \ac{gazer} and \ac{sherlock}.
-    \item \textbf{GoLand} - IDE used to develop the \ac{lazy-koala-operator}
-    \item \textbf{Git} - Vision control tool that was used to keep track of changes between releases.
+    \item \textbf{GoLand} - IDE used to develop the \ac{lazy-koala-operator}.
+    \item \textbf{Git} - Version control tool that was used to keep track of changes between releases.
 \end{itemize}
 
 \subsection{Production Tools}

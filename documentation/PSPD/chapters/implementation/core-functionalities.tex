@@ -1,6 +1,6 @@
 \section{Implementation of Core Functionalities}
 
-This project contains three componets that work togather in order to makeup the entire system. In this section the inner working of each of those components will be explained.
+This project contains three components that work together in order to makeup the entire system. In this section the inner working of each of those components will be explained.
 
 \subsection{Lazy Koala Resource Manager (Operator)}
 
@@ -31,7 +31,7 @@ Figure \ref{fig:reconcile-loop} shows a part of this reconciliation loop, which 
 
 \ac{gazer} is the telemetry extraction agent that's get scheduled to run on every node on the cluster using a Kubernetes DaemonSet. \ac{gazer} is implemented in Python with the help of a library called BCC which acts as a frontend for \ac{ebpf} API. \ac{gazer} contains two kernel probes that get submitted to the kernel space at the startup. 
 
-The first probe is a TCP SYN backlog monitor that keeps track of the backlog size of the TCP SYN queue. Every TCP connection starts with a 3-way handshake and the SYN packet is the first packet that will be sent from the client in this sequence. The entire request is kept on hold till this packet is acknowledged by the system. Hence unusually higher SYN backlog is a strong signal of something going wrong. Figure \ref{fig:backlog-probe} showcase the core part of this probe and how the backlog size is calculated.
+The first probe is a TCP SYN backlog monitor that keeps track of the backlog size of the TCP SYN queue. Since every TCP connection starts with a 3-way handshake and the SYN packet is the first packet that will be sent from the client in this sequence. The entire request is kept on hold till this packet is acknowledged by the system. Hence unusually higher SYN backlog is a strong signal of something going wrong. Figure \ref{fig:backlog-probe} showcase the core part of this probe and how the backlog size is calculated.
 
 \begin{figure}[H]
     \includegraphics[width=14cm]{assets/implementation/backlog-probe.png}
@@ -41,7 +41,7 @@ The first probe is a TCP SYN backlog monitor that keeps track of the backlog siz
 
 Next is a tracepoint probe that gets invoked whenever inet\_sock\_set\_state kernel function is called. This probe extract five key data points from every TCP request. Transmitting and receiving IP address, the number of bytes sent and received and finally the time taken to complete the entire request. All these data are shipped to the userspace via a perf buffer. In user space, these raw data get enriched with the data collected from kube-api. 
 
-As shown in the figure \ref{fig:gazer-enrich}, since \ac{gazer} already has a list of interested IP addresses which is given by the \ac{lazy-koala-operator}, it first check whether the request was made from an one of those IPs(here only the transmitting IP is checked since every request get duplicate pair of entries, one for the request, one for the response and all the other attributes are shared among that pair). If it's found, the parser tries to identify the receiving IP address too. The receiving IP also has a match the request received and counter for that particular service will be increased. Then the parser moves on to record the number of bytes sent and received and the time taken to complete the request under identified service. Finally, these data points are exposed via an HTTP server so that the Prometheus scraper can read it and store it in the database so it can be consumed by \ac{sherlock}.
+As shown in the figure \ref{fig:gazer-enrich}, since \ac{gazer} already has a list of interested IP addresses which is given by the \ac{lazy-koala-operator}, it first check whether the request was made from an one of those IPs (here only the transmitting IP is checked since every request get duplicate pair of entries, one for the request, one for the response and all the other attributes are shared among that pair). If it's found, the parser tries to identify the receiving IP address too. If the receiving IP also has a match the request received and counter for that particular service will be increased. Then the parser moves on to record the number of bytes sent and received and the time taken to complete the request under identified service. Finally, these data points are exposed via an HTTP server so that the Prometheus scraper can read it and store it in the database so it can be consumed by \ac{sherlock}.
 
 \begin{figure}[H]
     \includegraphics[width=14cm]{assets/implementation/gazer-enrich.png}
@@ -83,7 +83,7 @@ Since the collected metric data has different units, each feature of the dataset
 \end{figure}
 
 % After the normalization dataset is formated to 
-During the requirement engineering process it was found out even though RNN tends to perform better with time-series data, the convolutional autoencoders are very efficient at detecting anomalies from time-series data. so after the normalization step metric data is encoded into an image-like structure that can be input into a convolutional autoencoder.
+During the requirement engineering process it was found out even though RNN tends to perform better with time-series data, the convolutional autoencoders are very efficient at detecting anomalies from time-series data. So after the normalization step metric data is encoded into an image-like structure that can be inputted into a convolutional autoencoder.
 
 \begin{figure}[H]
     \includegraphics[height=7cm]{assets/implementation/visualize-representation.png}
