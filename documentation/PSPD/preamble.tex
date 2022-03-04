@@ -99,3 +99,8 @@
 \usepackage{subcaption}
 
 % \usepackage{acmart}
+\newcommand*{\zerospacingchapter}{%
+  % CHAPTER SPACING & FONT
+\titleformat{\chapter}[hang]{\fontsize{16pt}{0pt}\bfseries}{\thechapter}{1em}{} 
+\titlespacing*{\chapter}{0pt}{-10pt}{10pt} 
+}
