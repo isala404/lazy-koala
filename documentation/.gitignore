@@ -300,3 +300,7 @@ TSWLatexianTemp*
 *.glstex
 
 # End of https://www.toptal.com/developers/gitignore/api/tex
+
+
+# Project Proposal
+!proposal/project-proposal.pdf

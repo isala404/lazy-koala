@@ -1,3 +1,4 @@
+// Adopted from https://github.com/iovisor/bcc/blob/master/tools/tcplife.py
 TRACEPOINT_PROBE(sock, inet_sock_set_state)
 {
     if (args->protocol != IPPROTO_TCP)

@@ -2,10 +2,6 @@
 **/.idea/**
 
 
-# Project Proposal
-!proposal/project-proposal.pdf
-
-
 ## Python
 **/__pycache__/**
 **/venv/**

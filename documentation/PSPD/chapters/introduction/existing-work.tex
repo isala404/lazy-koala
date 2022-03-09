@@ -1,0 +1,169 @@
+\section{Existing Work}
+
+\subsection{Anomaly detection}
+
+\begin{longtable}{| p{20mm} | p{43mm} | p{43mm} | p{43mm} |}
+\hline
+  \textbf{Citation} &
+  \textbf{Technology summary} &
+  \textbf{Improvements} &
+  \textbf{Limitations} \\ \hline
+  \cite{du2018anomaly} &
+  Tested most of common machine learning methods to detect anomalies and benchmarked them &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Used SLIs to monitored data
+    \item A lot of good metrics (input data)
+    \item Performance monitoring of services and containers
+  \vspace{-7mm}
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Only be able to identify predetermined issues
+    \item Require a sidecar that includes a lot of overhead
+    \item Won't work with event-driven architectures (this is where most of the new systems are headed)
+    \item Uses Supervised learning and it's near impossible to find real-world data with labels
+  \vspace{-7mm}
+  \end{itemize} \\ \hline
+  \cite{kumarage2018anomaly} &
+  The authors here are proposing a semi-supervised technique using a Variational Autoencoder to predict future time steps and calculate the difference between predicted and actual to detect anomalies. &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Due to the difficulty of finding labeled research data, they settled on using a semi-supervised technique.
+    \item Used randomized decision trees were utilized to select the most suitable features for each component.
+  \vspace{-7mm}
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item The model won't be easily transformable for other systems
+    \item If more new key features were added to the system it will require a total retraining
+  \vspace{-7mm}
+  \end{itemize} \\ \hline
+  \cite{kumarage2019generative} &
+  Uses a bidirectional \ac{gan} to predict future timesteps and uses MSE between prediction and real to determine the anomalies &
+  Experimented using a \ac{gan} to detect anomalies rather than using conventional autoencoders &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Accuracy is around 60\% which is not really good to use in production with mission-critical systems.
+    \item As this is a \ac{gan}-based system, it may take a lot of resources to run with production systems.
+  \end{itemize} \\ \hline
+  \caption{Comparison of anomaly detection methods in distributed systems (self-composed)}
+\end{longtable}
+
+\subsection{Root cause identification}
+
+\begin{longtable}{| p{20mm} | p{43mm} | p{43mm} | p{43mm} |}
+\hline
+  \textbf{Citation} &
+  \textbf{Technology summary} &
+  \textbf{Improvements} &
+  \textbf{Limitations} \\ \hline
+  \cite{gonzalez2017root} &
+  Detect failures in networks, using machine learning to generate knowledge graphs on historical data &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Build a predictable system
+    \item Automatic identification of dependencies between system events
+    \item Doesn't Need to rely on Domain experts
+    \item Generalized to different systems
+  \vspace{-7mm}
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Limited to network issues
+    \item Even though the knowledge graph helped with visualization of the problem but still, people have to manually figure out what went wrong
+  \vspace{-7mm}
+  \end{itemize} \\ \hline
+  \cite{chigurupati2017root} &
+  Proposed a way to detect Hardware failures in servers using a probabilistic graphical model which concisely describes the relationship between many random variables and their conditional independence &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Find hidden meaning in values that seems random
+    \item Used a probabilistic approach to better understand the relationship between inputs and outputs
+    \item Gives all the possible root cause to a given problem
+  \vspace{-7mm}
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Limited to hardware issues
+    \item Require support from domain experts
+    \item Can't account for unforeseen error
+  \vspace{-7mm}
+  \end{itemize} \\ \hline
+  \cite{samir2019dla} &
+  This detects and locates the anomalous behavior of microservices based on the observed response time using a \ac{hhmm} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Custom HHMM model
+    \item Self-healing mechanism
+    \item Focus on performance detection and identification at the container, node, and microservice level
+  \vspace{-7mm}
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Input dataset scale is limited
+    \item Require a sidecar
+    \item Needs to predetermined thresholds
+  \vspace{-7mm}
+  \end{itemize} \\ \hline
+  \cite{wu2020microrca} &
+  Find Performance bottlenecks in distributed systems using an attribute graph to find anomaly propagation across services and machines &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Created a custom Faults Injection module
+    \item Uses an attribute graph to localize to faulty service
+    \item Application-agnostic by using a service mesh
+    \item Rely on service mesh to determine network topology
+    \item Uses unsupervised learning
+  \vspace{-7mm}
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Only able to identify 3 types of issues
+    \item Looks only for performance anomalies
+    \item Use the slow response time of a microservice as the definition of an anomaly
+    \item Service meshes add a lot of overhead to systems
+    \item Required direct connection between services
+  \vspace{-7mm}
+  \end{itemize} \\ \hline
+  \caption{Comparison of root cause identification methods in distributed systems (self-composed)}
+\end{longtable}
+
+\subsection{Commercial products}
+
+\begin{longtable}{| p{40mm} | p{55mm} | p{55mm} |}
+\hline
+  \textbf{Name} &
+  \textbf{Futures} &
+  \textbf{Limitations} \\ \hline
+  Applied Intelligence by New Relic &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Metric forecasting.
+    \item Anomaly detection.
+    \item Alert grouping to reduce noise.
+  \vspace{-7mm}
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Lack of explainability for certain classifications.
+    \item All the telemetry data need to be sent to a third party.
+  \vspace{-7mm}
+  \end{itemize} \\ \hline
+  Watchdog by Datadog &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Monitor the metric data of the entire system from the background.
+    \item Monitor logging data.
+    \item Highlight relevant components affected by an issue.
+  \vspace{-7mm}
+  \end{itemize} &
+  \vspace{-8mm}
+  \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
+    \item Announced in 2018 but is still at private beta.
+    \item Require code changes and tight integration with datadog platform.
+    \item Available demos about the system seems to be engineered for demonstration purposes.
+  \vspace{-7mm}
+  \end{itemize} \\ \hline
+  \caption{Comparison of commercial products for root cause analysis (self-composed)}
+\end{longtable}
