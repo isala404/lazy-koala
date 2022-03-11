@@ -8,18 +8,30 @@ use std::{env::var, thread, time::Duration};
 use lazy_static::lazy_static;
 use prometheus::{labels, opts, register_gauge};
 use std::collections::HashMap;
+use flate2::read::GzDecoder;
+use tar::Archive;
 
 lazy_static! {
     static ref SERVICE_NAME: String = var("SERVICE_NAME").unwrap();
     static ref NAMESPACE: String = var("NAMESPACE").unwrap();
     static ref END_POINT: String = var("END_POINT").unwrap();
     static ref POOL_DURATION: String = var("POOL_DURATION").unwrap();
+    static ref MODEL_URL: String = var("MODEL_URL").unwrap();
     static ref ANOMLAY_GAUGE: Gauge = register_gauge!(opts!(
         "anomaly_score",
         "Reconstruction loss of the autoencoder",
         labels! {"serviceName" => SERVICE_NAME.as_str(), "namespace" => NAMESPACE.as_str()}
     ))
     .unwrap();
+}
+
+fn download_model()->Result<(), Box<dyn std::error::Error>>{
+    let resp = reqwest::blocking::get(MODEL_URL.as_str())?;
+    let tarfile = GzDecoder::new(resp);
+    let mut archive = Archive::new(tarfile);
+    archive.unpack("models/")?;
+
+    Ok(())
 }
 
 async fn serve_req(_req: Request<Body>) -> Result<Response<Body>, hyper::Error> {
@@ -57,8 +69,19 @@ fn poll_anomaly_scores(delay: u64) {
     }
 }
 
+#[allow(unused_must_use)]
 #[tokio::main]
 async fn main() {
+
+    // Forgive me father for i have sinned 🙏
+    // I couldn't figure out way to use reqwest's
+    // async response with GzDecoder 😭
+    thread::spawn(|| {
+       if let Err(err) = download_model() {
+            eprintln!("failed to download the model: {}", err);
+            std::process::exit(1);
+        }
+    }).join();
 
     thread::spawn(|| poll_anomaly_scores(POOL_DURATION.as_str().parse::<u64>().unwrap()));
 

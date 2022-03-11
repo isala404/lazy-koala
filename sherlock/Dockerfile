@@ -21,7 +21,7 @@ ENV SERVICE_NAME=sample_service
 ENV NAMESPACE=default
 ENV END_POINT=http://localhost:8501/v1/models/sherlock:predict
 ENV POOL_DURATION=60
-
+ENV MODEL_URL=https://static.isala.me/lazy-koala/sherlock/models/sample_service.tar.gz
 # Define port
 EXPOSE 9898
 
