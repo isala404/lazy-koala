@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sherlock
+  namespace: lazy-koala
+spec:
+  selector:
+    matchLabels:
+      name: sherlock
+  template:
+    metadata:
+      labels:
+        name: sherlock
+      annotations:
+        lazy-koala/scrape: "true"
+    spec:
+      serviceAccountName: gke-workload-identity
+      containers:
+        - name: sherlock
+          image: ghcr.io/mrsupiri/lazy-koala/sherlock:latest
+          ports:
+            - containerPort: 9898
+              name: metrics
+          env:
+            - name: END_POINT
+              value: "http://localhost:8501/v1/models/sherlock:predict"
+            - name: POOL_DURATION
+              value: "1"
+          volumeMounts:
+            - name: model-config
+              mountPath: /app/config
+        - image: google/cloud-sdk
+          name: model-poller
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: BUCKET_NAME
+            value: sherlock.isala.me
+          command:
+          - /bin/bash
+          - -ce
+          - |-
+              mkdir -p models
+              while true; do gsutil -m rsync -d -r gs://$BUCKET_NAME models; sleep 60; done
+          volumeMounts:
+          - name: model-files
+            mountPath: /models
+        - name: serving
+          image: tensorflow/serving
+          imagePullPolicy: IfNotPresent
+          args:
+            [
+              "--model_config_file_poll_wait_seconds=60",
+              "--model_config_file=/config/models.config",
+            ]
+          ports:
+            - containerPort: 8501
+              name: http
+          env:
+            - name: MODEL_NAME
+              value: "sherlock"
+          volumeMounts:
+            - name: model-config
+              mountPath: /config
+            - name: model-files
+              mountPath: /models
+      volumes:
+        - name: sherlock-config
+          configMap:
+            name: sherlock-config
+        - name: model-files
+          emptyDir: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sherlock-config
+  namespace: lazy-koala
+data:
+  models.config: |
+    model_config_list {
+      config {
+        name: 'service_1'
+        base_path: '/models/service_1/'
+        model_platform: 'tensorflow'
+      }
+      config {
+        name: 'service_2'
+        base_path: '/models/service_2/'
+        model_platform: 'tensorflow'
+      }
+    }
+  services.yaml: |
+# ---
+## https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   annotations:
+#     iam.gke.io/gcp-service-account: sherlock@lazy-koala.iam.gserviceaccount.com
+#   name: gke-workload-identity
+#   namespace: lazy-koala

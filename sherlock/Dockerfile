@@ -12,17 +12,15 @@ RUN cargo build --target x86_64-unknown-linux-musl --release
 # Production Image
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
-
+WORKDIR /app
 # COPY the binary
-COPY --from=builder /sherlock/target/x86_64-unknown-linux-musl/release/sherlock /sherlock
+RUN mkdir -p /app/models
+COPY --from=builder /sherlock/target/x86_64-unknown-linux-musl/release/sherlock /app/sherlock
 
 # DEFAULT ENV
-ENV SERVICE_NAME=sample_service
-ENV NAMESPACE=default
-ENV END_POINT=http://localhost:8501/v1/models/sherlock:predict
+ENV END_POINT=http://localhost:8501/v1/models
 ENV POOL_DURATION=60
-ENV MODEL_URL=https://static.isala.me/lazy-koala/sherlock/models/sample_service.tar.gz
 # Define port
 EXPOSE 9898
 
-CMD ["/sherlock"]
+CMD ["/app/sherlock"]

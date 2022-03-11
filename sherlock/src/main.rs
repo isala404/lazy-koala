@@ -3,36 +3,26 @@ use hyper::{
     service::{make_service_fn, service_fn},
     Body, Request, Response, Server,
 };
-use prometheus::{Encoder, Gauge, TextEncoder};
+use prometheus::{Encoder, GaugeVec, TextEncoder};
 use std::{env::var, thread, time::Duration};
 use lazy_static::lazy_static;
-use prometheus::{labels, opts, register_gauge};
+use prometheus::{opts, register_gauge_vec};
 use std::collections::HashMap;
-use flate2::read::GzDecoder;
-use tar::Archive;
+use serde_yaml; 
 
 lazy_static! {
-    static ref SERVICE_NAME: String = var("SERVICE_NAME").unwrap();
-    static ref NAMESPACE: String = var("NAMESPACE").unwrap();
     static ref END_POINT: String = var("END_POINT").unwrap();
     static ref POOL_DURATION: String = var("POOL_DURATION").unwrap();
-    static ref MODEL_URL: String = var("MODEL_URL").unwrap();
-    static ref ANOMLAY_GAUGE: Gauge = register_gauge!(opts!(
-        "anomaly_score",
-        "Reconstruction loss of the autoencoder",
-        labels! {"serviceName" => SERVICE_NAME.as_str(), "namespace" => NAMESPACE.as_str()}
-    ))
+    static ref ANOMLAY_GAUGE: GaugeVec = register_gauge_vec!(
+        opts!(
+            "anomaly_score",
+            "Reconstruction loss of the autoencoder"
+        ),
+        &["serviceName"]
+    )
     .unwrap();
 }
 
-fn download_model()->Result<(), Box<dyn std::error::Error>>{
-    let resp = reqwest::blocking::get(MODEL_URL.as_str())?;
-    let tarfile = GzDecoder::new(resp);
-    let mut archive = Archive::new(tarfile);
-    archive.unpack("models/")?;
-
-    Ok(())
-}
 
 async fn serve_req(_req: Request<Body>) -> Result<Response<Body>, hyper::Error> {
     let encoder = TextEncoder::new();
@@ -51,42 +41,41 @@ async fn serve_req(_req: Request<Body>) -> Result<Response<Body>, hyper::Error> 
 }
 
 
-fn query_model() ->Result<f64, Box<dyn std::error::Error>> {
-    let resp = reqwest::blocking::get(END_POINT.as_str())?
-                .json::<HashMap<String, f64>>()?;
+fn query_model(service: &String) ->Result<f64, Box<dyn std::error::Error>> {
+    println!("Querying {} model", service);
+    let endpoint = format!("{}/{}:predict", END_POINT.as_str(), service);
+    let resp = reqwest::blocking::get(endpoint)?.json::<HashMap<String, f64>>()?;
     Ok(resp["predictions"])
 }
 
 fn poll_anomaly_scores(delay: u64) {
-
     loop {
-
-        if let Ok(value) = query_model(){
-            ANOMLAY_GAUGE.set(value);
-        }
-
+        match read_config() {
+            Ok(services) => {
+                for service in services.iter(){
+                    match query_model(service) {
+                        Ok(score) => ANOMLAY_GAUGE.with_label_values(&[service]).set(score),
+                        Err(e) => eprintln!("Error while querying model: {}", e),
+                    }
+                }
+            },
+            Err(e) => eprintln!("Error while parsing config: {}", e),
+        };
         thread::sleep(Duration::from_secs(delay));
     }
 }
 
-#[allow(unused_must_use)]
+fn read_config() -> Result<Vec<String>, Box<dyn std::error::Error>> {
+    let f = std::fs::File::open("config/config.yaml")?;
+    let services: Vec<String> = serde_yaml::from_reader(f)?;
+    Ok(services)
+}
+
 #[tokio::main]
 async fn main() {
-
-    // Forgive me father for i have sinned 🙏
-    // I couldn't figure out way to use reqwest's
-    // async response with GzDecoder 😭
-    thread::spawn(|| {
-       if let Err(err) = download_model() {
-            eprintln!("failed to download the model: {}", err);
-            std::process::exit(1);
-        }
-    }).join();
-
+    
     thread::spawn(|| poll_anomaly_scores(POOL_DURATION.as_str().parse::<u64>().unwrap()));
 
-    ANOMLAY_GAUGE.set(0.0);
-    
     let addr = ([0, 0, 0, 0], 9898).into();
     println!("Listening on http://{}", addr);
 
