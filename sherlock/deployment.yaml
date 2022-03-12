@@ -27,7 +27,7 @@ spec:
             - name: POOL_DURATION
               value: "1"
           volumeMounts:
-            - name: model-config
+            - name: sherlock-config
               mountPath: /app/config
         - image: google/cloud-sdk
           name: model-poller
@@ -59,7 +59,7 @@ spec:
             - name: MODEL_NAME
               value: "sherlock"
           volumeMounts:
-            - name: model-config
+            - name: sherlock-config
               mountPath: /config
             - name: model-files
               mountPath: /models
@@ -77,19 +77,9 @@ metadata:
   namespace: lazy-koala
 data:
   models.config: |
-    model_config_list {
-      config {
-        name: 'service_1'
-        base_path: '/models/service_1/'
-        model_platform: 'tensorflow'
-      }
-      config {
-        name: 'service_2'
-        base_path: '/models/service_2/'
-        model_platform: 'tensorflow'
-      }
-    }
+
   services.yaml: |
+
 # ---
 ## https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
 # apiVersion: v1

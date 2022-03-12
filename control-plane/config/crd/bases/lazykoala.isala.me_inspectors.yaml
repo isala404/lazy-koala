@@ -55,15 +55,12 @@ spec:
                 description: Foo is an example field of Inspector. Edit inspector_types.go
                   to remove/update
                 type: string
-              modelURI:
-                type: string
               namespace:
                 type: string
               serviceRef:
                 type: string
             required:
             - deploymentRef
-            - modelURI
             - namespace
             - serviceRef
             type: object

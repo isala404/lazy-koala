@@ -39,7 +39,6 @@ type InspectorSpec struct {
 	DeploymentRef string `json:"deploymentRef"`
 	ServiceRef    string `json:"serviceRef"`
 	Namespace     string `json:"namespace"`
-	ModelURI      string `json:"modelURI"`
 }
 
 type Status string

@@ -4,10 +4,9 @@ metadata:
   name: service-1
   namespace: default
 spec:
-  deploymentRef: service-1-0e762959
-  serviceRef: service-1-0e762959
+  deploymentRef: service-1-05588114
+  serviceRef: service-1-05588114
   namespace: default
-  modelURI: path/to/checkpoint.ckpt
 ---
 apiVersion: lazykoala.isala.me/v1alpha1
 kind: Inspector
@@ -15,10 +14,9 @@ metadata:
   name: service-2
   namespace: default
 spec:
-  deploymentRef: service-2-0e762959
-  serviceRef: service-2-0e762959
+  deploymentRef: service-2-05588114
+  serviceRef: service-2-05588114
   namespace: default
-  modelURI: path/to/checkpoint.ckpt
 ---
 apiVersion: lazykoala.isala.me/v1alpha1
 kind: Inspector
@@ -26,10 +24,9 @@ metadata:
   name: service-3
   namespace: default
 spec:
-  deploymentRef: service-3-0e762959
-  serviceRef: service-3-0e762959
+  deploymentRef: service-3-05588114
+  serviceRef: service-3-05588114
   namespace: default
-  modelURI: path/to/checkpoint.ckpt
 ---
 apiVersion: lazykoala.isala.me/v1alpha1
 kind: Inspector
@@ -37,9 +34,8 @@ metadata:
   name: service-4
   namespace: default
 spec:
-  deploymentRef: service-4-0e762959
-  serviceRef: service-4-0e762959
+  deploymentRef: service-4-05588114
+  serviceRef: service-4-05588114
   namespace: default
-  modelURI: path/to/checkpoint.ckpt
 ---
 

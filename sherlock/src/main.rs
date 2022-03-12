@@ -11,8 +11,8 @@ use std::collections::HashMap;
 use serde_yaml; 
 
 lazy_static! {
-    static ref END_POINT: String = var("END_POINT").unwrap();
-    static ref POOL_DURATION: String = var("POOL_DURATION").unwrap();
+    static ref END_POINT: String = var("END_POINT").unwrap_or("http://localhost:8501/v1/models".to_string());
+    static ref POOL_DURATION: String = var("POOL_DURATION").unwrap_or("60".to_string());
     static ref ANOMLAY_GAUGE: GaugeVec = register_gauge_vec!(
         opts!(
             "anomaly_score",
@@ -66,7 +66,7 @@ fn poll_anomaly_scores(delay: u64) {
 }
 
 fn read_config() -> Result<Vec<String>, Box<dyn std::error::Error>> {
-    let f = std::fs::File::open("config/config.yaml")?;
+    let f = std::fs::File::open("config/services.yaml")?;
     let services: Vec<String> = serde_yaml::from_reader(f)?;
     Ok(services)
 }
