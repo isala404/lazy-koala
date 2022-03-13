@@ -4,11 +4,10 @@ use hyper::{
     Body, Request, Response, Server,
 };
 use prometheus::{Encoder, GaugeVec, TextEncoder};
-use std::{env::var, thread, time::Duration};
+use std::{env::var, thread, time::Duration, collections::HashMap};
 use lazy_static::lazy_static;
 use prometheus::{opts, register_gauge_vec};
-use std::collections::HashMap;
-use serde_yaml; 
+use serde::{Serialize, Deserialize};
 
 lazy_static! {
     static ref END_POINT: String = var("END_POINT").unwrap_or("http://localhost:8501/v1/models".to_string());
@@ -18,9 +17,16 @@ lazy_static! {
             "anomaly_score",
             "Reconstruction loss of the autoencoder"
         ),
-        &["serviceName"]
+        &["serviceName", "namespace"]
     )
     .unwrap();
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct InferenceData {
+    model_name : String,
+    namespace: String,
 }
 
 
@@ -52,10 +58,13 @@ fn poll_anomaly_scores(delay: u64) {
     loop {
         match read_config() {
             Ok(services) => {
-                for service in services.iter(){
-                    match query_model(service) {
-                        Ok(score) => ANOMLAY_GAUGE.with_label_values(&[service]).set(score),
-                        Err(e) => eprintln!("Error while querying model: {}", e),
+                for (service, args) in services.iter() {
+                    match query_model(&args.model_name) {
+                        Ok(score) => ANOMLAY_GAUGE.with_label_values(&[service, &args.namespace]).set(score),
+                        Err(e) => {
+                            eprintln!("Error while querying model: {}", e);
+                            ANOMLAY_GAUGE.with_label_values(&[service, &args.namespace]).set(-1.0)
+                        },
                     }
                 }
             },
@@ -65,15 +74,15 @@ fn poll_anomaly_scores(delay: u64) {
     }
 }
 
-fn read_config() -> Result<Vec<String>, Box<dyn std::error::Error>> {
+fn read_config() -> Result<HashMap<String, InferenceData>, Box<dyn std::error::Error>> {
     let f = std::fs::File::open("config/services.yaml")?;
-    let services: Vec<String> = serde_yaml::from_reader(f)?;
+    let services: HashMap<String, InferenceData> = serde_yaml::from_reader(f)?;
     Ok(services)
 }
 
 #[tokio::main]
 async fn main() {
-    
+
     thread::spawn(|| poll_anomaly_scores(POOL_DURATION.as_str().parse::<u64>().unwrap()));
 
     let addr = ([0, 0, 0, 0], 9898).into();

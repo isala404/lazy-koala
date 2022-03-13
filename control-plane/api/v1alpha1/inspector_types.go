@@ -39,6 +39,7 @@ type InspectorSpec struct {
 	DeploymentRef string `json:"deploymentRef"`
 	ServiceRef    string `json:"serviceRef"`
 	Namespace     string `json:"namespace"`
+	ModelName     string `json:"modelName"`
 }
 
 type Status string
@@ -64,7 +65,7 @@ type InspectorStatus struct {
 //+kubebuilder:printcolumn:JSONPath=".spec.namespace",name="Namespace",type="string"
 //+kubebuilder:printcolumn:JSONPath=".spec.deploymentRef",name="Target Deployment",type="string"
 //+kubebuilder:printcolumn:JSONPath=".spec.serviceRef",name="Target ClusterIP",type="string"
-//+kubebuilder:printcolumn:JSONPath=".spec.modelURI",name="Model URI",type="string"
+//+kubebuilder:printcolumn:JSONPath=".spec.modelName",name="Model Name",type="string"
 //+kubebuilder:printcolumn:JSONPath=".status.status",name="Status",type="string"
 
 // Inspector is the Schema for the inspectors API

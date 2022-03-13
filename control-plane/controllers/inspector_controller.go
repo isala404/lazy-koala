@@ -52,6 +52,11 @@ type ScrapePoint struct {
 	IsService   bool    `yaml:"isService"`
 }
 
+type InferenceData struct {
+	ModelName string `yaml:"modelName"`
+	Namespace string `yaml:"namespace"`
+}
+
 //+kubebuilder:rbac:groups=lazykoala.isala.me,resources=inspectors,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=lazykoala.isala.me,resources=inspectors/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=lazykoala.isala.me,resources=inspectors/finalizers,verbs=update
@@ -285,19 +290,26 @@ func (r *InspectorReconciler) configureSherlock(ctx context.Context, inspector *
 	}
 
 	// Phase the services.yaml
-	var sherlockServiceList []string
+	sherlockServiceList := make(map[string]InferenceData)
+	modelsList := make(map[string]bool)
 	if err := yaml.Unmarshal([]byte(sherlockConfigMap.Data["services.yaml"]), &sherlockServiceList); err != nil {
 		return err
 	}
 
 	if append {
-		sherlockServiceList = AppendIfMissing(sherlockServiceList, inspector.Spec.DeploymentRef)
+		sherlockServiceList[inspector.Spec.DeploymentRef] = InferenceData{
+			ModelName: inspector.Spec.ModelName,
+			Namespace: inspector.Spec.Namespace,
+		}
 	} else {
-		sherlockServiceList = RemoveIfExists(sherlockServiceList, inspector.Spec.DeploymentRef)
+		if _, ok := sherlockServiceList[inspector.Spec.DeploymentRef]; ok {
+			delete(sherlockServiceList, inspector.Spec.DeploymentRef)
+			delete(modelsList, inspector.Spec.DeploymentRef)
+		}
 	}
 
 	// Generate the Servings Config
-	servingsConfig, err := createServingsConfig(sherlockServiceList)
+	servingsConfig, err := createServingsConfig(modelsList)
 	if err != nil {
 		return err
 	}
@@ -338,32 +350,14 @@ func eventFilter() predicate.Predicate {
 	}
 }
 
-func AppendIfMissing(slice []string, item string) []string {
-	for _, ele := range slice {
-		if ele == item {
-			return slice
-		}
-	}
-	return append(slice, item)
-}
-
-func RemoveIfExists(slice []string, item string) []string {
-	for i, other := range slice {
-		if other == item {
-			return append(slice[:i], slice[i+1:]...)
-		}
-	}
-	return slice
-}
-
-func createServingsConfig(service []string) (string, error) {
+func createServingsConfig(service map[string]bool) (string, error) {
 	tmpl := template.New("config")
 
 	tmpl, err := tmpl.Parse(`model_config_list {
-  {{range .}}
+  {{ range $key, $value := . }}
   config {
-    name: '{{.}}'
-    base_path: '/models/{{.}}/'
+    name: '{{$key}}'
+    base_path: '/models/{{$key}}/'
     model_platform: 'tensorflow'
   }
   {{end}}
@@ -376,5 +370,5 @@ func createServingsConfig(service []string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("%+v", buf), nil
+	return fmt.Sprintf("%v", buf), nil
 }
