@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'gazer/**'
 
 env:
   IMAGE_NAME: ghcr.io/mrsupiri/lazy-koala/gazer
