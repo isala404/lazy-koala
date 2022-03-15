@@ -20,11 +20,11 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"gopkg.in/yaml.v3"
 	appsv1 "k8s.io/api/apps/v1"
 	"text/template"
 	"time"
 
-	"gopkg.in/yaml.v3"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -301,10 +301,11 @@ func (r *InspectorReconciler) configureSherlock(ctx context.Context, inspector *
 			ModelName: inspector.Spec.ModelName,
 			Namespace: inspector.Spec.Namespace,
 		}
+		modelsList[inspector.Spec.ModelName] = true
 	} else {
 		if _, ok := sherlockServiceList[inspector.Spec.DeploymentRef]; ok {
 			delete(sherlockServiceList, inspector.Spec.DeploymentRef)
-			delete(modelsList, inspector.Spec.DeploymentRef)
+			delete(modelsList, inspector.Spec.ModelName)
 		}
 	}
 

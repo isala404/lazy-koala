@@ -191,6 +191,19 @@ spec:
     requests:
       storage: 8Gi
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: lazy-koala
+spec:
+  selector:
+    app: prometheus
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:

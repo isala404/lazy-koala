@@ -63,7 +63,7 @@ async fn query_model(service: &str, input: [[[f64; 1]; 9]; 10]) -> Result<f64, B
 }
 
 async fn calculate_anomaly_score(service: &str, args: &InferenceData) -> Result<(), Box<dyn std::error::Error>> {
-    println!("Querying {} model", service);
+    println!("Calculate anomaly score for {} using {}", service, &args.model_name);
     let input = build_telemetry_matrix(&service).await?;
     let score = query_model(&args.model_name, input).await?;
     ANOMLAY_GAUGE.with_label_values(&[service, &args.namespace]).set(score);

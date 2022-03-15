@@ -17,15 +17,18 @@ spec:
       serviceAccountName: gke-workload-identity
       containers:
         - name: sherlock
+          imagePullPolicy: Always
           image: ghcr.io/mrsupiri/lazy-koala/sherlock:latest
           ports:
             - containerPort: 9898
               name: metrics
           env:
-            - name: END_POINT
-              value: "http://localhost:8501/v1/models/sherlock:predict"
+            - name: TENSORFLOW_END_POINT
+              value: "http://localhost:8501/v1/models"
             - name: POOL_DURATION
-              value: "1"
+              value: "60"
+            - name: PROMETHEUS_END_POINT
+              value: "http://prometheus.lazy-koala.svc.cluster.local"
           volumeMounts:
             - name: sherlock-config
               mountPath: /app/config
@@ -55,9 +58,6 @@ spec:
           ports:
             - containerPort: 8501
               name: http
-          env:
-            - name: MODEL_NAME
-              value: "sherlock"
           volumeMounts:
             - name: sherlock-config
               mountPath: /config
