@@ -20,6 +20,7 @@ COPY --from=builder /sherlock/target/x86_64-unknown-linux-musl/release/sherlock 
 # DEFAULT ENV
 ENV END_POINT=http://localhost:8501/v1/models
 ENV POOL_DURATION=60
+ENV PROMETHEUS_END_POINT=http://127.0.0.1:9090
 # Define port
 EXPOSE 9898
 

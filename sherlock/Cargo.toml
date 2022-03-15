@@ -13,3 +13,8 @@ tokio = { version = "1", features = ["full"] }
 reqwest = { version = "0.11", features = ["blocking", "json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.8"
+serde_json = "1.0"
+prometheus-http-query = "0.4.0"
+chrono = "0.4.19"
+smartcore = "0.2.0"
+slice-of-array = "0.3.1"
