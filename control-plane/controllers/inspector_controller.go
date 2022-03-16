@@ -297,14 +297,14 @@ func (r *InspectorReconciler) configureSherlock(ctx context.Context, inspector *
 	}
 
 	if append {
-		sherlockServiceList[inspector.Spec.DeploymentRef] = InferenceData{
+		sherlockServiceList[inspector.ObjectMeta.Name] = InferenceData{
 			ModelName: inspector.Spec.ModelName,
 			Namespace: inspector.Spec.Namespace,
 		}
 		modelsList[inspector.Spec.ModelName] = true
 	} else {
-		if _, ok := sherlockServiceList[inspector.Spec.DeploymentRef]; ok {
-			delete(sherlockServiceList, inspector.Spec.DeploymentRef)
+		if _, ok := sherlockServiceList[inspector.ObjectMeta.Name]; ok {
+			delete(sherlockServiceList, inspector.ObjectMeta.Name)
 			delete(modelsList, inspector.Spec.ModelName)
 		}
 	}
