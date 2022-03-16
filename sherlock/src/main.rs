@@ -32,7 +32,6 @@ async fn main() {
 
     tokio::spawn(async { poll_anomaly_scores().await });
     
-
     let addr = ([0, 0, 0, 0], 9898).into();
     println!("Listening on http://{}", addr);
 

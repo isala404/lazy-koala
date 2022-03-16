@@ -1,4 +1,6 @@
-use std::{thread, time::Duration, collections::HashMap, env::var};
+use std::{collections::HashMap, env::var};
+// use futures::future::join_all;
+use tokio::time::{sleep, Duration};
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use prometheus::GaugeVec;
@@ -77,12 +79,26 @@ pub async fn poll_anomaly_scores() {
     loop {
         let services = parse_config().unwrap_or_default();
 
+        // let mut tasks = Vec::new();
+
         for (service, args) in services.iter() {
+            // tasks.push(calculate_anomaly_score(service, args));
+
             if let Err(err) = calculate_anomaly_score(service, args).await {
                 eprintln!("Error while calculating anomaly score: {}", err);
                 ANOMLAY_GAUGE.with_label_values(&[service, &args.namespace]).set(-1.0)
             }
         }
-        thread::sleep(Duration::from_secs(delay));
+
+        // let results = join_all(tasks).await;
+
+        // for result in results.iter(){
+        //     if let Err(err) = result {
+        //         eprintln!("Error while calculating anomaly score: {}", err);
+        //         // ANOMLAY_GAUGE.with_label_values(&[service, &args.namespace]).set(-1.0)
+        //     }
+        // }
+
+        sleep(Duration::from_secs(delay)).await;
     }
 }

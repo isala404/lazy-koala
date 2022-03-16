@@ -4,9 +4,9 @@ metadata:
   name: service-1
   namespace: default
 spec:
-  deploymentRef: service-1-62bf5632
-  serviceRef: service-1-62bf5632
-  modelName: service-1-62bf5632
+  deploymentRef: service-1-a0b7dd98
+  serviceRef: service-1-a0b7dd98
+  modelName: sample_model
   namespace: default
 ---
 apiVersion: lazykoala.isala.me/v1alpha1
@@ -15,9 +15,9 @@ metadata:
   name: service-2
   namespace: default
 spec:
-  deploymentRef: service-2-62bf5632
-  serviceRef: service-2-62bf5632
-  modelName: service-1-62bf5632
+  deploymentRef: service-2-a0b7dd98
+  serviceRef: service-2-a0b7dd98
+  modelName: sample_model
   namespace: default
 ---
 apiVersion: lazykoala.isala.me/v1alpha1
@@ -26,9 +26,9 @@ metadata:
   name: service-3
   namespace: default
 spec:
-  deploymentRef: service-3-62bf5632
-  serviceRef: service-3-62bf5632
-  modelName: service-1-62bf5632
+  deploymentRef: service-3-a0b7dd98
+  serviceRef: service-3-a0b7dd98
+  modelName: sample_model
   namespace: default
 ---
 apiVersion: lazykoala.isala.me/v1alpha1
@@ -37,9 +37,9 @@ metadata:
   name: service-4
   namespace: default
 spec:
-  deploymentRef: service-4-62bf5632
-  serviceRef: service-4-62bf5632
-  modelName: service-1-62bf5632
+  deploymentRef: service-4-a0b7dd98
+  serviceRef: service-4-a0b7dd98
+  modelName: sample_model
   namespace: default
 ---
 
