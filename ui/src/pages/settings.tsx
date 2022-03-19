@@ -9,29 +9,40 @@ import TableSort from '../componentes/table-sort';
 export default function Settings() {
   const [selectedNamespace, changeNamespace] = useState("default");
 
-  const namespaces = useQuery('namespaces', async () =>{
-      const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/api/v1/namespaces`)
-      const data = await req.json()
-      return data.items.map((namespace: any) => namespace.metadata.name)
-    }
+  const namespaces = useQuery('namespaces', async () => {
+    const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/api/v1/namespaces`)
+    const data = await req.json()
+    return data.items.map((namespace: any) => namespace.metadata.name)
+  }
   )
 
-  const deployments = useQuery(['deployments', selectedNamespace], async () => {
+  const inspectors = useQuery(['inspectors', selectedNamespace], async () => {
+    const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/apis/lazykoala.isala.me/v1alpha1/namespaces/${selectedNamespace}/inspectors`)
+    return await req.json()
+  });
+
+
+  const deployments = useQuery(['deployments', selectedNamespace, inspectors], async () => {
     const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/apis/apps/v1/namespaces/${selectedNamespace}/deployments`)
     const data = await req.json()
-    return data.items.map((deployment: any) => (
-      {
+    return data.items.map((deployment: any) => {
+      const inspector = inspectors.data.items.find((item: any) => item.spec.deploymentRef == deployment.metadata.name);
+      return {
         id: deployment.metadata.uid,
         name: deployment.metadata.name,
         ready: `${deployment.status.readyReplicas}/${deployment.status.replicas}`,
-        up2Date: deployment.status.updatedReplicas,
-        available: deployment.status.availableReplicas,
+        // up2Date: deployment.status.updatedReplicas,
+        // available: deployment.status.availableReplicas,
         created: moment(deployment.metadata.creationTimestamp).fromNow(),
-        monitored: "true",
+        modelName: inspector?.spec.modelName || "N/A",
+        serviceRef: inspector?.spec.serviceRef  || "N/A",
+        status: inspector?.status.status  || "N/A",
+        inspectorName: inspector?.metadata.name,
+        monitored: String(!!inspector),
+        namespace: selectedNamespace
       }
-    ));
-  }
-  )
+    });
+  }, {enabled: !!inspectors.isSuccess})
 
   if (deployments.isLoading || namespaces.isLoading) return <Loader />;
 

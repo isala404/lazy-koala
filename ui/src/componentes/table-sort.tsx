@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   createStyles,
   Table,
@@ -8,8 +8,10 @@ import {
   Text,
   Center,
   TextInput,
+  Button
 } from '@mantine/core';
 import { Selector, ChevronDown, ChevronUp, Search } from 'tabler-icons-react';
+import {Unmonitor} from "../componentes/inspector-modal"
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -20,9 +22,9 @@ const useStyles = createStyles((theme) => ({
     width: '100%',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
 
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-    },
+    // '&:hover': {
+    //   backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    // },
   },
 
   icon: {
@@ -36,10 +38,13 @@ interface RowData {
   id: string;
   name: string;
   ready: string;
-  up2Date: string;
-  available: string;
   created: string;
+  modelName: string;
+  serviceRef: string;
+  status: string;
   monitored: string;
+  inspectorName: string;
+  namespace: string;
 }
 
 interface TableSortProps {
@@ -50,15 +55,15 @@ interface ThProps {
   children: React.ReactNode;
   reversed: boolean;
   sorted: boolean;
-  first?: boolean;
+  width?: string;
   onSort(): void;
 }
 
-function Th({ children, reversed, sorted, onSort, first=false }: ThProps) {
+function Th({ children, reversed, sorted, onSort, width="inharit" }: ThProps) {
   const { classes } = useStyles();
   const Icon = sorted ? (reversed ? ChevronUp : ChevronDown) : Selector;
   return (
-    <th className={classes.th} style={{width: first ? "25%": "inharit" }}>
+    <th className={classes.th} style={{width }}>
       <UnstyledButton onClick={onSort} className={classes.control}>
         <Group position="apart" noWrap>
           <Text weight={500} size="sm" className="w-max">
@@ -105,6 +110,10 @@ export default function TableSort({ data }: TableSortProps) {
   const [sortBy, setSortBy] = useState<keyof RowData>();
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
 
+  useEffect(() => {
+    setSortedData(data || []);
+  }, [data]);
+
   const setSorting = (field: keyof RowData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
@@ -122,10 +131,18 @@ export default function TableSort({ data }: TableSortProps) {
     <tr key={row.id}>
       <td>{row.name}</td>
       <td>{row.ready}</td>
-      <td>{row.up2Date}</td>
-      <td>{row.available}</td>
       <td>{row.created}</td>
-      <td>{row.monitored}</td>
+      <td>{row.modelName}</td>
+      <td>{row.serviceRef}</td>
+      <td>{row.status}</td>
+      <td>
+        {
+          row.monitored == "false" ?
+            <Button color="teal" onClick={() => alert(row.inspectorName)}>Monitor</Button>
+          :
+            <Unmonitor name={row.inspectorName} service={row.serviceRef} deployment={row.name} namespace={row.namespace}/>
+        }
+      </td>
     </tr>
   ));
 
@@ -139,7 +156,7 @@ export default function TableSort({ data }: TableSortProps) {
         onChange={handleSearchChange}
       />
       <Table
-        highlightOnHover
+        // highlightOnHover
         horizontalSpacing="md"
         verticalSpacing="xs"
         sx={{ tableLayout: 'fixed', minWidth: 850 }}
@@ -150,7 +167,7 @@ export default function TableSort({ data }: TableSortProps) {
               sorted={sortBy === 'name'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('name')}
-              first
+              width="20%"
             >
               Name
             </Th>
@@ -162,30 +179,41 @@ export default function TableSort({ data }: TableSortProps) {
               Ready
             </Th>
             <Th
-              sorted={sortBy === 'up2Date'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('up2Date')}
-            >
-              Up-to-date
-            </Th>
-            <Th
-              sorted={sortBy === 'available'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('available')}
-            >
-              Available
-            </Th>
-            <Th
               sorted={sortBy === 'created'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('created')}
+              width="12%"
             >
               Created
+            </Th>
+            <Th
+              sorted={sortBy === 'modelName'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('modelName')}
+              width="17%"
+            >
+              Model Name
+            </Th>
+            <Th
+              sorted={sortBy === 'serviceRef'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('serviceRef')}
+              width="17%"
+            >
+              Service Ref
+            </Th>
+            <Th
+              sorted={sortBy === 'status'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('status')}
+            >
+              Status
             </Th>
             <Th
               sorted={sortBy === 'monitored'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('monitored')}
+              width="15%"
             >
               Action
             </Th>

@@ -1,4 +1,5 @@
-import { Container } from '@mantine/core';
+import { Container, MantineProvider } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
 import NavBar from './componentes/navbar'
 import {
   BrowserRouter,
@@ -15,6 +16,8 @@ function App() {
   
   return (
     <>
+    <MantineProvider>
+      <ModalsProvider>
       <BrowserRouter>
         <NavBar links={[{ "link": "", "label": "Dashboard" }, { "link": "settings", "label": "Settings" }]} />
         <Container>
@@ -26,6 +29,8 @@ function App() {
           </QueryClientProvider>
         </Container>
       </BrowserRouter>
+      </ModalsProvider>
+    </MantineProvider>
     </>
   )
 }
