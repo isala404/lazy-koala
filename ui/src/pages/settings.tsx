@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query'
 import moment from 'moment';
 import Loader from '../componentes/loader';
+import TableSort from '../componentes/table-sort';
 
 
 export default function Settings() {
@@ -15,10 +16,21 @@ export default function Settings() {
     }
   )
 
-  const deployments = useQuery(['deployments', selectedNamespace], () =>
-    fetch(`${import.meta.env.VITE_K8S_API_BASE}/apis/apps/v1/namespaces/${selectedNamespace}/deployments`).then(res =>
-      res.json()
-    )
+  const deployments = useQuery(['deployments', selectedNamespace], async () => {
+    const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/apis/apps/v1/namespaces/${selectedNamespace}/deployments`)
+    const data = await req.json()
+    return data.items.map((deployment: any) => (
+      {
+        id: deployment.metadata.uid,
+        name: deployment.metadata.name,
+        ready: `${deployment.status.readyReplicas}/${deployment.status.replicas}`,
+        up2Date: deployment.status.updatedReplicas,
+        available: deployment.status.availableReplicas,
+        created: moment(deployment.metadata.creationTimestamp).fromNow(),
+        monitored: "true",
+      }
+    ));
+  }
   )
 
   if (deployments.isLoading || namespaces.isLoading) return <Loader />;
@@ -26,39 +38,21 @@ export default function Settings() {
   if (deployments.error || namespaces.error) return <p>Error while connecting to Kube API</p>
 
 
-  const rows = deployments.data?.items?.map((deployment: any) => (
-    <tr key={deployment.metadata.uid}>
-      <td>{deployment.metadata.name}</td>
-      <td>{deployment.status.readyReplicas}/{deployment.status.replicas}</td>
-      <td>{deployment.status.updatedReplicas}</td>
-      <td>{deployment.status.availableReplicas}</td>
-      <td>{moment(deployment.metadata.creationTimestamp).fromNow()}</td>
-      <td><Button>Monitor </Button></td>
-    </tr>
-  ));
-
   return (
-    <>
-    <Select
-      label="Namespace"
-      placeholder="Namespace"
-      value={selectedNamespace}
-      onChange={(v: string) => changeNamespace(v)}
-      data={namespaces?.data}
-    />
-    <Table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Ready</th>
-          <th>Up-to-date</th>
-          <th>Available</th>
-          <th>Created</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </Table>
-    </>
+    <div className="flex flex-col">
+      <div className='mb-10 self-end'>
+        <Select
+          className="w-1/4 min-w-fit"
+          label="Namespace"
+          placeholder="Namespace"
+          value={selectedNamespace}
+          onChange={(v: string) => changeNamespace(v)}
+          data={namespaces?.data}
+        />
+      </div>
+      <div>
+        <TableSort data={deployments.data} />
+      </div>
+    </div>
   );
 }
