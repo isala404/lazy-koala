@@ -13,8 +13,7 @@ export default function Settings() {
     const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/api/v1/namespaces`)
     const data = await req.json()
     return data.items.map((namespace: any) => namespace.metadata.name)
-  }
-  )
+  });
 
   const inspectors = useQuery(['inspectors', selectedNamespace], async () => {
     const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/apis/lazykoala.isala.me/v1alpha1/namespaces/${selectedNamespace}/inspectors`)
@@ -31,12 +30,10 @@ export default function Settings() {
         id: deployment.metadata.uid,
         name: deployment.metadata.name,
         ready: `${deployment.status.readyReplicas}/${deployment.status.replicas}`,
-        // up2Date: deployment.status.updatedReplicas,
-        // available: deployment.status.availableReplicas,
         created: moment(deployment.metadata.creationTimestamp).fromNow(),
         modelName: inspector?.spec.modelName || "N/A",
         serviceRef: inspector?.spec.serviceRef  || "N/A",
-        status: inspector?.status.status  || "N/A",
+        status: inspector?.status?.status  || "N/A",
         inspectorName: inspector?.metadata.name,
         monitored: String(!!inspector),
         namespace: selectedNamespace
@@ -45,6 +42,8 @@ export default function Settings() {
   }, {enabled: !!inspectors.isSuccess})
 
   if (deployments.isLoading || namespaces.isLoading) return <Loader />;
+
+  console.log(deployments.error, namespaces.error)
 
   if (deployments.error || namespaces.error) return <p>Error while connecting to Kube API</p>
 

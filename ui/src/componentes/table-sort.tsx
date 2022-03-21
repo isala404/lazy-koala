@@ -11,7 +11,7 @@ import {
   Button
 } from '@mantine/core';
 import { Selector, ChevronDown, ChevronUp, Search } from 'tabler-icons-react';
-import {Unmonitor} from "../componentes/inspector-modal"
+import {Unmonitor, Monitor} from "../componentes/inspector-modal"
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -138,7 +138,7 @@ export default function TableSort({ data }: TableSortProps) {
       <td>
         {
           row.monitored == "false" ?
-            <Button color="teal" onClick={() => alert(row.inspectorName)}>Monitor</Button>
+            <Monitor name={row.inspectorName} service={row.serviceRef} deployment={row.name} namespace={row.namespace}/>
           :
             <Unmonitor name={row.inspectorName} service={row.serviceRef} deployment={row.name} namespace={row.namespace}/>
         }
