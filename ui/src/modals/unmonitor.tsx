@@ -43,7 +43,6 @@ export default function Unmonitor({ service, deployment, name, namespace }: Unmo
       </Text>
     ),
     labels: { confirm: 'Confirm', cancel: 'Cancel' },
-    onCancel: () => console.log('Cancel'),
     onConfirm: () => mutation.mutate(),
   });
 

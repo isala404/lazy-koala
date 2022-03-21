@@ -60,7 +60,7 @@ export default function Monitor({ deployment, namespace }: MonitorProps) {
 
 
         const req = await fetch(
-            `${import.meta.env.VITE_K8S_API_BASE}/apis/lazykoala.isala.me/v1alpha1/namespaces/${namespace}/inspectors/${name}`, {
+            `${import.meta.env.VITE_K8S_API_BASE}/apis/lazykoala.isala.me/v1alpha1/namespaces/${namespace}/inspectors/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

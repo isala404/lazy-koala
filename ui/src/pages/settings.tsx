@@ -4,6 +4,7 @@ import { useQuery } from 'react-query'
 import moment from 'moment';
 import Loader from '../components/loader';
 import Deployments from '../components/deployments';
+import { getResourceVersions } from '../lib';
 
 
 export default function Settings() {
@@ -21,7 +22,7 @@ export default function Settings() {
   });
 
 
-  const deployments = useQuery(['deployments', selectedNamespace], async () => {
+  const deployments = useQuery(['deployments', selectedNamespace, getResourceVersions(inspectors)], async () => {
     const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/apis/apps/v1/namespaces/${selectedNamespace}/deployments`)
     const data = await req.json()
     return data.items.map((deployment: any) => {
@@ -42,8 +43,6 @@ export default function Settings() {
   }, {enabled: !!inspectors.isSuccess})
 
   if (deployments.isLoading || namespaces.isLoading) return <Loader />;
-
-  console.log(deployments.error, namespaces.error)
 
   if (deployments.error || namespaces.error) return <p>Error while connecting to Kube API</p>
 

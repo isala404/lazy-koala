@@ -82,7 +82,7 @@ function Th({ children, reversed, sorted, onSort, width="inharit" }: ThProps) {
 function filterData(data: RowData[], search: string) {
   const keys = Object.keys(data[0]);
   const query = search.toLowerCase().trim();
-  return data.filter((item) => keys.some((key) => String(item[key]).toLowerCase().includes(query)));
+  return data.filter((item: any) => keys.some((key) => String(item[key]).toLowerCase().includes(query)));
 }
 
 function sortData(
@@ -108,7 +108,7 @@ function sortData(
 export default function TableSort({ data }: TableSortProps) {
   const [search, setSearch] = useState('');
   const [sortedData, setSortedData] = useState(data || []);
-  const [sortBy, setSortBy] = useState<keyof RowData>();
+  const [sortBy, setSortBy] = useState<any>();
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
 
   useEffect(() => {
