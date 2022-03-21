@@ -1,9 +1,9 @@
-import { Table, Button, Select } from '@mantine/core';
+import { Select } from '@mantine/core';
 import { useState } from 'react';
 import { useQuery } from 'react-query'
 import moment from 'moment';
-import Loader from '../componentes/loader';
-import TableSort from '../componentes/table-sort';
+import Loader from '../components/loader';
+import Deployments from '../components/deployments';
 
 
 export default function Settings() {
@@ -21,7 +21,7 @@ export default function Settings() {
   });
 
 
-  const deployments = useQuery(['deployments', selectedNamespace, inspectors], async () => {
+  const deployments = useQuery(['deployments', selectedNamespace], async () => {
     const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/apis/apps/v1/namespaces/${selectedNamespace}/deployments`)
     const data = await req.json()
     return data.items.map((deployment: any) => {
@@ -61,7 +61,7 @@ export default function Settings() {
         />
       </div>
       <div>
-        <TableSort data={deployments.data} />
+        <Deployments data={deployments.data} />
       </div>
     </div>
   );
