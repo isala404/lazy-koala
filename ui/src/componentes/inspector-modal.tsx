@@ -1,7 +1,7 @@
 import { Button, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-// import { useMutation } from 'react-query';
-// import { useQuery, useQueryClient } from 'react-query'
+import { useMutation } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query'
 
 interface UnmonitorProps {
     namespace: string;
@@ -12,19 +12,19 @@ interface UnmonitorProps {
   
 
 export function Unmonitor({service, deployment, name, namespace}: UnmonitorProps) {
-    // const queryClient = useQueryClient()
+    const queryClient = useQueryClient()
 
-    // const mutation = useMutation(async () => {
-    //     const req = await fetch(
-    //         `${import.meta.env.VITE_K8S_API_BASE}/apis/lazykoala.isala.me/v1alpha1/namespaces/${namespace}/inspectors/${name}`,
-    //         {method: "DELETE"}
-    //     )
-    //     req
-    //   }, {
-    //       onSuccess: () => {
-    //         //   queryClient.invalidateQueries("inspectors")
-    //       }
-    //   });
+    const mutation = useMutation(async () => {
+        const req = await fetch(
+            `${import.meta.env.VITE_K8S_API_BASE}/apis/lazykoala.isala.me/v1alpha1/namespaces/${namespace}/inspectors/${name}`,
+            {method: "DELETE"}
+        )
+        req
+      }, {
+          onSuccess: () => {
+              queryClient.invalidateQueries("inspectors")
+          }
+      });
 
 
   const modals = useModals();
@@ -38,7 +38,7 @@ export function Unmonitor({service, deployment, name, namespace}: UnmonitorProps
     ),
     labels: { confirm: 'Confirm', cancel: 'Cancel' },
     onCancel: () => console.log('Cancel'),
-    onConfirm: () => console.log('Cancel'),
+    onConfirm: () => mutation.mutate(),
   });
 
   return <Button color="red" onClick={openConfirmModal}>Unmonitor</Button>
