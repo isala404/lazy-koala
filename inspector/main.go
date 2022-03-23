@@ -44,15 +44,26 @@ func clientHandler() http.Handler {
 }
 
 func main() {
-	u, _ := url.Parse("http://127.0.0.1:8001/")
+	kube_endpoint, _ := url.Parse("http://127.0.0.1:8001/")
+	prom_endpoint, _ := url.Parse("http://127.0.0.1:9090/")
 	r := mux.NewRouter()
 
 	r.PathPrefix("/k8s").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		proxy := httputil.NewSingleHostReverseProxy(u)
+		proxy := httputil.NewSingleHostReverseProxy(kube_endpoint)
 
 		r.URL.Path = "/" + strings.Join(strings.Split(r.URL.Path, "/")[2:], "/")
 
 		log.Printf("Proxying Request from %s to KubeAPI on %s\n", r.RemoteAddr, r.URL.Path)
+
+		proxy.ServeHTTP(w, r)
+	})
+
+	r.PathPrefix("/prom").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		proxy := httputil.NewSingleHostReverseProxy(prom_endpoint)
+
+		r.URL.Path = "/" + strings.Join(strings.Split(r.URL.Path, "/")[2:], "/")
+
+		log.Printf("Proxying Request from %s to prometheus on %s\n", r.RemoteAddr, r.URL.Path)
 
 		proxy.ServeHTTP(w, r)
 	})
