@@ -1,3 +1,14 @@
 /* @tailwind base; */
 /* @tailwind components; */
 @tailwind utilities;
+
+
+/* .force-graph-container {
+    overflow: auto;
+} */
+
+.force-graph-container > canvas {
+    border: 1px solid #ff0000;
+    /* width: 100% !important; */
+    /* height: auto !important; */
+}
