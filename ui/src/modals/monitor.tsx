@@ -66,6 +66,7 @@ export default function Monitor({ deployment, namespace }: MonitorProps) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(object),
+            // mode: 'no-cors'
         })
 
         const data = await req.json()
