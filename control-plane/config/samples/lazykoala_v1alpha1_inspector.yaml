@@ -1,45 +1,10 @@
 apiVersion: lazykoala.isala.me/v1alpha1
 kind: Inspector
 metadata:
-  name: service-1
+  name: sample-service
   namespace: default
 spec:
-  deploymentRef: service-1-a0b7dd98
-  serviceRef: service-1-a0b7dd98
+  deploymentRef: sample-service
+  serviceRef: sample-service
   modelName: sample_model
   namespace: default
----
-apiVersion: lazykoala.isala.me/v1alpha1
-kind: Inspector
-metadata:
-  name: service-2
-  namespace: default
-spec:
-  deploymentRef: service-2-a0b7dd98
-  serviceRef: service-2-a0b7dd98
-  modelName: sample_model
-  namespace: default
----
-apiVersion: lazykoala.isala.me/v1alpha1
-kind: Inspector
-metadata:
-  name: service-3
-  namespace: default
-spec:
-  deploymentRef: service-3-a0b7dd98
-  serviceRef: service-3-a0b7dd98
-  modelName: sample_model
-  namespace: default
----
-apiVersion: lazykoala.isala.me/v1alpha1
-kind: Inspector
-metadata:
-  name: service-4
-  namespace: default
-spec:
-  deploymentRef: service-4-a0b7dd98
-  serviceRef: service-4-a0b7dd98
-  modelName: sample_model
-  namespace: default
----
-

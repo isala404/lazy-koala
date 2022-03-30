@@ -1,0 +1,38 @@
+apiVersion: microsim.isala.me/v1alpha1
+kind: Simulation
+metadata:
+  name: lazy-koala-simulation
+  namespace: default
+spec:
+  name:
+  services:
+    service_1:
+      language: go
+      framework: gorilla
+    service_2:
+      language: go
+      framework: gorilla
+    service_3:
+      language: go
+      framework: gorilla
+    service_4:
+      language: go
+      framework: gorilla
+    service_5:
+      language: go
+      framework: gorilla
+    service_6:
+      language: go
+      framework: gorilla
+    service_7:
+      language: go
+      framework: gorilla
+    service_8:
+      language: go
+      framework: gorilla
+    service_9:
+      language: node
+      framework: express
+    service_10:
+      language: python
+      framework: flask
