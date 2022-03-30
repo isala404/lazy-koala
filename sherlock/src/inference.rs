@@ -64,10 +64,27 @@ async fn query_model(service: &str, input: [[[f64; 1]; 9]; 10]) -> Result<f64, B
     Ok(mse)
 }
 
+async fn save(service: &str, input: [[[f64; 3]; 9]; 10]) -> Result<(), Box<dyn std::error::Error>> {
+    let query = json!({
+        "service": service,
+        "data": input,
+    });
+
+    let client = reqwest::Client::new();
+    let _res = client.post("http://localhost:5000/save")
+        .json::<serde_json::Value>(&query)
+        .send()
+        .await?;
+
+    Ok(())
+}
+
 async fn calculate_anomaly_score(service: &str, args: &InferenceData) -> Result<(), Box<dyn std::error::Error>> {
     println!("Calculate anomaly score for {} using {}", service, &args.model_name);
     let input = build_telemetry_matrix(&service).await?;
-    let score = query_model(&args.model_name, input).await?;
+    save(&service, input).await?;
+    // let score = query_model(&args.model_name, input).await?;
+    let score = 0.4;
     ANOMLAY_GAUGE.with_label_values(&[service, &args.namespace]).set(score);
     println!("Anomaly score for {}: {}", service, score);
     Ok(())

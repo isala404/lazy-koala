@@ -18,6 +18,12 @@ lazy_static! {
         r#"avg_over_time(backlog{level="1",serviceName="SERVICE_NAME"}[SAMPLE])"#,
         r#"sum by (serviceName) (avg_over_time(backlog{level!="1",serviceName="SERVICE_NAME"}[SAMPLE]))"#
     ];
+
+    static ref SAMPLES: [&'static str; 3] = [
+        "1m",
+        "5m",
+        "15m"
+    ];
 }
 
 
@@ -31,8 +37,8 @@ async fn query_prometheus(query: &str, time: DateTime<Local>) -> Result<f64,  Bo
     Ok(value)
 }
 
-pub async fn build_telemetry_matrix(service: &str) -> Result<[[[f64; 1]; 9]; 10],  Box<dyn std::error::Error>> {
-    let mut data: [[[f64; 1]; 9]; 10] = [[[0.0; 1]; 9]; 10];
+pub async fn build_telemetry_matrix(service: &str) -> Result<[[[f64; 3]; 9]; 10],  Box<dyn std::error::Error>> {
+    let mut data: [[[f64; 3]; 9]; 10] = [[[0.0; 3]; 9]; 10];
 
     let time_steps: [DateTime<Local>; 10] = [
         Local::now(),
@@ -49,10 +55,12 @@ pub async fn build_telemetry_matrix(service: &str) -> Result<[[[f64; 1]; 9]; 10]
 
     for (x, time_step) in time_steps.iter().enumerate() {
         for (y, metric) in METRICS.iter().enumerate() {
-            let query = &metric.replace("SERVICE_NAME", service).replace("SAMPLE", "1m");
-            match query_prometheus(query, *time_step).await {
-                Ok(value) => data[x][y][0] = value,
-                Err(e) => return Err(e),
+            for (z, sample) in SAMPLES.iter().enumerate(){
+                let query = &metric.replace("SERVICE_NAME", service).replace("SAMPLE", sample);
+                match query_prometheus(query, *time_step).await {
+                    Ok(value) => data[x][y][z] = value,
+                    Err(e) => return Err(e),
+                }
             }
         }
     }

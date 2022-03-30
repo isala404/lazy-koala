@@ -1,7 +1,7 @@
 import json
 import random
 
-services = list(range(1,10))
+services = list(range(1,11))
 
 random.shuffle(services)
 

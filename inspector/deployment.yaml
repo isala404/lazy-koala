@@ -19,7 +19,7 @@ spec:
           command: ["inspector"]
           # args: ["-c", "while true; do echo hello; sleep 10;done"]
           imagePullPolicy: Always
-          image: ghcr.io/mrsupiri/lazy-koala/inspector:commit-342ac6a8
+          image: ghcr.io/mrsupiri/lazy-koala/inspector:latest
           ports:
             - containerPort: 8090
               name: http
