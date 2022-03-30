@@ -85,7 +85,7 @@ func main() {
 
 	kube_endpoint, _ := url.Parse("https://" + net.JoinHostPort(os.Getenv("KUBERNETES_SERVICE_HOST"), os.Getenv("KUBERNETES_SERVICE_PORT")))
 
-	prom_endpoint, _ := url.Parse(os.Getenv("PROMETHEUS_ENDPOINT"))
+	prom_endpoint, _ := url.Parse(os.Getenv("PROMETHEUS_END_POINT"))
 	r := mux.NewRouter()
 
 	r.PathPrefix("/k8s").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

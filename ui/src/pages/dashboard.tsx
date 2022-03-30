@@ -94,11 +94,9 @@ export default function Dashboard() {
                     ctx.font = `${fontSize}px Sans-Serif`;
                     const textWidth = ctx.measureText(label).width;
                     const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 2.2); // some padding
-
-                    // console.log(node)
         
                     ctx.fillStyle = getColor(node.anomalyScore);
-                    ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
+                    ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, bckgDimensions[0], bckgDimensions[1]);
                     // ctx.arc(node.x, node.y, 1, 0, 2 * Math.PI)
                     // ctx.stroke()
         

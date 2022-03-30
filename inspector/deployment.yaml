@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inspector
+  namespace: lazy-koala
+spec:
+  selector:
+    matchLabels:
+      app: inspector
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: inspector
+    spec:
+      serviceAccountName: gazer
+      containers:
+        - name: inspector
+          # command: ["/bin/sh"]
+          # args: ["-c", "while true; do echo hello; sleep 10;done"]
+          imagePullPolicy: Always
+          image: ghcr.io/mrsupiri/lazy-koala/inspector:latest
+          ports:
+            - containerPort: 8090
+              name: http
+          env:
+            - name: PROMETHEUS_END_POINT
+              value: "http://prometheus.lazy-koala.svc.cluster.local"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inspector
+  namespace: lazy-koala
+spec:
+  selector:
+    app: inspector
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8090
