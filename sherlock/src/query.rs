@@ -32,7 +32,7 @@ async fn query_prometheus(query: &str, time: DateTime<Local>) -> Result<f64,  Bo
 
     let response = CLIENT.query(v, Some(time.timestamp()), None).await?;
 
-    let value = response.as_instant().ok_or("query was empty")?.get(0).ok_or("metric not found")?.sample().value();
+    let value = response.as_instant().ok_or("query was empty")?.get(0).ok_or(format!("metric {} not found", query))?.sample().value();
 
     Ok(value)
 }
