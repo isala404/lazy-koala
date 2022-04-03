@@ -117,28 +117,40 @@ class Gazer:
 
     def poll_syn_backlog(self):
         while True:
-            data = self.syn_backlog_buffer.items()
-            self.syn_df["outdated"] = True
-            for row in data:
-                saddr = inet_ntop(AF_INET, pack("I", row[0].saddr))
+            try:
+                data = self.syn_backlog_buffer.items()
+                
+                self.syn_df["outdated"] = True
+                backlog.clear()
 
-                # Write to prometheus
-                if saddr in config_watcher.config:
-                    pod = config_watcher.config[saddr]
+                for pod in config_watcher.config.values():
+                    if pod['isService']:
+                        continue
+                    backlog.labels(pod['namespace'], pod['serviceName'], pod['name'], 1).set(0)
+                    backlog.labels(pod['namespace'], pod['serviceName'], pod['name'], 2).set(0)
 
-                    backlog.labels(pod['namespace'], pod['serviceName'], pod['name'], int(row[0].slot)).set(
-                        int(row[1].value))
+                for row in data:
+                    saddr = inet_ntop(AF_INET, pack("I", row[0].saddr))
 
-                    if self.console_mode:
-                        self.syn_df = self.syn_df.append({
-                            "backlog": row[0].backlog,
-                            "slot": row[0].slot,
-                            "saddr": inet_ntop(AF_INET, pack("I", row[0].saddr)),
-                            "lport": row[0].lport,
-                            "value": row[1].value,
-                            "outdated": False,
-                        }, ignore_index=True)
-            self.syn_backlog_buffer.clear()
+                    # Write to prometheus
+                    if saddr in config_watcher.config:
+                        pod = config_watcher.config[saddr]
+
+                        backlog.labels(pod['namespace'], pod['serviceName'], pod['name'], int(row[0].slot)).set(
+                            int(row[1].value))
+
+                        if self.console_mode:
+                            self.syn_df = self.syn_df.append({
+                                "backlog": row[0].backlog,
+                                "slot": row[0].slot,
+                                "saddr": inet_ntop(AF_INET, pack("I", row[0].saddr)),
+                                "lport": row[0].lport,
+                                "value": row[1].value,
+                                "outdated": False,
+                            }, ignore_index=True)
+                self.syn_backlog_buffer.clear()
+            except Exception as e:
+                print(e)
             time.sleep(5)
 
     def syn_backlog_text(self):
