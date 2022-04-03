@@ -19,20 +19,20 @@ spec:
       language: go
       framework: gorilla
     service_5:
-      language: go
-      framework: gorilla
-    service_6:
-      language: go
-      framework: gorilla
-    service_7:
-      language: go
-      framework: gorilla
-    service_8:
-      language: go
-      framework: gorilla
-    service_9:
       language: node
       framework: express
+    service_6:
+      language: node
+      framework: express
+    service_7:
+      language: node
+      framework: express
+    service_8:
+      language: python
+      framework: flask
+    service_9:
+      language: python
+      framework: flask
     service_10:
       language: python
       framework: flask

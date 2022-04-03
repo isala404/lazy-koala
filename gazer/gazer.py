@@ -93,26 +93,27 @@ class Gazer:
             self.b.perf_buffer_poll()
 
     def poll_kube_api(self):
-        for pod in config_watcher.config.values():
-            try:
-                if pod['isService']:
-                    continue
-                cpu_usage = 0
-                memory_usage = 0
-                r = requests.get(
-                    f"https://{self.kube_api}/apis/metrics.k8s.io/v1beta1/namespaces/{pod['namespace']}/pods/{pod['name']}",
-                    headers={"Authorization": f"Bearer {self.kube_token}"}, verify=False)
-                data = r.json()
-                for container in data['containers']:
-                    cpu_usage += int(re.sub('\D', '', container['usage']['cpu']))
-                    memory_usage += int(re.sub('\D', '', container['usage']['memory'])) * 1024
+        while True:
+            for pod in config_watcher.config.values():
+                try:
+                    if pod['isService']:
+                        continue
+                    cpu_usage = 0
+                    memory_usage = 0
+                    r = requests.get(
+                        f"https://{self.kube_api}/apis/metrics.k8s.io/v1beta1/namespaces/{pod['namespace']}/pods/{pod['name']}",
+                        headers={"Authorization": f"Bearer {self.kube_token}"}, verify=False)
+                    data = r.json()
+                    for container in data['containers']:
+                        cpu_usage += int(re.sub('\D', '', container['usage']['cpu']))
+                        memory_usage += int(re.sub('\D', '', container['usage']['memory'])) * 1024
 
-                # Write to prometheus
-                cpu.labels(pod['namespace'], pod['serviceName'], pod['name']).set(cpu_usage)
-                memory.labels(pod['namespace'], pod['serviceName'], pod['name']).set(memory_usage)
-            except Exception as e:
-                print(e)
-        time.sleep(40)
+                    # Write to prometheus
+                    cpu.labels(pod['namespace'], pod['serviceName'], pod['name']).set(cpu_usage)
+                    memory.labels(pod['namespace'], pod['serviceName'], pod['name']).set(memory_usage)
+                except Exception as e:
+                    print(e)
+            time.sleep(40)
 
     def poll_syn_backlog(self):
         while True:
