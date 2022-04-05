@@ -1,4 +1,4 @@
-use std::env::var;
+use std::{env::var, f64::{INFINITY, NEG_INFINITY}, cmp};
 use prometheus_http_query::{Client, RangeVector};
 use chrono::{Duration, Local, DateTime};
 use lazy_static::lazy_static;
@@ -37,6 +37,13 @@ async fn query_prometheus(query: &str, time: DateTime<Local>) -> Result<f64,  Bo
     Ok(value)
 }
 
+fn after_pad(value: f64, add: bool) -> f64 {
+    if add {
+        return value + (value * 0.25)
+    }
+    return value - (value * 0.25)
+}
+
 pub async fn build_telemetry_matrix(service: &str) -> Result<[[[f64; 3]; 9]; 10],  Box<dyn std::error::Error>> {
     let mut data: [[[f64; 3]; 9]; 10] = [[[0.0; 3]; 9]; 10];
 
@@ -53,14 +60,44 @@ pub async fn build_telemetry_matrix(service: &str) -> Result<[[[f64; 3]; 9]; 10]
         Local::now() - Duration::minutes(256),
     ];
 
+    let mut low: [[f64; 3]; 9] = [[INFINITY; 3]; 9];
+    let mut high: [[f64; 3]; 9] = [[NEG_INFINITY; 3]; 9];
+
     for (x, time_step) in time_steps.iter().enumerate() {
         for (y, metric) in METRICS.iter().enumerate() {
             for (z, sample) in SAMPLES.iter().enumerate(){
                 let query = &metric.replace("SERVICE_NAME", service).replace("SAMPLE", sample);
                 match query_prometheus(query, *time_step).await {
-                    Ok(value) => data[x][y][z] = value,
+                    Ok(value) => {
+                        data[x][y][z] = value;
+                        if after_pad(value, true) > high[y][z] {
+                            high[y][z] = after_pad(value, true)
+                        }if after_pad(value, false) < low[y][z] {
+                            low[y][z] = after_pad(value, false)
+                        }
+                    },
                     Err(e) => return Err(e),
                 }
+            }
+        }
+    }
+
+    for (_, timestep) in data.iter_mut().enumerate() {
+        for (y, metric) in timestep.iter_mut().enumerate() {
+            for (z, peroid) in metric.iter_mut().enumerate(){
+
+                let max = high[y][z];
+                let min = low[y][z];
+
+                let mut lower_bound = max - min;
+
+                if lower_bound <= 0.0{
+                    lower_bound = 1.0;
+                }
+
+                let value =  (*peroid - min) / lower_bound;
+
+                *peroid = value
             }
         }
     }

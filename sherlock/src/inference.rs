@@ -14,6 +14,7 @@ use ::slice_of_array::prelude::*;
 lazy_static! {
     static ref TENSORFLOW_END_POINT: String = var("TENSORFLOW_END_POINT").unwrap_or("http://localhost:8501/v1/models".to_string());
     static ref POOL_DURATION: String = var("POOL_DURATION").unwrap_or("60".to_string());
+    static ref DATA_COLLECT: String = var("DATA_COLLECT_ONLY").unwrap_or("off".to_string());
     static ref ANOMLAY_GAUGE: GaugeVec = register_gauge_vec!(
         opts!(
             "anomaly_score",
@@ -44,7 +45,7 @@ fn parse_config() -> Result<HashMap<String, InferenceData>, Box<dyn std::error::
     Ok(services)
 }
 
-async fn query_model(service: &str, input: [[[f64; 1]; 9]; 10]) -> Result<f64, Box<dyn std::error::Error>> {
+async fn query_model(service: &str, input: [[[f64; 3]; 9]; 10]) -> Result<f64, Box<dyn std::error::Error>> {
     let endpoint = format!("{}/{}:predict", TENSORFLOW_END_POINT.as_str(), service);
 
     let query = json!({
@@ -82,9 +83,12 @@ async fn save(service: &str, input: [[[f64; 3]; 9]; 10]) -> Result<(), Box<dyn s
 async fn calculate_anomaly_score(service: &str, args: &InferenceData) -> Result<(), Box<dyn std::error::Error>> {
     println!("Calculate anomaly score for {} using {}", service, &args.model_name);
     let input = build_telemetry_matrix(&service).await?;
-    save(&service, input).await?;
-    // let score = query_model(&args.model_name, input).await?;
-    let score = 0.4;
+    let mut score = 0.4;
+    if *DATA_COLLECT == "on"{
+        save(&service, input).await?;
+    }else{
+        score = query_model(&args.model_name, input).await?;
+    }
     ANOMLAY_GAUGE.with_label_values(&[service, &args.namespace]).set(score);
     println!("Anomaly score for {}: {}", service, score);
     Ok(())
