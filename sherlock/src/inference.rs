@@ -58,6 +58,7 @@ async fn query_model(service: &str, input: [[[f64; 3]; 9]; 10]) -> Result<f64, B
         .send()
         .await?;
 
+
     let predictions = res.json::<ModelResponse>().await?.predictions.into_iter().flatten().flatten().flatten().collect::<Vec<f64>>();
 
     let mse: f64 = MeanAbsoluteError{}.get_score(&input.flat().flat().to_vec(), &predictions);

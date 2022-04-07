@@ -13,23 +13,23 @@ spec:
       language: go
       framework: gorilla
     service_3:
-      language: go
-      framework: gorilla
+      language: node
+      framework: express
     service_4:
       language: go
       framework: gorilla
     service_5:
-      language: node
-      framework: express
+      language: python
+      framework: flask
     service_6:
-      language: node
-      framework: express
+      language: go
+      framework: gorilla
     service_7:
       language: node
       framework: express
     service_8:
-      language: python
-      framework: flask
+      language: node
+      framework: express
     service_9:
       language: python
       framework: flask

@@ -1,4 +1,4 @@
-use std::{env::var, f64::{INFINITY, NEG_INFINITY}, cmp};
+use std::{env::var, f64::{INFINITY, NEG_INFINITY}};
 use prometheus_http_query::{Client, RangeVector};
 use chrono::{Duration, Local, DateTime};
 use lazy_static::lazy_static;

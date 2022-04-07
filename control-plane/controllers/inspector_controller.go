@@ -301,12 +301,14 @@ func (r *InspectorReconciler) configureSherlock(ctx context.Context, inspector *
 			ModelName: inspector.Spec.ModelName,
 			Namespace: inspector.Spec.Namespace,
 		}
-		modelsList[inspector.Spec.ModelName] = true
 	} else {
 		if _, ok := sherlockServiceList[inspector.ObjectMeta.Name]; ok {
 			delete(sherlockServiceList, inspector.ObjectMeta.Name)
-			delete(modelsList, inspector.Spec.ModelName)
 		}
+	}
+
+	for _, service := range sherlockServiceList {
+		modelsList[service.ModelName] = true
 	}
 
 	// Generate the Servings Config

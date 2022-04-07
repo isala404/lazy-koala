@@ -1,10 +1,110 @@
 apiVersion: lazykoala.isala.me/v1alpha1
 kind: Inspector
 metadata:
-  name: sample-service
+  name: service-1-7a942121
   namespace: default
 spec:
-  deploymentRef: sample-service
-  serviceRef: sample-service
-  modelName: sample_model
+  deploymentRef: service-1-7a942121
+  serviceRef: service-1-7a942121
+  modelName: service-1-7a942121
   namespace: default
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-2-7a942121
+  namespace: default
+spec:
+  deploymentRef: service-2-7a942121
+  serviceRef: service-2-7a942121
+  modelName: service-2-7a942121
+  namespace: default
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-3-7a942121
+  namespace: default
+spec:
+  deploymentRef: service-3-7a942121
+  serviceRef: service-3-7a942121
+  modelName: service-3-7a942121
+  namespace: default
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-4-7a942121
+  namespace: default
+spec:
+  deploymentRef: service-4-7a942121
+  serviceRef: service-4-7a942121
+  modelName: service-4-7a942121
+  namespace: default
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-5-7a942121
+  namespace: default
+spec:
+  deploymentRef: service-5-7a942121
+  serviceRef: service-5-7a942121
+  modelName: service-5-7a942121
+  namespace: default
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-6-7a942121
+  namespace: default
+spec:
+  deploymentRef: service-6-7a942121
+  serviceRef: service-6-7a942121
+  modelName: service-6-7a942121
+  namespace: default
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-7-7a942121
+  namespace: default
+spec:
+  deploymentRef: service-7-7a942121
+  serviceRef: service-7-7a942121
+  modelName: service-7-7a942121
+  namespace: default
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-8-7a942121
+  namespace: default
+spec:
+  deploymentRef: service-8-7a942121
+  serviceRef: service-8-7a942121
+  modelName: service-8-7a942121
+  namespace: default
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-9-7a942121
+  namespace: default
+spec:
+  deploymentRef: service-9-7a942121
+  serviceRef: service-9-7a942121
+  modelName: service-9-7a942121
+  namespace: default
+---
+apiVersion: lazykoala.isala.me/v1alpha1
+kind: Inspector
+metadata:
+  name: service-10-7a942121
+  namespace: default
+spec:
+  deploymentRef: service-10-7a942121
+  serviceRef: service-10-7a942121
+  modelName: service-10-7a942121
+  namespace: default
+---
