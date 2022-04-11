@@ -1,0 +1,109 @@
+apiVersion: microsim.isala.me/v1alpha1
+kind: LoadGenerator
+metadata:
+    name: memory-anomaly
+    namespace: default
+spec:
+    requests:
+        - |
+            {
+                "designation": "service_1",
+                "probability": 100,
+                "faults": {
+                    "before": [{"type": "latency", "args": { "delay": 100 }}],
+                    "after": [{"type": "latency", "args": { "delay": 100 }}]
+                },
+                "routes": [
+                    {
+                        "designation": "service_2",
+                        "probability": 100,
+                        "faults": {
+                            "before": [{"type": "latency", "args": { "delay": 300 }}],
+                            "after": [{"type": "latency", "args": { "delay": 300 }}]
+                        },
+                        "routes": [
+                            {
+                                "designation": "service_3",
+                                "probability": 100,
+                                "faults": {
+                                    "before": [{"type": "latency", "args": { "delay": 300 }}],
+                                    "after": [{"type": "latency", "args": { "delay": 300 }}]
+                                },
+                                "routes": [
+                                    {
+                                        "designation": "service_4",
+                                        "probability": 100,
+                                        "faults": {
+                                            "before": [{ "type": "memory-leak", "args": { "size": 300, "duration": 7000 } }],
+                                            "after": [{"type": "latency", "args": { "delay": 1000 }}]
+                                        },
+                                        "routes": null
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+    simulationRef:
+        name: lazy-koala-simulation
+        namespace: default
+    # requestCount: 1
+    replicas: 1
+    # timeout: 15m
+    betweenDelay: 10s
+---
+apiVersion: microsim.isala.me/v1alpha1
+kind: LoadGenerator
+metadata:
+    name: latency-anomaly
+    namespace: default
+spec:
+    requests:
+        - |
+            {
+                "designation": "service_1",
+                "probability": 100,
+                "faults": {
+                    "before": [{"type": "latency", "args": { "delay": 100 }}],
+                    "after": [{"type": "latency", "args": { "delay": 100 }}]
+                },
+                "routes": [
+                    {
+                        "designation": "service_2",
+                        "probability": 100,
+                        "faults": {
+                            "before": [{"type": "latency", "args": { "delay": 300 }}],
+                            "after": [{"type": "latency", "args": { "delay": 300 }}]
+                        },
+                        "routes": [
+                            {
+                                "designation": "service_3",
+                                "probability": 100,
+                                "faults": {
+                                    "before": [{"type": "latency", "args": { "delay": 300 }}],
+                                    "after": [{"type": "latency", "args": { "delay": 300 }}]
+                                },
+                                "routes": [
+                                    {
+                                        "designation": "service_4",
+                                        "probability": 100,
+                                        "faults": {
+                                            "before": [{"type": "latency", "args": { "delay": 50000 }}],
+                                            "after": [{"type": "latency", "args": { "delay": 10000 }}]
+                                        },
+                                        "routes": null
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+    simulationRef:
+        name: lazy-koala-simulation
+        namespace: default
+    # requestCount: 1
+    replicas: 10
+    # timeout: 15m
+    betweenDelay: 1s

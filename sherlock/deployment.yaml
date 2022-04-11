@@ -27,20 +27,22 @@ spec:
               value: "http://localhost:8501/v1/models"
             - name: POOL_DURATION
               value: "60"
+            - name: DATA_COLLECT_ONLY
+              value: "off"
             - name: PROMETHEUS_END_POINT
               value: "http://prometheus.lazy-koala.svc.cluster.local"
           volumeMounts:
             - name: sherlock-config
               mountPath: /app/config
-        - name: data-exporter
-          imagePullPolicy: Always
-          image: asia.gcr.io/iconicto/data-exporter:latest
-          ports:
-            - containerPort: 5000
-              name: http
-          env:
-            - name: MONGODB_URI
-              value: "http://localhost:8501/v1/models"
+        # - name: data-exporter
+        #   imagePullPolicy: Always
+        #   image: asia.gcr.io/iconicto/data-exporter:latest
+        #   ports:
+        #     - containerPort: 5000
+        #       name: http
+        #   env:
+        #     - name: MONGODB_URI
+        #       value: ""
         - image: google/cloud-sdk
           name: model-poller
           imagePullPolicy: IfNotPresent
