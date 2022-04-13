@@ -5,7 +5,7 @@ import moment from 'moment';
 import Loader from '../components/loader';
 import Deployments from '../components/deployments';
 import { getResourceVersions } from '../lib';
-
+import { Container } from '@mantine/core';
 
 export default function Settings() {
   const [selectedNamespace, changeNamespace] = useState("default");
@@ -48,20 +48,22 @@ export default function Settings() {
 
 
   return (
-    <div className="flex flex-col">
-      <div className='mb-10 self-end'>
-        <Select
-          className="w-1/4 min-w-fit"
-          label="Namespace"
-          placeholder="Namespace"
-          value={selectedNamespace}
-          onChange={(v: string) => changeNamespace(v)}
-          data={namespaces?.data}
-        />
+    <Container>
+      <div className="flex flex-col">
+        <div className='mb-10 self-end'>
+          <Select
+            className="w-1/4 min-w-fit"
+            label="Namespace"
+            placeholder="Namespace"
+            value={selectedNamespace}
+            onChange={(v: string) => changeNamespace(v)}
+            data={namespaces?.data}
+          />
+        </div>
+        <div>
+          <Deployments data={deployments.data} />
+        </div>
       </div>
-      <div>
-        <Deployments data={deployments.data} />
-      </div>
-    </div>
+    </Container>
   );
 }

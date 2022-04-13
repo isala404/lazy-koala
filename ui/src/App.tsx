@@ -1,4 +1,3 @@
-import { Container } from '@mantine/core';
 import NavBar from './components/navbar'
 import {
   Routes,
@@ -15,14 +14,12 @@ function App() {
   return (
     <>
       <NavBar links={[{ "link": "", "label": "Dashboard" }, { "link": "settings", "label": "Settings" }]} />
-      <Container>
         <QueryClientProvider client={queryClient}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </QueryClientProvider>
-      </Container>
     </>
   )
 }

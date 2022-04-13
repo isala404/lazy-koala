@@ -2,11 +2,13 @@ import React, {useEffect, useState} from "react";
 import { ForceGraph2D, } from 'react-force-graph';
 import { useQuery } from 'react-query'
 
-const normlize = (val: number) => {
-    const min = 7000000;
-    const max = 34666972
+const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
 
-    return (val - min) / (max - min); 
+const normlize = (val: number) => {
+    const min = 0.1;
+    const max = 0.3;
+
+    return clamp((val - min) / (max - min),0, 1); 
 }
 
 function getColor(value: any){
@@ -36,7 +38,7 @@ export default function Dashboard() {
             return r
         })
         return scores
-    });
+    }, {refetchInterval: 5 * 60000 });
 
     const services = useQuery(['services', anomaly_score], async () => {
         const req = await fetch(`${import.meta.env.VITE_K8S_API_BASE}/apis/lazykoala.isala.me/v1alpha1/inspectors`)
@@ -57,39 +59,37 @@ export default function Dashboard() {
     }, {enabled: !!anomaly_score.data});
 
     const request_exchanges = useQuery('request_exchanges', async () => {
-        const req = await fetch(`${import.meta.env.VITE_PROM_API_BASE}/api/v1/query?query=rate%28request_exchanges_total%5B5m%5D%29`)
+        const req = await fetch(`${import.meta.env.VITE_PROM_API_BASE}/api/v1/query?query=rate%28request_exchanges_total%5B10m%5D%29`)
         let data = await req.json()
 
         data = data.data.result.map((r: any) => ({
             "source": r.metric.origin,
             "target": r.metric.destination,
-            "value": parseFloat(r.value[1])
+            "value": parseFloat(r.value[1]) * 2
         }))
 
-        return data.filter((d: any) => d["source"] in services.data && d["target"] in services.data)
-    }, {enabled: !!services.data});
+        return data.filter((d: any) => d["source"] in services.data && d["target"] in services.data && d["value"] > 0)
+    }, {enabled: !!services.data , refetchInterval: 5 * 60000 });
 
     useEffect(() => {
-        if(request_exchanges.data){
+        if(request_exchanges.data && services.data){
             setData({"nodes": Object.values(services.data), "links": request_exchanges.data});
-            console.log({"nodes": Object.values(services.data), "links": request_exchanges.data})
         }        
-        // fetch("https://raw.githubusercontent.com/vasturiano/react-force-graph/master/example/datasets/miserables.json").then(res => res.json()).then(data => {setData(data)})
-    }, [request_exchanges.isFetched])
+    }, [request_exchanges.data, services.data])
 
     return(
-        <>
+        <div style={{width: "100%", marginLeft: "50px"}}>
             <ForceGraph2D
-                width={950}
-                height={800}
+                width={1800}
+                height={780}
                 // onEngineStop={() => fgRef.current.zoomToFit(400)}
                 graphData={data}
                 nodeLabel="id"
                 nodeAutoColorBy="anomalyScore"
                 nodeRelSize={3}
-                // minZoom={10}
+                minZoom={7}
                 nodeCanvasObject={(node: any, ctx: CanvasRenderingContext2D, globalScale) => {
-                    const label = `${node.id} (${Math.round(node.anomalyScore * 100) / 100})`;
+                    const label = `${node.id} (Health - ${100 - Math.round(node.anomalyScore * 100)} %)`;
                     const fontSize = 14/globalScale;
                     ctx.font = `${fontSize}px Sans-Serif`;
                     const textWidth = ctx.measureText(label).width;
@@ -110,8 +110,8 @@ export default function Dashboard() {
                   }}
                 linkDirectionalParticles="value"
                 linkAutoColorBy="source"
-                linkDirectionalParticleSpeed={(d: any) => d.value * 0.0005}
+                linkDirectionalParticleSpeed={(d: any) => d.value * 0.001}
             />,
-        </>
+        </div>
     );
 }
