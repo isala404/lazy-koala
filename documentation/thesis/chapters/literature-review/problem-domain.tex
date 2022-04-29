@@ -15,7 +15,7 @@ This radical shift introduced a new paradigm of computing called Microservices. 
 Even though microservices helped more organizations meet a higher level of availability due to their decoupled nature. It was very difficult to manage the lots and lots of tiny services spread across hundreds of \acp{vm}. Since these services were isolated using a virtualization layer the cost and the overhead of maintaining a system like this were very high \citep{dua2014virtualization}. To mitigate this problem inspired by Logistics Industry, a new method to package an application called "Containerization" was invented. The rationale behind this technique was to package all the dependencies of the program to a single image without the operating system itself and when running share a single logically separated operating system across all the containers. So using this technique will reduce a lot of overhead in the system and also it make simple to move an application running on a local computer to a remote server due to the aforementioned dependency packaging technique.
 
 \begin{figure}[H]
-    \includegraphics[width=10cm]{assets/literature-review/containers-vs-virtual-machines.jpg}
+    \includegraphics[width=9cm]{assets/literature-review/containers-vs-virtual-machines.jpg}
     \caption{Difference between hosting 3 apps in virtual machines vs Containers \citep{Dockervs91:online}}
 \end{figure}
 
@@ -24,7 +24,7 @@ Even though microservices helped more organizations meet a higher level of avail
 Even though containers solve a major headache when it comes to operating a distributed system, managing 100s of containers becomes a major challenge. The reason for this is when it comes to a large-scale distributed system, it's simply not possible to use one \ac{vm} to house all the containers. These containers need to be spread across dozes of \acp{vm} and in some cases different \ac{vm} vendors. Then networking, replication, security, and \textbf{monitoring} need to be accounted for. To solve all of these problems number of different container orchestration systems were introduced \citep{ElasticityCloudComputing}. But as per a survey done by Red Hat in July 2021, it's reviled that 88\% of people prefer to use Kubernetes as their container orchestrator while 74\% mentioned they use Kubernetes for their production workloads \citep{Kubernet59:online}.
 
 \begin{figure}[H]
-    \includegraphics[width=10cm]{assets/literature-review/Container-orchestration-engines.png}
+    \includegraphics[width=9cm]{assets/literature-review/Container-orchestration-engines.png}
     \caption{Overview of a container orchestration engine \citep{ElasticityCloudComputing}}
 \end{figure}
 
