@@ -3,7 +3,7 @@
 System architecture design gives a birds-eye view of how all the components in the system communicate with each other. This helps us to understand the dependencies and responsibilities of each component. Since this system is designed to run on a microservices-based environment, an n-tier design architecture was used to physically separate the components in the system to have better a reliability and scalability.
 
 \begin{figure}[H]
-    \includegraphics[width=14cm]{assets/system-design/tier-architecture.png}
+    \includegraphics[width=10cm]{assets/system-design/tier-architecture.png}
     \caption{Tiered architecture (self-composed))}
     \label{fig:tier-architecture}
 \end{figure}
@@ -12,7 +12,7 @@ System architecture design gives a birds-eye view of how all the components in t
 
 The presentation tier will be entirely running in the client's computer while depending on the logic tier for data.
 
-\begin{itemize}
+\begin{itemize}[noitemsep,nolistsep] 
     \item \textbf{Monitoring Dashboard} - This view is responsible for helping the user to understand the service topology and visually identify issues in the system.
     \item \textbf{Settings View} - On the settings page users can choose which services are needed to be monitored along with their DNS address.
 \end{itemize}
@@ -21,7 +21,7 @@ The presentation tier will be entirely running in the client's computer while de
 
 The logic tier will contain three custom microservices that depend on Kubernetes's core modules to operate.
 
-\begin{itemize}
+\begin{itemize}[noitemsep,nolistsep] 
     \item \textbf{\ac{lazy-koala-operator}} - The \ac{lazy-koala-operator} is the main bridge between Kubernetes APIs and this system. It also contains a proxy server that redirects incoming client requests to kube-api.
     \item \textbf{\ac{gazer}} - An instance of \ac{gazer} will be running on every node in the Kubernetes cluster which passively extracts telemetry and sends them over to the Prometheus server.
     \item \textbf{\ac{sherlock}} - AI engine periodically query Prometheus to get the current status of all the monitored service. Then it calculates an anomaly score for each service and pushes it to Prometheus so it can be sent back to the presentation layer
@@ -32,8 +32,8 @@ The logic tier will contain three custom microservices that depend on Kubernetes
 
 \subsection{Data Tier}
 
-\begin{itemize}
-    \item \textbf{Artifact registry} - All the pre-trained models and built containers will be saved here for easy access.
-    \item \textbf{Prometheus} - Prometheus is a time-series database that is highly optimized for storing service telemetry.
+\begin{itemize}[noitemsep,nolistsep] 
+    \item \textbf{Artifact registry} - Stroage for the pre-trained models and built containers.
+    \item \textbf{Prometheus} - A time-series database that is highly optimized for telemetry collection.
     \item \textbf{etcd} - etcd is an in-memory database that will be responsible for holding the resources specifications and \ac{gazer} config.
 \end{itemize}

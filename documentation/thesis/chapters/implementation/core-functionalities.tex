@@ -9,7 +9,7 @@ This project contains three components that work together in order to makeup the
 For example, Kubernetes has a built-in resource named "Pod" which is the smallest deployable object in Kubernetes. So when a system administrator asked the Kube-API to create a pod out of a certain Docker container, Kube-API will create a resource object and attach it to the pod operator. Once that's done the pod operator will parse the pod resource specification and create a pod out of it. If for some reason the pod crashes or the administrator change the specification of the pod, the operator will be notified and it will re-run its reconciliation function to match the observed state with the desired state.
 
 \begin{figure}[H]
-    \includegraphics[width=11.5cm]{assets/implementation/kubernetes-control-loop.png}
+    \includegraphics[width=10cm]{assets/implementation/kubernetes-control-loop.png}
     \caption{Kubernetes control loop \citep{hausenblas2019programming}}
     % \label{fig:reconcile-loop}
 \end{figure}
@@ -20,7 +20,7 @@ Coming back to the \ac{lazy-koala-operator}, it has a Custom Resource Definition
 Figure \ref{fig:reconcile-loop} shows a part of this reconciliation loop, which get repeated every time there is a change to an existing resource or whenever the user creates a new variant of this resource.
 
 \begin{figure}[H]
-    \includegraphics[height=15cm]{assets/implementation/reconcile-loop.png}
+    \includegraphics[height=13cm]{assets/implementation/reconcile-loop.png}
     \caption{\ac{lazy-koala-operator} reconciliation loop (self-composed)}
     \label{fig:reconcile-loop}
 \end{figure}
@@ -34,7 +34,7 @@ Figure \ref{fig:reconcile-loop} shows a part of this reconciliation loop, which 
 The first probe is a TCP SYN backlog monitor that keeps track of the backlog size of the TCP SYN queue. Since every TCP connection starts with a 3-way handshake and the SYN packet is the first packet that will be sent from the client in this sequence. The entire request is kept on hold till this packet is acknowledged by the system. Hence unusually higher SYN backlog is a strong signal of something going wrong. Figure \ref{fig:backlog-probe} showcase the core part of this probe and how the backlog size is calculated.
 
 \begin{figure}[H]
-    \includegraphics[width=14cm]{assets/implementation/backlog-probe.png}
+    \includegraphics[width=13cm]{assets/implementation/backlog-probe.png}
     \caption{eBPF probe to collecting tcp backlog (self-composed)}
     \label{fig:backlog-probe}
 \end{figure}
@@ -57,7 +57,7 @@ As shown in the figure \ref{fig:gazer-enrich}, since \ac{gazer} already has a li
 Since the collected metric data has different units, each feature of the dataset has a different range. This makes the training process very inefficient hence the model has to learn the concept of scales and unit first, and the backpropagation algorithm works best when the output values of the network are between 0-1 \citep{sola1997importance}. So to normalize this dataset a slightly modified version of the min-max normalization equation was used. This was done due to the fact that in most typical conditions metric values fluctuate between a fixed and limited range. If the min-max normalization function was applied as it is, the model may be hypersensitive to the slightest fluctuation. So adding this padding on both high and low ends, acts as an attention mechanism that helps the model to look for large variations rather than focusing on smaller ones.
 
 \begin{figure}[H]
-    \includegraphics[width=12cm]{assets/implementation/normalize-data.png}
+    \includegraphics[width=10cm]{assets/implementation/normalize-data.png}
     \caption{Data normalization function (self-composed)}
     \label{fig:normalize-data}
 \end{figure}
@@ -65,14 +65,14 @@ Since the collected metric data has different units, each feature of the dataset
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.48\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
         \centering
         \includegraphics[width=\textwidth]{assets/implementation/before-normalization.png}
         \caption{Before Normalization}
         \label{fig:before-normalization}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
         \centering
         \includegraphics[width=\textwidth]{assets/implementation/after-normalization.png}
         \caption{After Normalization}
@@ -86,7 +86,7 @@ Since the collected metric data has different units, each feature of the dataset
 During the requirement engineering process it was found out even though RNN tends to perform better with time-series data, the convolutional autoencoders are very efficient at detecting anomalies from time-series data. So after the normalization step metric data is encoded into an image-like structure that can be inputted into a convolutional autoencoder.
 
 \begin{figure}[H]
-    \includegraphics[height=7cm]{assets/implementation/visualize-representation.png}
+    \includegraphics[height=6cm]{assets/implementation/visualize-representation.png}
     \caption{Visualization of encoded time series (self-composed)}
     \label{fig:visualize-representation}
 \end{figure}

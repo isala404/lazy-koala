@@ -40,19 +40,20 @@
   \vspace{-7mm}
   \end{itemize} \\ \hline
   \cite{kumarage2019generative} &
-  Uses a bidirectional \ac{gan} to predict future timesteps and uses MSE between prediction and real to determine the anomalies &
-  Experimented using a \ac{gan} to detect anomalies rather than using conventional autoencoders &
+  Uses a bidirectional GAN to predict future timesteps and uses MSE between prediction and real to determine the anomalies &
+  Experimented using a GAN to detect anomalies rather than using conventional autoencoders &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
     \item Accuracy is around 60\% which is not really good to use in production with mission-critical systems.
-    \item As this is a \ac{gan}-based system, it may take a lot of resources to run with production systems.
+    \item As this is a GAN-based system, it may take a lot of resources to run with production systems.
+  \vspace{-7mm}
   \end{itemize} \\ \hline
   \caption{Comparison of anomaly detection methods in distributed systems (self-composed)}
 \end{longtable}
 
 \subsection{Root cause identification}
 
-\begin{longtable}{| p{20mm} | p{43mm} | p{43mm} | p{43mm} |}
+\begin{longtable}{| p{20mm} | p{40mm} | p{46mm} | p{43mm} |}
 \hline
   \textbf{Citation} &
   \textbf{Technology summary} &
@@ -62,7 +63,7 @@
   Detect failures in networks, using machine learning to generate knowledge graphs on historical data &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-    \item Build a predictable system
+    \item Predictable system
     \item Automatic identification of dependencies between system events
     \item Doesn't Need to rely on Domain experts
     \item Generalized to different systems
@@ -71,7 +72,7 @@
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
     \item Limited to network issues
-    \item Even though the knowledge graph helped with visualization of the problem but still, people have to manually figure out what went wrong
+    \item Even though the knowledge graph helped with visualization, \acp{sres} still have to manually figure out what went wrong
   \vspace{-7mm}
   \end{itemize} \\ \hline
   \cite{chigurupati2017root} &

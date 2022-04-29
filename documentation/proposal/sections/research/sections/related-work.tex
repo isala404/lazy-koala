@@ -45,12 +45,12 @@
   \vspace{-7mm}
   \end{itemize} \\ \hline
   \cite{kumarage2019generative} &
-  Uses a bidirectional \ac{gan} to predict future timesteps and uses MSE between prediction and real to determine the anomalies &
-  Experimented using a \ac{gan} to detect anomalies rather than using conventional autoencoders &
+  Uses a bidirectional GAN to predict future timesteps and uses MSE between prediction and real to determine the anomalies &
+  Experimented using a GAN to detect anomalies rather than using conventional autoencoders &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
     \item Accuracy is around 60% which is not really good to use in production with mission-critical systems.
-    \item As this is a \ac{gan}-based system, it may take a lot of resources to run with production systems.
+    \item As this is a GAN-based system, it may take a lot of resources to run with production systems.
   \end{itemize} \\ \hline
   \caption{Comparison of anomaly detection methods in distributed systems}
 \end{longtable}
@@ -192,7 +192,7 @@
 
 % One of the earliest attempts on detecting anomalies in microservices was \cite{du2018anomaly}. In this authors tried using 4 different machine learning techniques to detect performance anomalies. To do this say used a simulated system and various fault injection mechanisms to create the dataset. In the end, they concluded K Nearest Neighbors classifier gives the most accurate classifications while Support vector machines have the worse.
 
-% A common way to detect anomalies in time series is using an autoencoder to reconstruct a given time series. After training the model should be able to come up with the generalized function about the given time series and it will be able to recreate any input sequence accurately. But when there is an anomaly in the input sequence models output will be vastly different from the input. We can use this reconstruction loss as a metric to uncover anomalies within the system. In \cite{kumarage2018anomaly} authors used the method to detect anomalies in distributed systems. In a continuation of their work \cite{kumarage2019generative} they tried doing the same thing by using a \ac{gan} but in the end, they concluded even though it showed a tendency towards better performance when the dataset gets bigger, with the dataset they had autoencoders perform well overall.
+% A common way to detect anomalies in time series is using an autoencoder to reconstruct a given time series. After training the model should be able to come up with the generalized function about the given time series and it will be able to recreate any input sequence accurately. But when there is an anomaly in the input sequence models output will be vastly different from the input. We can use this reconstruction loss as a metric to uncover anomalies within the system. In \cite{kumarage2018anomaly} authors used the method to detect anomalies in distributed systems. In a continuation of their work \cite{kumarage2019generative} they tried doing the same thing by using a GAN but in the end, they concluded even though it showed a tendency towards better performance when the dataset gets bigger, with the dataset they had autoencoders perform well overall.
 
 % Ever since DeepMind came up with wavenet which used a CNN to generate audio samples \citep{oord2016wavenet} researchers uncovering other potential use cases other than image-related tasks. One of those use cases was as CNN excels at pattern recognition, encoding time series data set into image-like data structures and use a CNN to identify abnormal patterns in it. On \cite{kim2018encoding} authors tried to using a novel technique to raw encode data into a pixel-like structure and found it could outperform the existing methods to detect anomalies in computer networks.
 
