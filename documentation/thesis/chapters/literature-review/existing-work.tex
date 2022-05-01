@@ -1,6 +1,7 @@
 \section{Existing Systems}
 
-As the large-scale migration towards the cloud and microservices started fairly recently the problem this research is trying to solve mostly affects large-scale enterprises there ain't a lot of published research on this domain. All the work done towards uncovering the root cause of failures by large co-operations either kept their finds for internal use to sell it as \ac{saas} product. 
+As the large-scale migration towards the cloud and microservices started fairly recently the problem this research is trying to solve mostly affects large-scale enterprises there ain't a lot of published research on this domain. All the work done towards uncovering the root cause of failures by large co-operations either kept their finds for internal use to sell it as Software as a service
+ (SaaS) product. 
 
 One of the best implementations found on root cause analysis is from Datadog. They created a platform called watchdog \citep{Watchdog76:online} which monitors the entire system for anomalies and failures in the background. When a failure happens it tries to pull all the relevant stack traces and monitoring data to a single view so the developer can diagnose the problem easily. The problem with this solution is even though it was announced back in July 2018, all that is available is currently in private beta which not everyone has access to.
 \\
@@ -14,7 +15,7 @@ All the currently published work on microservices monitoring can be classified i
 \subsection{Instrumentation}
 One of the first steps that need to be done to get visibility into running service is to set up a data collection pipeline that collects performance data about the service and writes to persistent storage for later evaluation. 
 
-Currently, the most popular way to collect telemetry data about micro-services is using an open-source tool called \href{https://prometheus.io/}{Prometheus} which was created by SoundCloud and later donated to \ac{cncf}. Usually, Prometheus has matched it \href{https://grafana.com/}{Grafana} visualized these data to make educated guesses. \cite{toka2021predicting} proposed Kubernetes native a data analytics pipeline that uses Prometheus for data scraping and runs a real-time analysis on them. The problem with this approach is to get some key data like the number of inbound and outbound requests, the service is required to be architectured to work with Prometheus. If it's third-party software without Prometheus integration, the system is limited to scraping metrics like CPU and Memory usage that are exposed by the operating system.
+Currently, the most popular way to collect telemetry data about micro-services is using an open-source tool called \href{https://prometheus.io/}{Prometheus} which was created by SoundCloud and later donated to Cloud Native Computing Foundation (CNCF). Usually, Prometheus has matched it \href{https://grafana.com/}{Grafana} visualized these data to make educated guesses. \cite{toka2021predicting} proposed Kubernetes native a data analytics pipeline that uses Prometheus for data scraping and runs a real-time analysis on them. The problem with this approach is to get some key data like the number of inbound and outbound requests, the service is required to be architectured to work with Prometheus. If it's third-party software without Prometheus integration, the system is limited to scraping metrics like CPU and Memory usage that are exposed by the operating system.
 
 \subsection{Anomaly detection}
 
