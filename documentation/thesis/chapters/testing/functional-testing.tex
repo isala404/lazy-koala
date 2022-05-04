@@ -1,1 +1,105 @@
 \section{Functional Testing}
+
+A series of black-box testing was performed on the system to find whether all the functional requirements are met and working as Expected. the following table summarizes the results of those experiments. 
+
+\begin{longtable}{|p{3mm}|p{30mm}|p{27mm}|p{33mm}|p{33mm}|p{10mm}|}
+    \hline
+    \textbf{\#} &
+      \textbf{Description} &
+      \textbf{System Input} &
+      \textbf{Expected Outcome} &
+      \textbf{Actual Outcome} &
+      \textbf{Status} \\ \hline
+    1 &
+      Deploy the \ac{lazy-koala-operator} &
+      Apply Lazy Koala manifests &
+      Provision all the resources &
+      Provision all the resources &
+      Pass \\ \hline
+    2 &
+      Remove the \ac{lazy-koala-operator} &
+      Delete Lazy Koala manifests &
+      Remove all the provisioned resources &
+      Remove all the provisioned resources &
+      Pass \\ \hline
+    3 &
+      Track a new service &
+      Deploy a new Inspector resource &
+      Update both \ac{gazer} and \ac{sherlock} configs &
+      Update both \ac{gazer} and \ac{sherlock} configs &
+      Pass \\ \hline
+    4 &
+      See the list of deployed Inspector resources &
+      Open the settings view &
+      List of deployments with tracked services highlighted &
+      List of deployments with tracked services highlighted &
+      Pass \\ \hline
+    5 &
+      Schedule \ac{gazer} instances in every node &
+      Deploy \ac{lazy-koala-operator} &
+      A instance of \ac{gazer} get deployed on every node &
+      A instance of \ac{gazer} get deployed on every node &
+      Pass \\ \hline
+    6 &
+      Scrape “inet\_sock\_set\_state” events from node kernel &
+      Deploy a instance of \ac{gazer} on node &
+      Export “inet\_sock\_set\_state” event data of interested IPs to prometheus. &
+      Export “inet\_sock\_set\_state” event data of interested IPs to prometheus. &
+      Pass \\ \hline
+    7 &
+      Scrape “sk\_ack\_backlog” events from node kernel &
+      Deploy a instance of \ac{gazer} on node &
+      Export “sk\_ack\_backlog” event data of interested IPs to prometheus. &
+      Export “sk\_ack\_backlog” event data of interested IPs to prometheus. &
+      Pass \\ \hline
+    8 &
+      Poll Kube API for CPU and memory usage data &
+      Deploy a instance of \ac{gazer} on node &
+      Export CPU and memory usage data of interested services to prometheus &
+      Export CPU and memory usage data of interested services to prometheus &
+      Pass \\ \hline
+    9 &
+      React to IP changes of interested services &
+      Deploy \ac{lazy-koala-operator} &
+      When a pod of tracked deployment get rescheduled, gazer config get updated to reflect that change &
+      When a pod of tracked deployment get rescheduled, gazer config get updated to reflect that change &
+      Pass \\ \hline
+    10 &
+      Real time config update for \ac{gazer} &
+      \ac{lazy-koala-operator} updates the \ac{gazer} config &
+      \ac{gazer} hot reloads the config and reflect on changes &
+      \ac{gazer} hot reloads the config and reflect on changes &
+      Pass \\ \hline
+    11 &
+      Real time config update for \ac{sherlock} &
+      \ac{lazy-koala-operator} updates the \ac{sherlock} config &
+      \ac{sherlock} hot reloads the config and reflect on changes &
+      \ac{sherlock} hot reloads the config and reflect on changes &
+      Pass \\ \hline
+    12 &
+      Regularly calculate anomaly scores &
+      Deploy a new Inspector resource &
+      Aggregate metric data and use the specified model to calculate the anomaly score &
+      Aggregate metric data and use the specified model to calculate the anomaly score &
+      Pass \\ \hline
+    13 &
+      Visualization the service mesh to understand the root course &
+      Open the dashboard &
+      Query prometheus for “request\_exchange” and derive a graph from it, along with service health &
+      Query prometheus for “request\_exchange” and derive a graph from it, along with service health &
+      Pass \\ \hline
+    14 &
+      Clean up orphaned resources &
+      Delete an existing Inspector resource &
+      Destroy all the child resources of the parent Inspector resource &
+      Destroy all the child resources of the parent Inspector resource &
+      Pass \\ \hline
+    15 &
+      Automatic model updates &
+      \ac{lazy-koala-operator} provinces fine tuner &
+      Fine tune the existing model newer data &
+      Fine tune the existing model newer data &
+      Fail \\ \hline
+
+      \caption{Results of Functional Testing}
+\end{longtable}

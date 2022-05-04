@@ -140,10 +140,10 @@ Since this project touched the deep ends of both \ac{sre} and data science expec
         
     \functionalRequirement
     {FR11}
-    {Lazy Koala should provision an instance of \ac{sherlock} for each of the monitored services.}
-    {\ac{sherlock} is responsible for analyzing all the metric data that are exported from \ac{gazer}.}
+    {\ac{sherlock} should provision the list of models given by \ac{lazy-koala-operator}}
+    {\ac{sherlock} should react to updates from \ac{lazy-koala-operator} and provision models on demand.}
     {Must have}
-    {UC-10, UC-11}
+    {UC-10}
     
         
     \functionalRequirement

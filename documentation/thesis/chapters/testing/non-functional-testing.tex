@@ -1,9 +1,34 @@
 \section{Non-Functional Testing}
 
+Non-functional testing is important just as important as functional testing since it is the basis for the quality of the product. It is important to ensure that the product is stable and reliable.
+
 \subsection{Performance Testing}
+
+One of the critical design goals of the system is to be able to utilize as fewer resources as possible while achieving all the functional requirements. To achieve this the author used various techniques such as using system-level languages to write the core features and utilizing modern coding practices such as coroutines to reduce the wastage of resources.\\
+
+\noindent The following digram shows the relationship between number of service that's being tracked vs the resource usage of the system.\\[6cm]
+
+
 
 \subsection{Usability Testing}
 
+To increase the adaptability and usability of the system the author undertook a number of steps
+
+\begin{itemize}
+    \item As shown in the section \ref{sec:module-integration-testing} all the components of the system is designed in away that allows uses to install indiviual components and still make use of them effectibly.
+    \item Even though most of Kubernetes tooling revolved around terminals, for this system the author has created an intuitive UI so that users can interact without having to go though long documentations.
+    \item The service graph is designed to be easily navigable and to allow users to easily find the relevant services.
+    \item The entire application was packaged as a helm chart so the end-users can deploy or removed it to their cluster using a single command.
+
+\end{itemize}
+
+
+During the evaluation phase, the author demonstrated the end-to-end behavior of the system and asked the evaluators to rate the usability of the system. The results of that are shown below. \\[6cm]
+
 \subsection{Maintainability Testing}
+
+
+
+
 
 \subsection{Generalisation Testing}
