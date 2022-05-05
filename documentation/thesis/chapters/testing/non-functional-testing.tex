@@ -9,7 +9,6 @@ One of the critical design goals of the system is to be able to utilize as fewer
 \noindent The following digram shows the relationship between number of service that's being tracked vs the resource usage of the system.\\[6cm]
 
 
-
 \subsection{Usability Testing}
 
 To increase the adaptability and usability of the system the author undertook a number of steps
@@ -22,13 +21,64 @@ To increase the adaptability and usability of the system the author undertook a 
 
 \end{itemize}
 
-
-During the evaluation phase, the author demonstrated the end-to-end behavior of the system and asked the evaluators to rate the usability of the system. The results of that are shown below. \\[6cm]
-
-\subsection{Maintainability Testing}
+\noindent During the evaluation phase, the author demonstrated the end-to-end behavior of the system and asked the evaluators to rate the usability of the system. The results of that are shown below.
 
 
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[bH]{0.49\textwidth}
+        \centering
+        \includegraphics[width=8cm]{assets/testing/usability.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[bH]{0.49\textwidth}
+        \centering
+        \includegraphics[width=8cm]{assets/testing/use-or-not.png}
+    \end{subfigure}
+    \hfill
+    \caption{Usability of the system as rated by evaluator (self-composed)}
+\end{figure}
 
+
+
+
+\subsection{Maintainability and Adaptability Testing}
+
+Main propose of this project is to provide a framework to research community to built uporn in order to push the boundaries of \ac{aiops}. So from the very begin the system was consciously designed in a way that it is easy to maintain and to be easily extended. Since quantifying the results of these effort is difficult, the author asked the evaluators number of questions to gauge the maintainability and adaptability of the system. The results of that are shown below.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[bH]{0.49\textwidth}
+        \centering
+        \includegraphics[width=8cm]{assets/testing/adaptability.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[bH]{0.49\textwidth}
+        \centering
+        \includegraphics[width=8cm]{assets/testing/build-uporn.png}
+    \end{subfigure}
+    \hfill
+    \caption{Maintainability and adaptability of the system as rated by evaluator (self-composed)}
+\end{figure}
 
 
 \subsection{Generalisation Testing}
+
+Deep learning component of this system is based on the idea that at a fundamental level all service acts the same. So the author collected telemtery data from all the services and trained a single model to understand the  behaviour of the system. Onces that based model is trained, it was fine tuned on the data collected from each service so the model get specialized to that particular service.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[bH]{0.49\textwidth}
+        \centering
+        \includegraphics[width=8cm]{assets/testing/loss-base-model.png}
+        \caption{Training loss of the base model}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[bH]{0.49\textwidth}
+        \centering
+        \includegraphics[width=8cm]{assets/testing/loss-service-2.png}
+        \caption{Training loss of a specialized model}
+    \end{subfigure}
+    \hfill
+    \caption{Generalizability of the Autoencoder (self-composed)}
+\end{figure}

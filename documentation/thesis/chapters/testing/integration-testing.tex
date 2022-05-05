@@ -18,21 +18,28 @@ Since this system was developed to scale and fit into the microservices eco-syst
     Pass \\ \hline
     Handle new Inspector resource creation &
     kube-apiserver &
-    Update \ac{gazer} and \ac{sherlock} configs to track the given deployment &
-    Update \ac{gazer} and \ac{sherlock} configs to track the given deployment &
+    Update \ac{gazer} and \ac{sherlock} configs to track the deployment &
+    Update \ac{gazer} and \ac{sherlock} configs to track the deployment &
     Pass \\ \hline
     Handle IP changes of pods &
     kube-controller-manager &
-    Whenever a pod get rescheduled update \ac{gazer} config to track the new IP &
-    Whenever a pod get rescheduled update \ac{gazer} config to track the new IP &
+    When a pod get change, update \ac{gazer} config to track the new IP &
+    When a pod get change, update \ac{gazer} config to track the new IP &
     Pass \\ \hline
     Handle Inspector resource deletion &
     kube-apiserver &
-    Update \ac{gazer} and \ac{sherlock} configs to untrack the given deployment &
-    Update \ac{gazer} and \ac{sherlock} configs to untrack the given deployment &
+    Update \ac{gazer} and \ac{sherlock} configs to untrack the deployment &
+    Update \ac{gazer} and \ac{sherlock} configs to untrack the deployment &
     Pass \\ \hline
-    \caption{Operator Integration Testing}
+    \caption{Operator Integration Testing (self-composed)}
 \end{longtable}
+
+\begingroup
+\setlength{\abovedisplayskip}{-0.5cm}
+\[
+\text{\ac{lazy-koala-operator} integration test pass rate} = \frac{\text{Number of passed test cases}}{\text{Total number of test cases}} = \frac{4}{4} = 100\%
+\]
+\endgroup
 
 \subsection{Gazer Integration Testing}
 
@@ -73,9 +80,15 @@ Since this system was developed to scale and fit into the microservices eco-syst
       Aggregate service all telemetry data and export to prometheus &
       Aggregate service all telemetry data and export to prometheus &
       Pass \\ \hline
-    \caption{Gazer Integration Testing}
+    \caption{Gazer Integration Testing (self-composed)}
 \end{longtable}
 
+\begingroup
+\setlength{\abovedisplayskip}{-0.5cm}
+\[
+\text{\ac{gazer} integration test pass rate} = \frac{\text{Number of passed test cases}}{\text{Total number of test cases}} = \frac{6}{6} = 100\%
+\]
+\endgroup
 
 \subsection{Sherlock Integration Testing}
 
@@ -101,8 +114,15 @@ Since this system was developed to scale and fit into the microservices eco-syst
       Translate user’s input to Inspector resource specification &
       Translate user’s input to Inspector resource specification &
       Pass \\ \hline
-    \caption{Sherlock Integration Testing}
+    \caption{Sherlock Integration Testing (self-composed)}
 \end{longtable}
+
+\begingroup
+\setlength{\abovedisplayskip}{-0.5cm}
+\[
+\text{\ac{sherlock} integration test pass rate} = \frac{\text{Number of passed test cases}}{\text{Total number of test cases}} = \frac{3}{3} = 100\%
+\]
+\endgroup
 
 \subsection{UI Integration Testing}
 
@@ -128,5 +148,13 @@ Since this system was developed to scale and fit into the microservices eco-syst
       Translate user’s input to Inspector resource specification &
       Translate user’s input to Inspector resource specification &
       Pass \\ \hline
-    \caption{UI Integration Testing}
+    \caption{UI Integration Testing (self-composed)}
 \end{longtable}
+
+
+\begingroup
+\setlength{\abovedisplayskip}{-0.5cm}
+\[
+\text{UI integration test pass rate} = \frac{\text{Number of passed test cases}}{\text{Total number of test cases}} = \frac{3}{3} = 100\%
+\]
+\endgroup
