@@ -1,36 +1,25 @@
 \section{Self-Reflection}
 
-Even though the start of the implementation phase was a bit rocky, with time the author developed a deep understanding of all the tools and technologies required to build this project and manage to implement all the core functionalities to a high standard. One of the main goals the author has set up for themselves was to build this entire system be efficient as possible. Figure \ref{fig:service-benchmark} shows the resource usage of four services that a provisioned as part of this system while running under heavy load. Even then all four components combined don't use over 200MB of Memory and less than 0.1\% of the total CPUs available.
+After about almost nine months of hard work, the project was completed. During this time the author set a lot of goals for themselves. The following table shows the author's thoughts on the progress of those goals and how well they were achieved and what could be improved upon.
 
-\begin{figure}[H]
-    \includegraphics[width=15cm]{assets/implementation/service-benchmark.png}
-    \caption{Resource usage of Lazy-Koala components (self-composed)}
-    \label{fig:service-benchmark}
-\end{figure}
-
-At the current stage of the project, all the functionality of \ac{gazer} is implemented properly and telemetry scraping works as expected (Refer Appendix \ref{appendix:prometheus-dashboard} for Prometheus dashboard). Although some of the functionality of the \ac{lazy-koala-operator} was left out due to the limited time, notably the \ac{lazy-koala-operator} doesn't provision an instance of \ac{sherlock} due to the fact that model delivery process hasn't been finalized.
-
-Initial results of \ac{sherlock} show that the author's hypothesis about the machine learning model architecture is feasible. Figure \ref{fig:normal-state} show encoded metric status while the system was stable and the reconstruction from \ac{sherlock} shows a similar output. This means reconstruction error is low hence the lower anomaly score. When it comes to \ref{fig:abnormal-state} there is a large difference between the input and output data frames. This is because the model hasn't seen metric levels like these and trying to stick to what it has been trained on. Hence the large reconstruction error.
-
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.7\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{assets/implementation/normal-state.png}
-        \caption{Normal State}
-        \label{fig:normal-state}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.7\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{assets/implementation/abnormal-state.png}
-        \caption{Abnormal State}
-        \label{fig:abnormal-state}
-    \end{subfigure}
-    \hfill
-       \caption{Initial results of the \ac{sherlock} model (self-composed)}
-\end{figure}
-
-\section{Video Demo}
-
-The explanation of the research and video demonstration of the project can be found from here \href{https://www.youtube.com/watch?v=d5C2qLK1rG8}{https://www.youtube.com/watch?v=d5C2qLK1rG8}
+\begin{longtable}{|p{35mm}|p{125mm}|}
+    \hline
+    \textbf{Criteria} &
+    \textbf{Self-evaluation by the Author} \\ \hline
+  Overall impression about the project and research gap &
+    Main bases for this project were difficulties the author faced during their industry placement. All the existing service mesh visualizers require either a sidecar container or service level telemetry reporting work. During the requirement elicitation process it was found out the component \ac{gazer} alone will provide a big value addition to the field. \\ \hline
+  Research scope and depth &
+    During project proposal status few of the industry experts were a bit worried about the scope of this project and not being able to complete on time. Since the author was confident in their skills to bring such a system to life, they took it as a challenge they can cover. So the author is very confident the scope covered in this project is very sufficient for a bachelor's level research project. \\ \hline
+  Design and architecture &
+    This project was designed from ground up to be lightweight, scalable and decoupled as possible. So from programming language to libraries what was used were chosen very carefully. As shown in \ref{sec:performance-testing} system is extremely lightweight even under sustained load. All the components in this are individually scalable. \\ \hline
+  Prototype implementation &
+    This project contains 3 custom build microservices that can work individually or in collaboration to add value to the user. \ac{lazy-koala-operator} built to extend Kubneates’s functionally. This is an extremely difficult process since the general consensus is Kubneates itself has a very steep learning curve \citep{Googlead4:online}. \ac{gazer} is \ac{ebpf} agent which directly interacts with the Linux Kernel. In order to achieve this the author has to learn about Kernel data structures and how they behave. Finally \ac{sherlock}, the AI engine is written in Rust to have the lowest memory and CPU footprint. To achieve this the author had to implement some of the features like matrix normalization from the ground up since Rust doesn't have a strong data science ecosystem like Python or R. \\ \hline
+  Platform usability &
+    Usually Kubernetes based applications rely on “kubectl” utility to interact with. But this project offers a user-friendly web UI along with kubectl integration so the end users can choose whatever they prefer to interact with the system. This approach allows power users like the author to interact with the system very efficiently, still allowing newbies to access the same functionality using a GUI but with some additional clicks. \\ \hline
+  Contribution to the Domain &
+    At the current stage the project offers good value to \acp{sres} to understand the system and figure out where the issues are coming from. Since this project is developed in a way which is easy to extend, the future researchers will have an easier time forcing on improving the prediction part without having to worry about data gathering and process. \\ \hline
+  Future work &
+    One of the main key components that was left out from the project scope due to the time constraints is giving the \ac{lazy-koala-operator}  the ability to constantly fine tune models so they can adapt to change in the service overtime. So in the future the author hopes to add this functionally as well. \\ \hline
+  
+    \caption{Self-evaluation by the author (self-composed)}
+\end{longtable}
