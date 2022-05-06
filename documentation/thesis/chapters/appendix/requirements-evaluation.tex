@@ -1,0 +1,45 @@
+\chapter{Evaluations}
+
+\section{Evaluation of the functional requirements}\label{appendix:evaluation-functional-requirements}
+
+\begin{longtable}{|p{13mm}|p{80mm}|p{26mm}|p{27mm}|}
+    \hline
+    \textbf{ID} & \textbf{Requirement and Description} & \textbf{Priority Level} & \textbf{Status} \\ \hline
+    FR01 & Users should be able to deploy the \ac{lazy-koala-operator} to an existing Kubernetes cluster. & Must have & Implemented \\ \hline
+    FR02 & Users should be able to remove the \ac{lazy-koala-operator} completely from the cluster. & Should have & Implemented \\ \hline
+    FR03 & Users should be able to specify which services need to be monitored. & Must have & Implemented \\ \hline
+    FR04 & Users should be able to see the services monitored by \ac{lazy-koala-operator} & Could have & Implemented \\ \hline
+    FR05 & \ac{lazy-koala-operator} should deploy an instance of \ac{gazer} to every node in the cluster. & Must have & Implemented \\ \hline
+    FR06 & \ac{gazer} should intersect all “inet\_sock\_set\_state” kernel calls and export the relevant data to Prometheus. & Must have & Implemented \\ \hline
+    FR07 & \ac{gazer} periodically polls the size of “sk\_ack\_backlog” for interested ports to export the relevant data to Prometheus. & Should have & Implemented \\ \hline
+    FR08 & \ac{gazer} should poll the Kubernetes metric server periodically and export the relevant data to Prometheus. & Must have & Implemented \\ \hline
+    FR09 & \ac{lazy-koala-operator} should periodically check for changes in monitored services and update the \ac{gazer} ConfigMap. & Should have & Implemented \\ \hline
+    FR10 & \ac{gazer} should react to config updates in realtime. & Could have & Implemented \\ \hline
+    FR11 & \ac{sherlock} should provision the list of models given by \ac{lazy-koala-operator} & Must have & Implemented \\ \hline
+    FR12 & \ac{sherlock} should periodically calculate the anomaly score for each of the monitored services and export it to Prometheus. & Must have & Implemented \\ \hline
+    FR13 & \ac{lazy-koala-operator} should have a Web UI to visualize the service topology. & Should have & Implemented \\ \hline
+    FR14 & \ac{lazy-koala-operator} should add a finalizer for each of the provisioned resources. & Should have & Implemented \\ \hline
+    FR15 & \ac{lazy-koala-operator} should periodically fine-tune models. & Will not have & Not Implemented \\ \hline
+    \caption{Evaluation of the functional requirements}
+\end{longtable}
+
+
+
+\section{Evaluation of the non-functional requirements}\label{appendix:evaluation-non-functional-requirements}
+
+
+\begin{longtable}{|p{13mm}|p{80mm}|p{26mm}|p{27mm}|}
+    \hline
+    \textbf{ID} & \textbf{Description} & \textbf{Priority Level} & \textbf{Status} \\ \hline
+    NFR1 & \ac{lazy-koala-operator} should follow Principle of Least Privilege when accessing Kubernetes APIs. & Must have & Implemented \\ \hline
+    NFR2 & Systems should have fragmented architecture so each component can be individually scaled in order to save resources. & Must have & Implemented \\ \hline
+    NFR3 & Each component should work individually such that users can install parts of the system they are interested in. & Could have & Implemented \\ \hline
+    NFR4 & \ac{gazer} should be limited for using only 100 mCPUs and 80MB of memory. & Should have & Implemented \\ \hline
+    NFR5 & \ac{sherlock} should be limited to using only 100 mCPUs and 100MB of memory. & Could have & Implemented \\ \hline
+    NFR6 & \ac{lazy-koala-operator} should be packaged as a Helm Chart for ease of use. & Must have & Implemented \\ \hline
+    NFR7 & Reconstruction error of Sherlock should be under 0.1\% & Could have & Implemented \\ \hline
+    NFR8 & \ac{lazy-koala-operator}’s reconciliation loop should use exponential backoff technique when there is an error while reconciling for a config change. & Must have & Implemented \\ \hline
+    NFR9 & Follow Coding best practices and rely on linters for code formatting. & Could have & Implemented \\ \hline
+    NFR10 & The project should be backed by an automated CI/CD tool to test and build each component with each release. & Could have & Implemented \\ \hline
+    \caption{Evaluation of the non-functional requirements}
+\end{longtable}
