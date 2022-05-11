@@ -22,20 +22,20 @@
     \item Only be able to identify predetermined issues
     \item Require a sidecar that includes a lot of overhead
     \item Won't work with event-driven architectures (this is where most of the new systems are headed)
-    \item Uses Supervised learning and it's near impossible to find real-world data with labels
+    \item Uses Supervised learning and it is near impossible to find real-world data with labels
   \vspace{-7mm}
   \end{itemize} \\ \hline
   \cite{kumarage2018anomaly} &
-  The authors here are proposing a semi-supervised technique using a Variational Autoencoder to predict future time steps and calculate the difference between predicted and actual to detect anomalies. &
+  The authors here propose a semi-supervised technique using a Variational Autoencoder to predict future time steps and calculate the difference between predicted and actual to detect anomalies. &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
     \item Due to the difficulty of finding labeled research data, they settled on using a semi-supervised technique.
-    \item Used randomized decision trees were utilized to select the most suitable features for each component.
+    \item Randomized decision trees used were used to select the most suitable characteristics for each component.
   \vspace{-7mm}
   \end{itemize} &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-    \item The model won't be easily transformable for other systems
+    \item The model will not be effortlessly transformable for other systems
     \item If more new key features were added to the system it will require a total retraining
   \vspace{-7mm}
   \end{itemize} \\ \hline
@@ -44,7 +44,7 @@
   Experimented using a GAN to detect anomalies rather than using conventional autoencoders &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-    \item Accuracy is around 60\% which is not really good to use in production with mission-critical systems.
+    \item Accuracy is around 60\%, which is not very good to use in production with mission-critical systems.
     \item As this is a GAN-based system, it may take a lot of resources to run with production systems.
   \vspace{-7mm}
   \end{itemize} \\ \hline
@@ -76,12 +76,12 @@
   \vspace{-7mm}
   \end{itemize} \\ \hline
   \cite{chigurupati2017root} &
-  Proposed a way to detect Hardware failures in servers using a probabilistic graphical model which concisely describes the relationship between many random variables and their conditional independence &
+  Proposed a way to detect hardware failures in servers using a probabilistic graphical model that concisely describes the relationship between many random variables and their conditional independence &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
     \item Find hidden meaning in values that seems random
     \item Used a probabilistic approach to better understand the relationship between inputs and outputs
-    \item Gives all the possible root cause to a given problem
+    \item Gives all the possible root causes for a given problem
   \vspace{-7mm}
   \end{itemize} &
   \vspace{-8mm}
@@ -111,10 +111,10 @@
   Find Performance bottlenecks in distributed systems using an attribute graph to find anomaly propagation across services and machines &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-    \item Created a custom Faults Injection module
-    \item Uses an attribute graph to localize to faulty service
+    \item Created a custom Fault Injection module
+    \item Uses an attribute graph to localise to faulty service
     \item Application-agnostic by using a service mesh
-    \item Rely on service mesh to determine network topology
+    \item Rely on the service mesh to determine network topology
     \item Uses unsupervised learning
   \vspace{-7mm}
   \end{itemize} &
@@ -147,7 +147,7 @@
   \end{itemize} &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-    \item Lack of explainability for certain classifications.
+    \item Lack of explanation for certain classifications.
     \item All the telemetry data need to be sent to a third party.
   \vspace{-7mm}
   \end{itemize} \\ \hline
@@ -155,15 +155,15 @@
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
     \item Monitor the metric data of the entire system from the background.
-    \item Monitor logging data.
+    \item Monitor the log data.
     \item Highlight relevant components affected by an issue.
   \vspace{-7mm}
   \end{itemize} &
   \vspace{-8mm}
   \begin{itemize}[leftmargin=*,noitemsep,nolistsep] 
-    \item Announced in 2018 but is still at private beta.
-    \item Require code changes and tight integration with datadog platform.
-    \item Available demos about the system seems to be engineered for demonstration purposes.
+    \item Announced in 2018 but is still in private beta.
+    \item Require code changes and tight integration with the datadog platform.
+    \item Available demos about the system seem to be designed for demonstration purposes.
   \vspace{-7mm}
   \end{itemize} \\ \hline
   \caption{Comparison of commercial products for root cause analysis (self-composed)}
