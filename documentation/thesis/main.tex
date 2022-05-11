@@ -10,7 +10,7 @@
 \patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{Lazy-Koala: A Lazy Approach for Root Cause Analysis in Distributed Systems}}
+\lhead{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{Lazy-Koala: A Lightweight Framework for Root Cause Analysis in Distributed Systems}}
 \rfoot{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{\thepage}}
 \lfoot{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{Isala Piyarisi | 2018421}}
 \renewcommand{\headrulewidth}{0pt}
@@ -26,20 +26,20 @@
 \pagenumbering{roman}
 
 \input{chapters/abstract}
+\input{chapters/declaration}
+\input{chapters/acknowledgement}
 \addcontentsline{toc}{chapter}{Abstract}
+\addcontentsline{toc}{chapter}{Declaration}
+\addcontentsline{toc}{chapter}{Acknowledgement}
 
 % Table of Contents---------------------------------------------------
 \tableofcontents
 % List of Figures---------------------------------------------------
 % \cleardoublepage
-{\let\clearpage\relax
 \listoffigures
-}
 \addcontentsline{toc}{chapter}{\listfigurename}
 % List of Tables---------------------------------------------------
-{\let\clearpage\relax 
 \listoftables
-}
 \addcontentsline{toc}{chapter}{\listtablename}
 
 % \cleardoublepage
