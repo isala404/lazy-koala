@@ -9,6 +9,6 @@ roleRef:
   name: lazy-koala
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.operator.serviceAccountName }}
+    name: {{ .Values.operator.serviceAccount.name }}
     namespace: {{ .Release.Namespace }}
 {{- end }}

@@ -9,6 +9,6 @@ roleRef:
   name: gazer
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.gazer.serviceAccountName }}
+    name: {{ .Values.gazer.serviceAccount.name }}
     namespace: {{ .Release.Namespace }}
 {{- end }}

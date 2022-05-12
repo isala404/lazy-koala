@@ -19,7 +19,7 @@ spec:
         {{- include "lazy-koala.selectorLabels" . | nindent 6 }}
         lazykoala: prometheus
     spec:
-      serviceAccountName: {{ .Values.gazer.serviceAccountName }}
+      serviceAccountName: {{ .Values.gazer.serviceAccount.name }}
       securityContext:
         runAsUser: 65534
         runAsNonRoot: true

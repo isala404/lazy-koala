@@ -29,7 +29,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ .Values.gazer.serviceAccountName }}
+      serviceAccountName: {{ .Values.gazer.serviceAccount.name }}
       securityContext:
         {{- toYaml .Values.gazer.podSecurityContext | nindent 8 }}
       containers:
