@@ -1,0 +1,58 @@
+{{- if .Values.inspector.create -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "inspector"
+  labels:
+    {{- include "lazy-koala.labels" . | nindent 4 }}
+    lazykoala: inspector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "lazy-koala.selectorLabels" . | nindent 6 }}
+      lazykoala: inspector
+  template:
+    metadata:
+      {{- with .Values.inspector.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "lazy-koala.selectorLabels" . | nindent 8 }}
+        lazykoala: inspector
+    spec:
+      {{- with .Values.inspector.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.operator.serviceAccountName }}
+      securityContext:
+        {{- toYaml .Values.inspector.podSecurityContext | nindent 8 }}
+      containers:
+        - name: inspector
+          command: ["inspector"]
+          securityContext:
+            {{- toYaml .Values.inspector.securityContext | nindent 12 }}
+          image: "{{ .Values.inspector.image.repository }}:{{ .Values.inspector.image.tag }}"
+          imagePullPolicy: {{ .Values.inspector.image.pullPolicy }}
+          ports:
+            - containerPort: 8090
+              name: http
+          env:
+            {{- toYaml .Values.inspector.env | nindent 12 }}
+          resources:
+            {{- toYaml .Values.inspector.resources | nindent 12 }}
+      {{- with .Values.inspector.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.inspector.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.inspector.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

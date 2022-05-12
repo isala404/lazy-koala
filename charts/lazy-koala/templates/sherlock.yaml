@@ -1,0 +1,92 @@
+{{- if .Values.sherlock.create -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "lazy-koala-sherlock"
+  labels:
+    {{- include "lazy-koala.labels" . | nindent 4 }}
+    lazykoala: sherlock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "lazy-koala.selectorLabels" . | nindent 6 }}
+      lazykoala: sherlock
+  template:
+    metadata:
+      {{- with .Values.sherlock.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "lazy-koala.selectorLabels" . | nindent 8 }}
+        lazykoala: sherlock
+    spec:
+      {{- with .Values.sherlock.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.sherlock.serviceAccountName }}
+      securityContext:
+        {{- toYaml .Values.sherlock.podSecurityContext | nindent 8 }}
+      containers:
+        - name: sherlock
+          securityContext:
+            {{- toYaml .Values.sherlock.securityContext | nindent 12 }}
+          image: "{{ .Values.sherlock.image.repository }}:{{ .Values.sherlock.image.tag }}"
+          imagePullPolicy: {{ .Values.sherlock.image.pullPolicy }}
+          ports:
+            - containerPort: 9898
+              name: metrics
+          env:
+            {{- toYaml .Values.sherlock.env | nindent 12 }}
+          volumeMounts:
+            - name: sherlock-config
+              mountPath: /app/config
+        - name: model-poller
+          image: "{{ .Values.pollerImage.image.repository }}:{{ .Values.pollerImage.image.tag }}"
+          imagePullPolicy: {{ .Values.pollerImage.image.pullPolicy }}
+          env:
+            - name: BUCKET_NAME
+              value: {{ .Values.sherlock.bucketName }}
+          command:
+            - /bin/bash
+            - -ce
+            - |-
+                mkdir -p models
+                while true; do gsutil -m rsync -d -r gs://$BUCKET_NAME models; sleep 60; done
+        - name: servings
+          image: "{{ .Values.servingImage.image.repository }}:{{ .Values.servingImage.image.tag }}"
+          imagePullPolicy: {{ .Values.servingImage.image.pullPolicy }}
+          args:
+            [
+              "--model_config_file_poll_wait_seconds=60",
+              "--model_config_file=/config/models.config",
+            ]
+          ports:
+            - containerPort: 8501
+              name: http
+          volumeMounts:
+            - name: sherlock-config
+              mountPath: /config
+            - name: model-files
+              mountPath: /models
+      volumes:
+        - name: sherlock-config
+          configMap:
+            name: sherlock-config
+        - name: model-files
+          emptyDir: {}
+      {{- with .Values.sherlock.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sherlock.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sherlock.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

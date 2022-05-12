@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: gazer-config
+ namespace: lazy-koala
+data:
+ config.yaml: |
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sherlock-config
+  namespace: lazy-koala
+data:
+  models.config: |
+  services.yaml: |

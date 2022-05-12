@@ -17,7 +17,6 @@ spec:
       containers:
         - name: inspector
           command: ["inspector"]
-          # args: ["-c", "while true; do echo hello; sleep 10;done"]
           imagePullPolicy: Always
           image: ghcr.io/mrsupiri/lazy-koala/inspector:latest
           ports:

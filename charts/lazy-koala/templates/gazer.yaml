@@ -1,0 +1,81 @@
+{{- if .Values.gazer.create -}}
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: "gazer"
+  namespace: lazy-koala
+  labels:
+    {{- include "lazy-koala.labels" . | nindent 4 }}
+    lazykoala: gazer
+spec:
+  replicas: 1
+  hostNetwork: true
+  hostPID: true
+  selector:
+    matchLabels:
+      {{- include "lazy-koala.selectorLabels" . | nindent 6 }}
+      lazykoala: gazer
+  template:
+    metadata:
+      {{- with .Values.gazer.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "lazy-koala.selectorLabels" . | nindent 8 }}
+        lazykoala: gazer
+    spec:
+      {{- with .Values.gazer.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.gazer.serviceAccountName }}
+      securityContext:
+        {{- toYaml .Values.gazer.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.gazer.securityContext | nindent 12 }}
+          image: "{{ .Values.gazer.image.repository }}:{{ .Values.gazer.image.tag }}"
+          imagePullPolicy: {{ .Values.gazer.image.pullPolicy }}
+          ports:
+            - containerPort: 8000
+              name: metrics
+          resources:
+            {{- toYaml .Values.gazer.resources | nindent 12 }}
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: PYTHONWARNINGS
+              value: "ignore:Unverified HTTPS request"
+          volumeMounts:
+            {{- toYaml .Values.gazer.volumeMounts | nindent 12 }}
+      initContainers:
+        - name: init-headers
+          image: "{{ .Values.gazer.initImage.repository }}:{{ .Values.gazer.initImage.tag }}"
+          imagePullPolicy: {{ .Values.gazer.initImage.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.gazer.securityContext | nindent 12 }}
+          volumeMounts:
+            {{- toYaml .Values.gazer.volumeMounts | nindent 12 }}
+      {{- with .Values.gazer.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.gazer.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.gazer.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.gazer.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

@@ -1,0 +1,89 @@
+{{- if .Values.gazer.create -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: lazy-koala
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 10s
+    scrape_configs:
+      - job_name: 'lazy-koala'
+        scrape_interval: 1s
+        metrics_path: /
+        kubernetes_sd_configs:
+        - role: pod
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_annotationpresent_lazy_koala_scrape]
+          action: keep
+          regex: true
+        - source_labels: [__meta_kubernetes_pod_container_port_name]
+          regex: metrics
+          action: keep
+        - source_labels: [__meta_kubernetes_pod_container_name]
+          target_label: gazer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-lazy-koala-pv
+  namespace: lazy-koala
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: lazy-koala
+  labels:
+    {{- include "lazy-koala.labels" . | nindent 4 }}
+    lazykoala: prometheus
+spec:
+  selector:
+    matchLabels:
+      {{- include "lazy-koala.selectorLabels" . | nindent 6 }}
+      lazykoala: prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "lazy-koala.selectorLabels" . | nindent 6 }}
+        lazykoala: prometheus
+    spec:
+      serviceAccountName: {{ .Values.gazer.serviceAccountName }}
+      securityContext:
+        runAsUser: 65534
+        runAsNonRoot: true
+        runAsGroup: 65534
+        fsGroup: 65534
+      containers:
+        - name: prometheus
+          image: "{{ .Values.prometheusImage.image.repository }}:{{ .Values.prometheusImage.image.tag }}"
+          imagePullPolicy: {{ .Values.prometheusImage.image.pullPolicy }}
+          args:
+            [
+              "--storage.tsdb.path=/data",
+              "--config.file=/etc/prometheus/prometheus.yml",
+            ]
+          ports:
+            - containerPort: 9090
+              name: default
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus
+            - name: prom-pvc
+              mountPath: /data
+      volumes:
+        - name: config-volume
+          configMap:
+            name: prometheus-config
+        - name: prom-pvc
+          persistentVolumeClaim:
+            claimName: prometheus-lazy-koala-pv
+{{- end }}
