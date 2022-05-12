@@ -1,9 +1,21 @@
 {{- if .Values.gazer.create -}}
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-lazy-koala-pv
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-config
-  namespace: lazy-koala
+  namespace: {{ .Release.Namespace }}
 data:
   prometheus.yml: |
     global:
@@ -24,23 +36,11 @@ data:
         - source_labels: [__meta_kubernetes_pod_container_name]
           target_label: gazer
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: prometheus-lazy-koala-pv
-  namespace: lazy-koala
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 8Gi
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus
-  namespace: lazy-koala
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "lazy-koala.labels" . | nindent 4 }}
     lazykoala: prometheus
@@ -64,8 +64,8 @@ spec:
         fsGroup: 65534
       containers:
         - name: prometheus
-          image: "{{ .Values.prometheusImage.image.repository }}:{{ .Values.prometheusImage.image.tag }}"
-          imagePullPolicy: {{ .Values.prometheusImage.image.pullPolicy }}
+          image: "{{ .Values.gazer.prometheusImage.repository }}:{{ .Values.gazer.prometheusImage.tag }}"
+          imagePullPolicy: {{ .Values.gazer.prometheusImage.pullPolicy }}
           args:
             [
               "--storage.tsdb.path=/data",

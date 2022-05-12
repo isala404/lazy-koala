@@ -70,5 +70,5 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: {{ .Values.gazer.serviceAccountName }}
-    namespace: lazy-koala
+    namespace: {{ .Release.Namespace }}
 {{- end }}

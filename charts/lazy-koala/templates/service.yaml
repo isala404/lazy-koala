@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: prometheus
-  namespace: lazy-koala
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     {{- include "lazy-koala.selectorLabels" . | nindent 4 }}
@@ -19,7 +19,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: prometheus
-  namespace: lazy-koala
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     {{- include "lazy-koala.selectorLabels" . | nindent 4 }}

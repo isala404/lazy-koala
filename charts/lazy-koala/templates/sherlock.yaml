@@ -44,8 +44,8 @@ spec:
             - name: sherlock-config
               mountPath: /app/config
         - name: model-poller
-          image: "{{ .Values.pollerImage.image.repository }}:{{ .Values.pollerImage.image.tag }}"
-          imagePullPolicy: {{ .Values.pollerImage.image.pullPolicy }}
+          image: "{{ .Values.sherlock.pollerImage.repository }}:{{ .Values.sherlock.pollerImage.tag }}"
+          imagePullPolicy: {{ .Values.sherlock.pollerImage.pullPolicy }}
           env:
             - name: BUCKET_NAME
               value: {{ .Values.sherlock.bucketName }}
@@ -56,8 +56,8 @@ spec:
                 mkdir -p models
                 while true; do gsutil -m rsync -d -r gs://$BUCKET_NAME models; sleep 60; done
         - name: servings
-          image: "{{ .Values.servingImage.image.repository }}:{{ .Values.servingImage.image.tag }}"
-          imagePullPolicy: {{ .Values.servingImage.image.pullPolicy }}
+          image: "{{ .Values.sherlock.servingImage.repository }}:{{ .Values.sherlock.servingImage.tag }}"
+          imagePullPolicy: {{ .Values.sherlock.servingImage.pullPolicy }}
           args:
             [
               "--model_config_file_poll_wait_seconds=60",

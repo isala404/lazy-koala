@@ -78,5 +78,5 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: {{ .Values.operator.serviceAccountName }}
-    namespace: lazy-koala
+    namespace: {{ .Release.Namespace }}
 {{- end }}

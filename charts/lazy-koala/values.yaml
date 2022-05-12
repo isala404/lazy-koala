@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 operator:
-  enable: true
+  create: true
   image:
     repository: ghcr.io/mrsupiri/lazy-koala/controller
     pullPolicy: IfNotPresent
@@ -46,7 +46,7 @@ operator:
   affinity: {}
 
 gazer:
-  enable: true
+  create: false
   image:
     repository: ghcr.io/mrsupiri/lazy-koala/gazer
     pullPolicy: IfNotPresent
@@ -157,7 +157,7 @@ gazer:
   affinity: {}
 
 sherlock:
-  enable: true
+  create: false
   image:
     repository: ghcr.io/mrsupiri/lazy-koala/sherlock
     pullPolicy: IfNotPresent
@@ -229,7 +229,7 @@ sherlock:
   affinity: {}
 
 inspector:
-  enable: true
+  create: false
   image:
     repository: ghcr.io/mrsupiri/lazy-koala/inspector
     pullPolicy: IfNotPresent

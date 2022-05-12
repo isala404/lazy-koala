@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: "gazer"
-  namespace: lazy-koala
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "lazy-koala.labels" . | nindent 4 }}
     lazykoala: gazer
