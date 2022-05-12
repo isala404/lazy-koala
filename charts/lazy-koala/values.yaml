@@ -46,7 +46,7 @@ operator:
   affinity: {}
 
 gazer:
-  create: false
+  create: true
   image:
     repository: ghcr.io/mrsupiri/lazy-koala/gazer
     pullPolicy: IfNotPresent
@@ -157,7 +157,7 @@ gazer:
   affinity: {}
 
 sherlock:
-  create: false
+  create: true
   image:
     repository: ghcr.io/mrsupiri/lazy-koala/sherlock
     pullPolicy: IfNotPresent
@@ -229,7 +229,7 @@ sherlock:
   affinity: {}
 
 inspector:
-  create: false
+  create: true
   image:
     repository: ghcr.io/mrsupiri/lazy-koala/inspector
     pullPolicy: IfNotPresent

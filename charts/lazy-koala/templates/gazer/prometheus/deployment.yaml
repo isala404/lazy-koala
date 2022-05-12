@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus
-  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "lazy-koala.labels" . | nindent 4 }}
     lazykoala: prometheus
@@ -16,7 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "lazy-koala.selectorLabels" . | nindent 6 }}
+        {{- include "lazy-koala.selectorLabels" . | nindent 8 }}
         lazykoala: prometheus
     spec:
       serviceAccountName: {{ .Values.gazer.serviceAccount.name }}
@@ -27,8 +26,7 @@ spec:
         fsGroup: 65534
       containers:
         - name: prometheus
-          image: "{{ .Values.gazer.prometheusImage.repository }}:{{ .Values.gazer.prometheusImage.tag }}"
-          imagePullPolicy: {{ .Values.gazer.prometheusImage.pullPolicy }}
+          image: prom/prometheus:v2.33.1
           args:
             [
               "--storage.tsdb.path=/data",

@@ -8,9 +8,6 @@ metadata:
     {{- include "lazy-koala.labels" . | nindent 4 }}
     lazykoala: gazer
 spec:
-  replicas: 1
-  hostNetwork: true
-  hostPID: true
   selector:
     matchLabels:
       {{- include "lazy-koala.selectorLabels" . | nindent 6 }}
@@ -29,6 +26,8 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      hostNetwork: true
+      hostPID: true
       serviceAccountName: {{ .Values.gazer.serviceAccount.name }}
       securityContext:
         {{- toYaml .Values.gazer.podSecurityContext | nindent 8 }}
