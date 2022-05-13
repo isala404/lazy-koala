@@ -1,0 +1,288 @@
+# Default values for lazy-koala.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+operator:
+  create: true
+  image:
+    repository: ghcr.io/mrsupiri/lazy-koala/controller
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    annotations: {}
+    name: "lazy-koala"
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+gazer:
+  create: true
+  image:
+    repository: ghcr.io/mrsupiri/lazy-koala/gazer
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
+  initImage:
+    repository: ghcr.io/mrsupiri/lazy-koala/gazer
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "init"
+
+  prometheusImage:
+    repository: prom/prometheus
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "v2.33.1"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: "gazer"
+
+  podAnnotations: 
+    lazy-koala/scrape: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext:
+    privileged: true
+    capabilities:
+      add:
+        - SYS_ADMIN
+
+  volumeMounts:
+    - name: lsb-release
+      mountPath: /etc/lsb-release.host
+      readOnly: false
+    - name: os-release
+      mountPath: /etc/os-release.host
+      readOnly: false
+    - name: modules-dir
+      mountPath: /lib/modules
+      readOnly: false
+    - name: modules-host
+      mountPath: /lib/modules.host
+      readOnly: false
+    - name: linux-headers-generated
+      mountPath: /usr/src/
+      readOnly: false
+    - name: boot-host
+      mountPath: /boot.host
+      readOnly: false
+    - name: debug
+      mountPath: /sys/kernel/debug
+      readOnly: false
+    - name: config
+      mountPath: "/gazer/config"
+      readOnly: true
+
+  volumes:
+    - name: lsb-release
+      hostPath:
+        path: /etc/lsb-release
+    - name: os-release
+      hostPath:
+        path: /etc/os-release
+    - name: modules-dir
+      hostPath:
+        path: /var/cache/linux-headers/modules_dir
+    - name: linux-headers-generated
+      hostPath:
+        path: /var/cache/linux-headers/generated
+    - name: boot-host
+      hostPath:
+        path: /
+    - name: modules-host
+      hostPath:
+        path: /lib/modules
+    - name: debug
+      hostPath:
+        path: /sys/kernel/debug
+    - name: config
+      configMap:
+        name: gazer-config
+
+  resources:
+    limits:
+      ephemeral-storage: "5Gi"
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      ephemeral-storage: "2Gi"
+      cpu: 75m
+      memory: 175Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+sherlock:
+  create: true
+  image:
+    repository: ghcr.io/mrsupiri/lazy-koala/sherlock
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  pollerImage:
+    repository: google/cloud-sdk
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  servingImage:
+    repository: tensorflow/serving
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  bucketName: sherlock.isala.me
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    # Annotations to add to the service account
+    annotations:
+      iam.gke.io/gcp-service-account: sherlock@lazy-koala.iam.gserviceaccount.com
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: "sherlock"
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  env:
+    - name: TENSORFLOW_END_POINT
+      value: "http://localhost:8501/v1/models"
+    - name: POOL_DURATION
+      value: "60"
+    - name: DATA_COLLECT_ONLY
+      value: "off"
+    - name: PROMETHEUS_END_POINT
+      value: "http://prometheus.lazy-koala.svc.cluster.local"
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+inspector:
+  create: true
+  image:
+    repository: ghcr.io/mrsupiri/lazy-koala/inspector
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: "inspector"
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  env:
+    - name: PROMETHEUS_END_POINT
+      value: "http://prometheus.lazy-koala.svc.cluster.local"
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 9090
+
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

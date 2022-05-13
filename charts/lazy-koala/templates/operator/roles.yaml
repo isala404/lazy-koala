@@ -1,0 +1,69 @@
+{{- if .Values.operator.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: lazy-koala
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  - pods
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - lazykoala.isala.me
+  resources:
+  - inspectors
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - lazykoala.isala.me
+  resources:
+  - inspectors/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - lazykoala.isala.me
+  resources:
+  - inspectors/status
+  verbs:
+  - get
+  - patch
+  - update
+{{- end }}

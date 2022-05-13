@@ -1,0 +1,50 @@
+{{- if .Values.gazer.create -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  labels:
+    {{- include "lazy-koala.labels" . | nindent 4 }}
+    lazykoala: prometheus
+spec:
+  selector:
+    matchLabels:
+      {{- include "lazy-koala.selectorLabels" . | nindent 6 }}
+      lazykoala: prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "lazy-koala.selectorLabels" . | nindent 8 }}
+        lazykoala: prometheus
+    spec:
+      serviceAccountName: {{ .Values.gazer.serviceAccount.name }}
+      securityContext:
+        runAsUser: 65534
+        runAsNonRoot: true
+        runAsGroup: 65534
+        fsGroup: 65534
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.33.1
+          args:
+            [
+              "--storage.tsdb.path=/data",
+              "--config.file=/etc/prometheus/prometheus.yml",
+            ]
+          ports:
+            - containerPort: 9090
+              name: default
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus
+            - name: prom-pvc
+              mountPath: /data
+      volumes:
+        - name: config-volume
+          configMap:
+            name: prometheus-config
+        - name: prom-pvc
+          persistentVolumeClaim:
+            claimName: prometheus-lazy-koala-pv
+{{- end }}
