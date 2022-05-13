@@ -1,0 +1,14 @@
+Lazy Koala was successfully installed the {{ .Release.Namespace }} namespace
+
+To access the main dashboard,
+  1. Run 
+          $ kubectl port-forward svc/inspector 8090:80 -n {{ .Release.Namespace }}
+  2. Open http://localhost:8090 in your browser
+
+Under the settings tab you will be able to find out list of service that's running inside the cluster.
+From there you can mark them to be monitored by the gazer agent.
+
+Finally, Once you navigated to the main dashboard, you can see the list of services that are being monitored and how they interact with each other.
+
+To Uninstall the Lazy Koala, Simply run 
+  $ helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}
