@@ -12,7 +12,7 @@ This radical shift introduced a new paradigm of computing called microservices, 
 
 \subsubsection{Containerization}
 
-Although microservices helped more organisations to meet a higher level of availability due to their decoupled nature. It was perplexing to manage the loads of diminutive services to spread across hundreds of \acp{vm}. Since these services were isolated using a virtualization layer, the cost and the overhead of maintaining a system as mentioned were very high \citep{dua2014virtualization}. To mitigate this problem inspired by the logistics industry, a new method to package an application called "Containerization" was invented. The rationale behind this technique was to package all the dependencies of the program to a single image without the operating system itself and when running, share a single logically separated operating system across all the containers. Therefore, using this technique will reduce a lot of overhead in the system and also make it simple to move an application running on a local computer to a remote server due to the dependency packaging technique.
+Although microservices helped more organisations to meet a higher level of availability due to their decoupled nature; It was perplexing to manage the loads of diminutive services to spread across hundreds of \acp{vm}. Since these services were isolated using a virtualization layer, the cost and the overhead of maintaining a system as mentioned were very high \citep{dua2014virtualization}. To mitigate this problem inspired by the logistics industry, a new method to package an application called "Containerization" was invented. The rationale behind this technique was to package all dependencies of the program into a single image without the operating system itself and, when running, to share a single logically separated operating system across all the containers. Therefore, using this technique will reduce a lot of overhead in the system and also make it simple to move an application running on a local computer to a remote server due to the dependency packaging technique.
 
 \begin{figure}[H]
     \includegraphics[width=9cm]{assets/literature-review/containers-vs-virtual-machines.jpg}
@@ -21,7 +21,7 @@ Although microservices helped more organisations to meet a higher level of avail
 
 \subsubsection{Container Orchestration}
 
-Although containers solve a major dilemma when it comes to operating a distributed system, managing 100s of containers becomes a major challenge. The reason for this is when it comes to a large-scale distributed system, it's simply impossible to use one \ac{vm} to house all the containers. These containers should be spread across dozes of \acp{vm} and in some cases different \ac{vm} vendors. Then there are networking, replication, security, and \textbf{monitoring} to consider. To solve all of these problems number of different container orchestration systems were introduced \citep{ElasticityCloudComputing}. But due to a survey done by Red Hat in July 2021, it is reviled that 88\% of people prefer to use Kubernetes as their container orchestrator while 74\% mentioned they use Kubernetes for their production workloads \citep{Kubernet59:online}.
+Although containers solve major dilemmas when it comes to operating a distributed system, managing 100s of containers becomes a major challenge. The reason for this is when it comes to a large-scale distributed system, it's simply impossible to use one \ac{vm} to house all the containers. These containers should be spread over doses of \acp{vm} and in some cases different \ac{vm} vendors. Then there are networking, replication, security, and \textbf{monitoring} to consider. To solve all of these problems number of different container orchestration systems were introduced \citep{ElasticityCloudComputing}. But due to a survey done by Red Hat in July 2021, it is revealed that 88\% of users prefer to use Kubernetes as their container orchestrator while 74\% mentioned they use Kubernetes for their production workloads \citep{Kubernet59:online}.
 
 \begin{figure}[H]
     \includegraphics[width=9cm]{assets/literature-review/Container-orchestration-engines.png}
@@ -37,24 +37,24 @@ With the rise of cloud computing, a new culture of software development called D
 \item \textbf{Principles of Feedback} - To increase quality, feedback must be passed from right to left so that the whole idea to the production workflow has a feedback loop. 
 \item \textbf{Principles of Continuous Learning} - Every failure is a learning opportunity.
 \end{enumerate}
-These three principles essentially constitute the modern DevOps culture. So a well-implemented DevOps culture on an organization will yield much better results both the quality of the system and its reliability. 
+These three principles essentially constitute the modern DevOps culture. Therefore, a well-implemented DevOps culture on an organization will yield much better results in both the quality of the system and its reliability. 
 
-As mentioned above DevOps is considered as a culture or set of abstract principles that break down the organizational silos to achieve a higher level of agility that was considered impossible some time ago. \ac{sre}, is the implementation of this abstract concept with clearly defined roles and tasks. Their main responsibility is to keep the system running smoothly as possible and adapt the infrastructure to fit the needs of the system. To achieve this \acp{sre} rely on number automation tools, which help them from building the software to extracting real-time insights while it is running in production.
+As mentioned above DevOps is considered as a culture or set of abstract principles that breakdown the organizational silos to achieve a higher level of agility that was considered as impossible some time ago. \ac{sre}, is the implementation of this abstract concept with clearly defined roles and tasks. Their main responsibility is to keep the system running smoothly as much as possible and to adapt the infrastructure to fit the needs of the system. To achieve this \acp{sre} rely on number of automation tools, which help them from building the software to extracting real-time insights while it is running in production.
 
 
 \subsection{How to Identify the Root Cause of a Failure}\label{sec:how-root-cause}
 
 
-To identify the root cause of an issue in the system, three major steps need to be passed.
+To identify the root cause of an issue in the system, three major steps are needed to be passed.
 \begin{enumerate}
-\item Detect there is an issue with the system.
+\item Detect whether there is an issue with the system.
 \item Find all the affected services.
 \item Estimate the most probable cause.
 \end{enumerate}
 
-Typically, most of the distributed systems have some sort of monitoring system which collects telemetry data about the system in real-time. This allows the \acp{sre} to get a bird's eye view of the system's status. But to achieve a higher level of reliability it is crucial to keep tabs on every sub-component of the system, So it's possible to get understand its behavior at any given time. 
+Typically, most of the distributed systems have some sort of a monitoring system which collects telemetry data about the system in real-time. This allows the \acp{sre} to get a bird's eye view of the system's status. But to achieve a higher level of reliability it is crucial to keep tabs on every sub-component of the system, So it's possible to get an understanding on its behavior at anytime. 
 
-Even though this is the ideal scenario, this approach doesn't scale well. At some point, it's getting humanly impossible for the \ac{sre} team to keep track of all these services. So, to solve this concept of \ac{sli} was introduced \citep{beyer2016site}. The idea behind this provides a quantitative measure of a very specific part of the system as faced by end users. For example, request latency is one of the most widely used \ac{sli}. This helps to lower the number of metrics \acp{sre} has to monitor but minor errors that affect a minority of users could go unnoticed for months. 
+Even though this is the ideal scenario, this approach doesn't scale well. At some point, it's getting humanly impossible for the \ac{sre} team to keep track of all these services. So, to solve this concept, \ac{sli} was introduced \citep{beyer2016site}. The idea behind this provides a quantitative measure of a very specific part of the system as faced by end users. For example, request latency is one of the most widely used \ac{sli}. This helps to lower the number of metrics \acp{sre} has to monitor but minor errors that affect a minority of users could go unnoticed for months. 
 
 To detect these kinds of issues, all the microservices in the system need to emit a lot of telemetry data and those data need to be individually processed in near real-time to catch errors early. The most widely adopted method of extra meaningful data from such data stream is setting up threshold-based alerts which will send notifications when there is a threshold violation. The main drawback to this issue is that \acp{sre} has to predict both metrics that need to be monitored and "normal rates" for these metrics by looking at past data and that value has been valid for the future as well, if the service is newly deployed, it is really hard to get those two right. In fact, on 14 December 2020, all of Google's services went unresponsive due to Google's OAuth service running out of disk space, and no one at Google did not notice until user reports started flooding in \citep{Googleoutage:online}. 
 
@@ -67,5 +67,5 @@ Typically, in distributed systems, services have many interdependent connections
 
 \subsection{Artificial Intelligence for IT operations}
 
-When it comes to IT operations, such as managing infrastructure and identifying the root cause of failures, as mentioned in Section \ref{sec:how-root-cause}, there tend to be many structured and unstructured data sources. \ac{aiops} is an emerging field \citep{Artifici8:online} where both data scientists and reliability engineers cooperate to build data-driven, smarter systems with help of machine learning to achieve a higher quality of service, which is not simply possible by using traditional methods due to the density and the complexity of datasets.
+When it comes to IT operations, such as managing infrastructure and identifying the root cause of failures, as mentioned in Section \ref{sec:how-root-cause}, there tend to be many structured and unstructured data sources. \ac{aiops} is an emerging field \citep{Artifici8:online} where both data scientists and reliability engineers cooperate to build smarter, data-driven systems with the help of machine learning to achieve a higher quality of service, which is not simply possible by using traditional methods due to the density and complexity of the data sets.
 

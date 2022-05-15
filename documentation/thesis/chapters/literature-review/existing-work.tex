@@ -1,21 +1,21 @@
 \section{Existing Systems}
 
-As the large-scale migration towards the cloud and microservices started fairly recently the problem this research is trying to solve mostly affects large-scale enterprises there ain't a lot of published research on this domain. All the work done towards uncovering the root cause of failures by large co-operations either kept their finds for internal use to sell it as Software as a service
+As the large-scale migration towards the cloud and microservices started recently, the problem this research is trying to solve mainly affects large-scale enterprises there are not a lot of published research on this domain. All the work done towards root cause localization by huge co-operations either kept their finds for internal use to sell them as Software as a service
  (SaaS) product. 
 
-One of the best implementations found on root cause analysis is from Datadog. They created a platform called watchdog \citep{Watchdog76:online} which monitors the entire system for anomalies and failures in the background. When a failure happens it tries to pull all the relevant stack traces and monitoring data to a single view so the developer can diagnose the problem easily. The problem with this solution is even though it was announced back in July 2018, all that is available is currently in private beta which not everyone has access to.
+One of the best implementations found on root cause analysis is from Datadog. They created a platform called watchdog \citep{Watchdog76:online} that monitors the entire system for anomalies and failures in the background. When a failure occurs it tries to pull all the relevant stack traces and monitors data to a single view so the developer can diagnose the problem easily. The problem with this solution is that even though it was announced back in July 2018, all that is available is currently in private beta which not everyone has access in.
 \\
 All the currently published work on microservices monitoring can be classified into 3 main categories
-\begin{enumerate}
+\begin{enumerate}[noitemsep,nolistsep] 
 \item Instrumentation
 \item Anomaly detection
 \item Root cause identification
 \end{enumerate}
 
 \subsection{Instrumentation}
-One of the first steps that need to be done to get visibility into running service is to set up a data collection pipeline that collects performance data about the service and writes to persistent storage for later evaluation. 
+One of the first steps that needs to follow to get visibility into running service is to set up a data collection pipeline that collects performance data about the service and writes to persistent storage for later evaluation. 
 
-Currently, the most popular way to collect telemetry data about micro-services is using an open-source tool called \href{https://prometheus.io/}{Prometheus} which was created by SoundCloud and later donated to Cloud Native Computing Foundation (CNCF). Usually, Prometheus has matched it \href{https://grafana.com/}{Grafana} visualized these data to make educated guesses. \cite{toka2021predicting} proposed Kubernetes native a data analytics pipeline that uses Prometheus for data scraping and runs a real-time analysis on them. The problem with this approach is to get some key data like the number of inbound and outbound requests, the service is required to be architectured to work with Prometheus. If it's third-party software without Prometheus integration, the system is limited to scraping metrics like CPU and Memory usage that are exposed by the operating system.
+Currently, the most popular way to collect telemetry data about micro-services is using an open-source tool called \href{https://prometheus.io/}{Prometheus} which has created by SoundCloud and later donated to Cloud Native Computing Foundation (CNCF). Usually, Prometheus has matched it \href{https://grafana.com/}{Grafana} visualized these data to make educated guesses. \cite{toka2021predicting} proposed Kubernetes native a data analytics pipeline that uses Prometheus for data scraping and runs a real-time analysis on them. The issue with this approach is to get some key-data like the number of inbound and outbound requests; the service is requiring to be architectured to work with Prometheus. If it's third-party software without Prometheus integration, the system is limited to scraping metrics like CPU and Memory usage which are exposed by the operating system.
 
 \subsection{Anomaly detection}
 
@@ -23,7 +23,7 @@ Currently, the most popular way to collect telemetry data about micro-services i
 Anomaly detection in time series is a field of its own. According to \cite{hagemann2020systematic} anomaly detection in cloud computing environments date backs to 2012 which are mostly based on statistical approaches. Since 2014 their big shift towards using machine learning-based approaches to detect anomalies. Due to the sheer number of data points modern systems generate and the complexity of those data.
 
 \begin{figure}[H]
-    \includegraphics[width=10cm]{assets/literature-review/num-of-anomaly-detection-papers.jpg}
+    \includegraphics[width=8cm]{assets/literature-review/num-of-anomaly-detection-papers.jpg}
     \caption{Number of papers published work on anomaly detection in cloud computing environments \citep{hagemann2020systematic}}
     \label{fig:num-of-anomaly-detection-paperss}
 \end{figure}
@@ -249,5 +249,5 @@ In a distributed system it's hard to spot real anomalies just by looking at moni
 \end{longtable}
 
 
-\subsection{Benchmark}
-Since both \ac{aiops} and automated root cause analysis emerging fields  there isn't any standard way to benchmark the system against the existing ones. So the author is hoping to perform a baseline benchmark with all the existing work based on a few key metrics like f1-score and memory footprint of the system.
+% \subsection{Benchmark}
+% Since this project focuses on building a novel framework to extend the use of \ac{aiops}, benchmarking cannot be done.

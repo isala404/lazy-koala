@@ -1,6 +1,6 @@
 \section{Project Management Methodology}
 
-To manage task of this project authors decide to use \textbf{Agile PRINCE2}. Agile PRINCE2 built upon waterfall method which works best for projects with fixed deadlines and requirements with the added benefit of having regulated inputs and outputs \citep{WhatAreT79:online}.
+To manage the task of this project, the authors decide to use \textbf{Agile PRINCE2}. Agile PRINCE2 is built on the waterfall method which works best for projects with fixed deadlines and requirements with the added benefit of having regulated inputs and outputs \citep{WhatAreT79:online}.
 
 \subsection{Deliverables}
 \setlength\LTleft{0mm}
@@ -45,7 +45,7 @@ To manage task of this project authors decide to use \textbf{Agile PRINCE2}. Agi
 
     \textbf{Interim Progress Report (IPR)} & 
     \multirow{2}{*}{27th January 2022} \\
-    The document explaining all the preliminary findings and the current state of the project. & 
+    The document explaining all preliminary findings and the current state of the project. & 
      \\ \hline
 
     \textbf{Project Specifications Design and Prototype (PSDP)} & 
@@ -72,7 +72,7 @@ To manage task of this project authors decide to use \textbf{Agile PRINCE2}. Agi
 \end{longtable}
 
 \subsection{Schedule}
-Gantt chart is a visualization of the task with their respective timelines. Refer Appendix \ref{appendix:gantt-chart} to find the gantt chart for this project.
+Gantt chart is a visualisation of tasks with their respective timelines. Refer to Appendix \ref{appendix:gantt-chart} to find the gantt chart for this project.
 
 
 
@@ -81,19 +81,19 @@ Gantt chart is a visualization of the task with their respective timelines. Refe
 \subsubsection{Software Requirements}
 
 \begin{itemize}[noitemsep,nolistsep] 
-\item \textbf{Ubuntu / Arch Linux} - Since this project will use \ac{ebpf} as a dependency it will require a Linux kernel based operating system.
-\item \textbf{Python / R} - Since this project has a data science components, relying on a language with a good data science eco-system will help to make the development easier.
-\item \textbf{GoLang / Rust} - While GoLang has official client library made by Kubernetes developers themselves, kube-community has developed an excellent alternative in Rust.
+\item \textbf{Ubuntu / Arch Linux} - Since this project will use \ac{ebpf} as a dependency, it will require a Linux kernel-based operating system.
+\item \textbf{Python / R} - Since this project has data science components, relying on a language with a good data science ecosystem will help to develop easier.
+\item \textbf{GoLang / Rust} - While GoLang has an official client library made by Kubernetes developers themselves, the Kube community has developed an excellent alternative in Rust.
 \item \textbf{K3d / Minikube} - To create a Kubernetes cluster locally for development and testing.
-\item \textbf{Intellij / VS Code} - An IDE provides tools streamline the development process.
-\item \textbf{Latexmk / Overleaf} - Creating the project documation declaratively will helps to keep the formating consistent. Latex based editors provides this functionality.
+\item \textbf{Intellij / VS Code} - An IDE provides tools to streamline the development process.
+\item \textbf{Latexmk / Overleaf} - Creating the project documentation declaratively will help to keep the formatting consistent. Latex-based editors provide this functionality.
 \item \textbf{Google Drive / Github} - Offsite location to backup the codebase and related documents.
 \item \textbf{ClickUp / Notion} - To manage the project and keep track of things to be done.
 \end{itemize}
 
 \subsubsection{Hardware Requirements}
 \begin{itemize}[noitemsep,nolistsep] 
-    \item \textbf{Quad-core CPU with AVX support} - AVX is a CPU instruction set which is optimze for vector operations. Having an AVX supported CPU could reduce the model inference time.
+    \item \textbf{Quad-core CPU with AVX support} - AVX is a CPU instruction set that is optimized for vector operations. Having an AVX-supported CPU could reduce the model inference time.
     \item \textbf{GPU with CUDA support and 2GB or more VRAM} - Both Tensorflow and Pytorch depend on CUDA for hardware-accelerated training.
     %  Training on GPU could save a lot of time increases the number of trial and error iterations that could be done.
     \item \textbf{16 GB or more Memory} - Running a microservices simulation locally will consume a lot of memory and while testing models will get loaded into RAM.
@@ -103,13 +103,13 @@ Gantt chart is a visualization of the task with their respective timelines. Refe
 \subsubsection{Skill Requirements}
 \begin{itemize}[noitemsep,nolistsep] 
     \item \textbf{Experience working with Kubernetes} - The author will be developing a Kubernetes extension so they need to know the inner workings of Kubernetes.
-    \item \textbf{Data engineering} -  Developing a data encoding technique requires a lot of knowledge in how to manipulate a given dataset.
-    \item \textbf{Model engineering} - Creating model from ground up is difficult task. So the author needs to have an in-depth idea about a machine learning framework and how different layers in the model work in order to fit them properly. 
+    \item \textbf{Data engineering} -  Developing a data encoding technique requires a lot of knowledge on how to manipulate a given dataset.
+    \item \textbf{Model engineering} - Creating a model from the ground up is a difficult task. So the author needs to have an in-depth idea about a machine learning framework and how different layers in the model work to fit them properly. 
 \end{itemize}
 
 \subsubsection{Data Requirements}
 \begin{itemize}[noitemsep,nolistsep] 
-\item \textbf{Monitoring dataset} -  This dataset can be collected using \hyperref[microsim]{MicroSim} tool author plan to develop to simulate distributed system.
+\item \textbf{Monitoring dataset} -  This dataset can be collected using \hyperref[microsim]{MicroSim} tool the author plans to develop to simulate distributed system.
 \end{itemize}
 
 \subsection{Risk Management}
@@ -162,7 +162,7 @@ Gantt chart is a visualization of the task with their respective timelines. Refe
     Getting sick and unable to work for few days & 
     3 & 
     3 & 
-    Keeping few days of a buffer period before deadlines.
+    Keeping a few days of a buffer period before deadlines.
     \\ \hline
     \caption{Risks and mitigations (self-composed)}
 \end{longtable}
