@@ -1,0 +1,122 @@
+name: release
+
+on:
+  push:
+    tags:
+      - v*
+
+env:
+  CONTROLLER_IMAGE_NAME: ghcr.io/mrsupiri/lazy-koala/controller
+  GAZER_IMAGE_NAME: ghcr.io/mrsupiri/lazy-koala/gazer
+  INSPECTOR_IMAGE_NAME: ghcr.io/mrsupiri/lazy-koala/inspector
+  SHERLOCK_IMAGE_NAME: ghcr.io/mrsupiri/lazy-koala/sherlock
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  controller:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: control-plane
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Tag
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - run: docker build -t $CONTROLLER_IMAGE_NAME:latest .
+      - run: docker tag $CONTROLLER_IMAGE_NAME:latest $CONTROLLER_IMAGE_NAME:${{ steps.vars.outputs.tag }}
+      - run: docker push $CONTROLLER_IMAGE_NAME --all-tags
+
+  
+  gazer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: gazer
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Tag
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - run: docker build -t $GAZER_IMAGE_NAME:latest .
+      - run: docker tag $GAZER_IMAGE_NAME:latest $GAZER_IMAGE_NAME:${{ steps.vars.outputs.tag }}
+      - run: docker push $GAZER_IMAGE_NAME --all-tags
+  gazer-headers:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: gazer/init-headers
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Tag
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - run: docker build -t $GAZER_IMAGE_NAME:init .
+      - run: docker tag $GAZER_IMAGE_NAME:init $GAZER_IMAGE_NAME:init-${{ steps.vars.outputs.tag }}
+      - run: docker push $GAZER_IMAGE_NAME --all-tags
+
+
+  inspector:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Tag
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - run: docker build -t $INSPECTOR_IMAGE_NAME:latest -f inspector/Dockerfile .
+      - run: docker tag $INSPECTOR_IMAGE_NAME:latest $INSPECTOR_IMAGE_NAME:${{ steps.vars.outputs.tag }}
+      - run: docker push $INSPECTOR_IMAGE_NAME --all-tags
+
+
+  sherlock:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: sherlock
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Tag
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - run: docker build -t $SHERLOCK_IMAGE_NAME:latest .
+      - run: docker tag $SHERLOCK_IMAGE_NAME:latest $SHERLOCK_IMAGE_NAME:${{ steps.vars.outputs.tag }}
+      - run: docker push $SHERLOCK_IMAGE_NAME --all-tags
+
+
+  helm-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: helm package charts/lazy-koala -d dist/
