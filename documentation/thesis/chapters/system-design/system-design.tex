@@ -2,11 +2,11 @@
 
 \subsection{Design Paradigm}
 
-When building a software application there are two main design paradigms to choose from to organize the code base. Object-Oriented Analysis and Design (OOAD) which is very popular among programming languages such as Java and C\# is a way of mimicking the behavior of real-world objects and how they interact in the real-world. However, this project has a lot of components that are loosely coupled and implemented in many different languages and frameworks. So Structured Systems Analysis and Design (SSADM) was chosen as the design paradigm for this project.
+When building a software application, there are two main design paradigms to choose from to organize the codebase. Object-Oriented Analysis and Design (OOAD) which is very popular among programming languages such as Java and C\# is a way of mimicking the behavior of real-world objects and how they interact in the real world. However, this project has a lot of components that are loosely coupled and implemented in many various languages and frameworks. Therefore, Structured Systems Analysis and Design (SSADM) was chosen as the design paradigm for this project.
 
 \subsection{Data-flow diagram}
 
-The Data-flow diagram explains the flow of request data within the system and how each process in the system interacts with each other at a high level.
+The Data-flow diagram explains the flow of request data within the system and how each process in the system interacts with each other at a higher level.
 
 \begin{figure}[H]
     \includegraphics[width=12cm]{assets/system-design/data-flow-level-1.png}
@@ -23,7 +23,7 @@ The Data-flow diagram explains the flow of request data within the system and ho
 
 \subsection{Sequence Diagram}
 
-Sequences diagrams are meant to showcase the flow of instructions within sub-components of the system. Digrams below explains how the system reacts when two of the main core functionality are invoked.
+Sequences diagrams are meant to showcase the flow of instructions within sub-components of the system. The following diagram explains how the system reacts when two of the main core functionality are invoked.
 
 \begin{figure}[H]
     \centering
@@ -44,7 +44,7 @@ Sequences diagrams are meant to showcase the flow of instructions within sub-com
 
 \subsection{System Process Flow Chart}
 
-The process flow chart describes how the data flow within the system along with decisions that are made to control the flow. Following digram show how the system handles the process of adding a new service to the monitored service list.
+The process flow chart describes how the data flow within the system along with decisions that are made to control the flow. The following diagram shows how the system handles the process of adding a new service to the monitored service list.
 
 \begin{figure}[H]
     \includegraphics[width=16cm]{assets/system-design/process-flow-chart.png}
@@ -54,7 +54,7 @@ The process flow chart describes how the data flow within the system along with 
 
 \subsection{UI Design}
 
-Since this project was developed as a Kubernetes native application most of the functionality work as a daemon process in the background. However, there are two use cases where having a visual user interface greatly increases the usability of this project. UI mockups attached below showcase two of those use-cases. Figure \ref{fig:ui-home} displays how developers will be able to inspect the topology of the system and find issues in a realtime while, Figure \ref{fig:ui-settings} showcase the settings page which is used to tag interested services in the system which needs to be monitored. High fidelity version of these digrams can be found in Appendix \ref{appendix:ui}
+Since this project was developed as a Kubernetes native application, most of the functionality works as a daemon process in the background. However, there are two use cases where having a visual user interface greatly increases the usability of this project. UI mockups attached below showcase two of those use cases. Figure \ref{fig:ui-home} depicts how developers will be able to inspect the topology of the system and find issues in real time, while Figure \ref{fig:ui-settings} showcases the settings page which is used to tag interested services in the system which needs to be monitored. The high-fidelity version of these digrams can be found in Appendix \ref{appendix:ui}
 
 \begin{figure}[H]
     \centering
