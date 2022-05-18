@@ -43,7 +43,7 @@ As this proxy sitting outside of the service, it is language-agnostic and interc
 
 Using these data, the request rate of a given service can be calculated with minimum overhead and zero instrumentation on the application. The main drawback of this method is it is complicated to capture high-level data like HTTP status codes since those data only exist at the application level as it is.
 
-\begin{longtable}{| p{23mm} | p{42mm} | p{42mm} | p{42mm} |}
+\begin{longtable}{| p{23mm} | p{40mm} | p{40mm} | p{40mm} |}
 \hline
     \textbf{Technique} &
     \textbf{Advantage} &
@@ -146,7 +146,7 @@ As mentioned in \ref{sec:approch-supervised}, one of the most challenging issues
 
 When the target data set consists of a lot of unlabelled data and is difficult to label by hand, machine learning experts lean towards using unsupervised learning so the model can be its own teacher \citep{Unsuperv29:online}. \cite{silver2016mastering} managed to develop the first AI that was able to beat the best Go player in the world with a score of 4-1. This model learns to play the game of Go by looking at thousands of games played by humans and learning to approximate the optimal strategy to any given board position. One year later same authors released the updated version of the model which learn to play Go without any human interference and this model beated the previously published model 100-0 \citep{silver2017mastering}. This proves deep learning models could even surpass humans when it comes to finding patterns in very large distributions. 
 
-\begin{longtable}{| p{23mm} | p{46mm} | p{42mm} | p{38mm} |}
+\begin{longtable}{| p{23mm} | p{44mm} | p{40mm} | p{38mm} |}
 \hline
     \textbf{Technique} &
     \textbf{Advantage} &
@@ -221,7 +221,7 @@ When the target data set consists of a lot of unlabelled data and is difficult t
 
 It's very difficult to use a standard learning algorithms like Multilayer Perceptrons (MLP) to predict faulty service because the number of microservices in distributed systems changes frequently. Even if the system were to retrain the model after every new deployment it will hesitate to predict newly added services as the root cause since it does not have any historical data about the service to make assumptions. Therefore, almost all published research uses the Key Performance Indicator (KPI) correlation or some variations of graph-based methods to predict the root cause of failures \citep{soldani2021anomaly}.
 
-\begin{longtable}{| p{23mm} | p{42mm} | p{42mm} | p{42mm} |}
+\begin{longtable}{| p{23mm} | p{40mm} | p{40mm} | p{40mm} |}
 \hline
     \textbf{Technique} &
     \textbf{Advantage} &
