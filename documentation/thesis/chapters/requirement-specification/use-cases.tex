@@ -1,0 +1,70 @@
+\section{Use Case Diagram}
+
+\begin{figure}[H]
+    \includegraphics[width=15cm]{assets/requirement-specification/use-case.png}
+    \caption{Use case diagram (self-composed)}
+    % \label{fig:poc-autoencoder}
+\end{figure}
+
+
+\newcommand{\UseCaseDescription}[9]{
+    \textbf{}
+    \begin{longtable}{|p{40mm}|p{113mm}|}
+    \hline
+        \textbf{Use Case ID} & \textbf{#1} \\ \hline
+        \textbf{Use Case Name} & #2 \\ \hline
+        \textbf{Description} & #3 \\ \hline
+        \textbf{Participating actors} & #4 \\ \hline
+        \textbf{Preconditions} & #5 \\ \hline
+        \textbf{Extended use cases} & #6 \\ \hline
+        \textbf{Included use cases} & #7 \\ \hline
+        \textbf{Main flow} & #8 \\ \hline
+        \UseCaseDescriptionContinued#9
+    % \caption{#2 (Self Composed)}
+    \end{longtable}
+}
+
+\newcommand{\UseCaseDescriptionContinued}[3]{
+    \textbf{Alternative flows} & #1 \\ \hline
+    \textbf{Exceptional flows} & #2 \\ \hline
+    \textbf{Postconditions} & #3 \\ \hline
+}
+
+\newenvironment{CompactItemizes}
+{ \vspace{-8mm}\begin{itemize}[leftmargin=*,noitemsep,nolistsep]}
+{ \vspace{-7mm}\end{itemize}} 
+
+\newenvironment{CompactEnumerate}
+{ \vspace{-8mm}\begin{enumerate}[leftmargin=*,noitemsep,nolistsep]}
+{ \vspace{-7mm}\end{enumerate}} 
+
+
+\section{Use Case Descriptions}
+Due to the page limits, only the main use-case description is present here. Please find reference of the use-case descriptions in Appendix-\ref{appendix:use-case-description}.
+
+\vspace{-2em}
+\UseCaseDescription
+{UC-04}
+{Check for Root Courses}
+{Look at the service topology graph to find out the root course of an issue.}
+{Software Engineer\newline
+Reliability Engineer}
+{\begin{CompactItemizes}
+    \item kubectl installed and configured to talk to a Kubernetes cluster.
+    \item The Kubernetes cluster has the \ac{lazy-koala-operator} deployed.
+    \item Establish a port forwarding connection with \ac{lazy-koala-operator}.
+\end{CompactItemizes}}
+{N/A}
+{Generate Report\newline
+Read from the database}
+{\begin{CompactEnumerate}
+    \item Visit the forwarded port on the local machine.
+    \item Open Monitor tab.
+    \item Inspect the graph.
+\end{CompactEnumerate}}
+{{N/A}
+{\textbf{E1}: the \ac{lazy-koala-operator} returns non 200 status code.
+\vspace{-4mm}\begin{enumerate}
+    \item Show the error to the user.
+\vspace{-7mm}\end{enumerate}}
+{N/A}}

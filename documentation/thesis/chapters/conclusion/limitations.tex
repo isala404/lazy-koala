@@ -1,0 +1,7 @@
+\section{Limitations of the Research}
+
+\begin{itemize}[noitemsep,nolistsep]
+    \item \textbf{Synthetic Data} - This system was both trained and tested using synthetic data. Even though there is a fair bit of randomness was injected to simulate the noisiness. The system may behave differently with actual production data.
+    \item \textbf{Limited amount of telemetry} - Currently \ac{gazer} is only able to collect nine data points on a service. Increasing the number of collected metrics could lead to better results.
+    \item \textbf{Limited to HTTP} - The system can only recognize HTTP-based communication between services. Communication protocols like WebSockets will require additional work.
+\end{itemize}

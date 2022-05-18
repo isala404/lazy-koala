@@ -1,0 +1,25 @@
+\section{Self-Reflection}
+
+After almost nine months of hard work, the project was completed. During this time the author sets a lot of goals for themselves. The following table shows the author's thoughts on the progress of those goals and how well they were achieved and what could be improved upon.
+
+\begin{longtable}{|p{33mm}|p{120mm}|}
+    \hline
+    \textbf{Criteria} &
+    \textbf{Self-evaluation by the Author} \\ \hline
+  The overall impression about the project and research gap &
+    The main bases for this project were the difficulties the author faced during their industrial placement. All existing service mesh-based visualisers require either a sidecar container or service-level telemetry reporting work. During the requirement elicitation process, it was found that the component \ac{gazer} alone will provide a great value in addition to the field. \\ \hline
+  Research scope and depth &
+    During project proposal status, several industry experts were a bit concerned about the scope of this project and not being able to complete on time. Since the author was confident in their ability to bring such a system to life, they took it as a challenge that they could tackle. \\ \hline
+  Design and architecture &
+    This project was designed to be lightweight, scalable, and decoupled as much as possible. So, from the programming language to the libraries that were used, were chosen very carefully. As shown in \ref{sec:performance-testing}, the system is lightweight and all components of this are individually scalable. \\ \hline
+  Prototype implementation &
+    This project contains 3 custom build microservices that can work individually or in collaboration to add value to the user. \ac{lazy-koala-operator} built to extend Kubernetes' functionally. This is an extremely difficult process since the general consensus is Kubneates itself has a very steep learning curve \citep{Googlead4:online}. \ac{gazer} is \ac{ebpf} agent which directly interacts with the Linux Kernel. To achieve this, the author has to learn about kernel data structures and how they behave. Finally \ac{sherlock}, the AI engine is written in Rust to have the lowest memory and CPU footprint. To achieve this, the author had to implement some of the features such as matrix normalisation from the ground up, since Rust does not have a strong data science ecosystem like Python or R. \\ \hline
+  Platform usability &
+    Usually Kubernetes based applications rely on “kubectl” utility to interact with. But this project offers a user-friendly web UI along with Kubectl integration so that end users can choose whatever they prefer to interact with the system. This approach allows power users like the author to interact with the system very efficiently while still allowing novices to access the same functionality using a GUI. \\ \hline
+  Contribution to the Domain &
+    At the current stage, the project offers good value to \acp{sres} to understand the system and determine where the problems come from. Since this project is developed in a way which is easy to extend, the future researchers will have an easier time forcing on improving the prediction part without worrying about data gathering and processing. \\ \hline
+  Future work &
+    One of the main key components that was left out of the project scope due to time constraints is giving the \ac{lazy-koala-operator} the ability to constantly fine-tune the models so they can adapt to changes in service overtime. So, in the future, the author hopes to add this functionality as well. \\ \hline
+  
+    \caption{Self-evaluation by the author (self-composed)}
+\end{longtable}

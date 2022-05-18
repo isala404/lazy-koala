@@ -1,0 +1,139 @@
+\section{Research Objectives}
+
+\newcommand\robProblemIdentification{
+When selecting the problem the author wanted to pursue, they had three main goals.
+\begin{enumerate}[leftmargin=*,noitemsep,nolistsep,label=RO\arabic*:] 
+    \item The problem domain should be something they would enjoy working on.
+    \item At the end of the research they should give a meaningful impact to the target domain, both in the theoretical and practical aspect.
+    \item It should be challenging to achieve, and the results should speak for themselves.
+    \vspace{-7mm}
+\end{enumerate}
+}
+
+\newcommand\robLiteratureReview{
+Conduct a Literature review on root cause analysis, 
+\begin{enumerate}[leftmargin=*,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{3}
+    \item To find the current methods that are used for anomaly detection and root cause localization.
+    \item Uncover issues with current approaches.
+    \item Understand how advancements in other related domains can apply to this domain.
+    \vspace{-7mm}
+\end{enumerate}
+}
+
+
+\newcommand\robDevelopingEvaluation{
+During the literature survey, one of the problems the author identified was that there is no uniform data set when it comes to training or evaluating models to detect anomalies in microservices. Most of the researchers used private datasets to train and test their work.
+To address this, the author is developing
+\begin{enumerate}[leftmargin=*,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{5}
+    \item A tool that can easily simulate a distributed system in a cloud-native setting.
+    \item A tool that can inject anomalies into the running services.
+    \vspace{-7mm}
+\end{enumerate}
+}
+
+\newcommand\robPublishPlayground{
+The author hopes to publish a paper on the above-mentioned tool so that future researchers will have a unified way to train, test, and benchmark their system without having to reinvent the wheel again and again.
+}
+
+\newcommand\robDataGathering{
+To create a model to detect anomalies, the author will have to
+\begin{enumerate}[leftmargin=15mm,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{7}
+    \item Simulate a distributed system.
+    \item Simulate the traffic inside the system.
+    \item Collect monitoring data while it's running.
+    \vspace{-7mm}
+\end{enumerate}
+}
+
+\newcommand\robDevelopingEncoding{
+Since these microservices will report very different metric values even at idle depending on the architecture of the service. To normalize theses data points from all the services to one format author will,
+\begin{enumerate}[leftmargin=15mm,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{10}
+    \item Evaluate current data encoding methods such as \cite{zhang2019deep}.
+    \item Find the best fit and optimise it for this use case.
+    \item Test if there is improvement by using that method. 
+    \vspace{-7mm}
+\end{enumerate}
+}
+
+
+\newcommand\robDevelopingModel{
+According to \cite{kumarage2019generative}, autoencoders tend to perform best when it comes to anomaly detection. But during the literature survey it was revealed that convolution autoencoders weren't tested for this usecase. So, the author is hoping to develop a convolution auto-encoder and test how it will perform.
+}
+
+
+\newcommand\robTesting{
+The following things will be tested during the testing phase, 
+\begin{enumerate}[leftmargin=15mm,noitemsep,nolistsep,label=RO\arabic*:] 
+    \setcounter{enumi}{13}
+    \item How will the system classify long-term \& short-term fluctuations.
+    \item What will be the overhead of the system.
+    \item Can the system understand the mapping between core metrics like CPU and Memory usages.
+    \item Accuracy of fault detection.
+    \item Reliability of the instrumentation system.
+\vspace{-7mm}
+\end{enumerate}
+}
+
+\newcommand\robIntegration{
+Having a fancy model does not add anything if it is very hard to use with a real system. So the author is hoping to develop a Kubernetes extension that will map the model with any service given by the user.
+}
+
+
+\begin{longtable}{|p{20mm}|p{90mm}|p{19mm}|p{17mm}|}
+\hline
+    \textbf{Research Objectives} &
+    \textbf{Explanation} &
+    \textbf{Learning Outcomes} &
+    \textbf{Research Questions} \\ \hline
+
+    Problem identification &
+    \robProblemIdentification &
+    LO1 &
+    RQ1, RQ3 \\ \hline
+
+    Literature review &
+    \robLiteratureReview &
+    LO3, LO4, LO6 &
+    RQ1, RQ2, RQ3, RQ4 \\ \hline
+
+    Developing an evaluation framework &
+    \robDevelopingEvaluation &
+    LO7 &
+    RQ4 \\ \hline
+
+    % Publish a paper on that playground &
+    % \robPublishPlayground &
+    % LO7 &
+    % N/A \\ \hline
+
+    Data gathering and analysis &
+    \robDataGathering &
+    LO7 &
+    RQ2, RQ4 \\ \hline
+
+    Developing the encoding method &
+    \robDevelopingEncoding &
+    LO2, LO5, LO7 &
+    RQ2, RQ3 \\ \hline
+
+    Developing the model &
+    \robDevelopingModel &
+    LO2, LO5, LO7 &
+    RQ4 \\ \hline
+
+    Testing and evaluation &
+    \robTesting &
+    LO8, LO9 &
+    RQ1, RQ3, RQ4 \\ \hline
+
+    Integration &
+    \robIntegration &
+    LO7 &
+    RQ1, RQ3 \\ \hline
+
+\caption{Research Objectives (self-composed)}
+\end{longtable}

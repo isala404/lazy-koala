@@ -1,0 +1,162 @@
+\section{Module and Integration Testing}\label{sec:module-integration-testing}
+
+Since this system was developed to scale and fit into the microservices eco-system. Different components of the systems are also developed as microservices. The following tables show how the interaction between all these components works.
+
+\subsection{Operator Integration Testing}
+
+\begin{longtable}{|p{30mm}|p{21mm}|p{40mm}|p{40mm}|p{10mm}|}
+    \hline
+    \textbf{Action} &
+    \textbf{Integration} &
+    \textbf{Expected Outcome} &
+    \textbf{Actual Outcome} &
+    \textbf{Status} \\ \hline
+    Subscribe to Inspector Resources &
+    kube-controller-manager &
+    Get notifications about changes to all of the Inspector resources &
+    Get notifications about changes to all of the Inspector resources &
+    Pass \\ \hline
+    Handle new Inspector resource creation &
+    kube-apiserver &
+    Update \ac{gazer} and \ac{sherlock} configs to track the deployment &
+    Update \ac{gazer} and \ac{sherlock} configs to track the deployment &
+    Pass \\ \hline
+    Handle IP changes of pods &
+    kube-controller-manager &
+    When a pod get change, update \ac{gazer} config to track the new IP &
+    When a pod get change, update \ac{gazer} config to track the new IP &
+    Pass \\ \hline
+    Handle Inspector resource deletion &
+    kube-apiserver &
+    Update \ac{gazer} and \ac{sherlock} configs to untrack the deployment &
+    Update \ac{gazer} and \ac{sherlock} configs to untrack the deployment &
+    Pass \\ \hline
+    \caption{Operator Integration Testing (self-composed)}
+\end{longtable}
+
+\begingroup
+\setlength{\abovedisplayskip}{-0.5cm}
+\[
+\text{\ac{lazy-koala-operator} integration test pass rate} = \frac{\text{Number of passed test cases}}{\text{Total number of test cases}} = \frac{4}{4} = 100\%
+\]
+\endgroup
+
+% \newpage
+
+\subsection{Gazer Integration Testing}
+
+\begin{longtable}{|p{30mm}|p{21mm}|p{40mm}|p{40mm}|p{10mm}|}
+    \hline
+    \textbf{Action} &
+      \textbf{Integration} &
+      \textbf{Expected Outcome} &
+      \textbf{Actual Outcome} &
+      \textbf{Status} \\ \hline
+    Install Kernel headers &
+      Linux Kernel &
+      Download and install the relevant kernel headers &
+      Download and install the relevant kernel headers &
+      Pass \\ \hline
+    Submit Probs to the Kernel space &
+      Linux Kernel &
+      Submit the \ac{ebpf} prob and create the communication buffer &
+      Submit the \ac{ebpf} prob and create the communication buffer &
+      Pass \\ \hline
+    Subscribe to inotify API to get config updates &
+      Linux Kernel &
+      React to inotify updates and hot reload the configuration &
+      React to inotify updates and hot reload the configuration &
+      Pass \\ \hline
+    Config parsing &
+      \ac{lazy-koala-operator} &
+      Parse the config given by \ac{lazy-koala-operator} to extract information about interested ClusterIPs &
+      Parse the config given by \ac{lazy-koala-operator} to extract information about interested ClusterIPs &
+      Pass \\ \hline
+    Extract service usage data &
+      kube-apiserver &
+      Pool k8s-api for CPU and memory usage &
+      Pool k8s-api for CPU and memory usage &
+      Pass \\ \hline
+    Persist data for later processing &
+      Prometheus &
+      Aggregate service all telemetry data and export to prometheus &
+      Aggregate service all telemetry data and export to prometheus &
+      Pass \\ \hline
+    \caption{Gazer Integration Testing (self-composed)}
+\end{longtable}
+
+\begingroup
+\setlength{\abovedisplayskip}{-0.5cm}
+\[
+\text{\ac{gazer} integration test pass rate} = \frac{\text{Number of passed test cases}}{\text{Total number of test cases}} = \frac{6}{6} = 100\%
+\]
+\endgroup
+
+\subsection{Sherlock Integration Testing}
+
+\begin{longtable}{|p{30mm}|p{21mm}|p{40mm}|p{40mm}|p{10mm}|}
+    \hline
+    \textbf{Action} &
+      \textbf{Integration} &
+      \textbf{Expected Outcome} &
+      \textbf{Actual Outcome} &
+      \textbf{Status} \\ \hline
+    Visualize the service graph &
+      Prometheus &
+      Query prometheus for request exchanges and create a visual representation of the service graph &
+      Query prometheus for request exchanges and create a visual representation of the service graph &
+      Pass \\ \hline
+    List monitored and unmonitored services &
+      kube-apiserver &
+      Create table view of  monitored and unmonitored services along with an option to toggle the behavior &
+      Create table view of  monitored and unmonitored services along with an option to toggle the behavior &
+      Pass \\ \hline
+    Toggle monitored and unmonitored status of a service &
+      kube-apiserver &
+      Translate user’s input to Inspector resource specification &
+      Translate user’s input to Inspector resource specification &
+      Pass \\ \hline
+    \caption{Sherlock Integration Testing (self-composed)}
+\end{longtable}
+
+\begingroup
+\setlength{\abovedisplayskip}{-0.5cm}
+\[
+\text{\ac{sherlock} integration test pass rate} = \frac{\text{Number of passed test cases}}{\text{Total number of test cases}} = \frac{3}{3} = 100\%
+\]
+\endgroup
+
+\subsection{UI Integration Testing}
+
+\begin{longtable}{|p{30mm}|p{21mm}|p{40mm}|p{40mm}|p{10mm}|}
+    \hline
+    \textbf{Action} &
+      \textbf{Integration} &
+      \textbf{Expected Outcome} &
+      \textbf{Actual Outcome} &
+      \textbf{Status} \\ \hline
+    Visualize the service graph &
+      Prometheus &
+      Query prometheus for request exchanges and create a visual representation of the service graph &
+      Query prometheus for request exchanges and create a visual representation of the service graph &
+      Pass \\ \hline
+    List monitored and unmonitored services &
+      kube-apiserver &
+      Create table view of  monitored and unmonitored services along with an option to toggle the behavior &
+      Create table view of  monitored and unmonitored services along with an option to toggle the behavior &
+      Pass \\ \hline
+    Toggle monitored and unmonitored status of a service &
+      kube-apiserver &
+      Translate user’s input to Inspector resource specification &
+      Translate user’s input to Inspector resource specification &
+      Pass \\ \hline
+    \caption{UI Integration Testing (self-composed)}
+\end{longtable}
+
+
+\begingroup
+\setlength{\abovedisplayskip}{-0.5cm}
+\[
+\text{UI integration test pass rate} = \frac{\text{Number of passed test cases}}{\text{Total number of test cases}} = \frac{3}{3} = 100\%
+\]
+\endgroup

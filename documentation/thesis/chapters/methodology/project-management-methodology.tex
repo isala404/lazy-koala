@@ -1,0 +1,168 @@
+\section{Project Management Methodology}
+
+To manage the task of this project, the authors decide to use \textbf{Agile PRINCE2}. Agile PRINCE2 is built on the waterfall method which works best for projects with fixed deadlines and requirements with the added benefit of having regulated inputs and outputs \citep{WhatAreT79:online}.
+
+\subsection{Deliverables}
+\setlength\LTleft{0mm}
+\begin{longtable}{|p{115mm}|p{35mm}|}
+\hline
+\textbf{Deliverable} & 
+    \textbf{Date} \\ \hline
+    \textbf{Draft Project Proposal} & 
+    \multirow{2}{*}{02nd September 2021} \\
+    A draft version of this proposal & 
+     \\ \hline
+
+    \textbf{A working beta of MicroSim}\label{microsim} & 
+    \multirow{2}{*}{15th September 2021} \\
+    MicroSim is a tool that simulates a distributed system within a Kubernetes cluster. & 
+     \\ \hline
+
+    % \textbf{Research Paper about MircoSim} & 
+    % \multirow{2}{*}{16th October 2021} \\
+    % MicroSim could have various other use-cases and could help in the development of this research domain. So the author is planning to release it as an open-source project with paper   so future research and benefits from this. & 
+    %  \\ \hline
+
+    \textbf{Literature Review Document} & 
+    \multirow{2}{*}{21st October 2021} \\
+    The Document explaining all the existing tools and published researches on the domain. & 
+     \\ \hline
+
+    \textbf{Project Proposal} & 
+    \multirow{2}{*}{04th November 2021} \\
+    The final version of this project proposal. & 
+     \\ \hline
+
+    \textbf{Software Requirement Specification} & 
+    \multirow{2}{*}{25th November 2021} \\
+    The Document all the key requirements that are gonna get address with this research. & 
+     \\ \hline
+
+    \textbf{Proof of Concept} & 
+    \multirow{2}{*}{06th December 2021} \\
+    Unoptimized prototype with all the main features working. & 
+     \\ \hline
+
+    \textbf{Interim Progress Report (IPR)} & 
+    \multirow{2}{*}{27th January 2022} \\
+    The document explaining all preliminary findings and the current state of the project. & 
+     \\ \hline
+
+    \textbf{Project Specifications Design and Prototype (PSDP)} & 
+    \multirow{2}{*}{03rd March 2022} \\ 
+    A report detailing the initial design and implementation along with a working prototype. & 
+     \\ \hline
+
+    % \textbf{Test and Evaluation Report} & 
+    % \multirow{2}{*}{17th April 2022} \\
+    % A document with results of the project and conclusion made from those tests. & 
+    %  \\ \hline
+
+    % \textbf{Final Research Paper} & 
+    % \multirow{2}{*}{14th April 2022} \\
+    % A paper with results about this project & 
+    %  \\ \hline
+
+    \textbf{Final Project Report} & 
+    \multirow{2}{*}{5th May 2022} \\
+    Finalize version of the thesis. & 
+     \\ \hline
+
+\caption{Deliverables and due dates (self-composed)}
+\end{longtable}
+
+\subsection{Schedule}
+Gantt chart is a visualisation of tasks with their respective timelines. Refer to Appendix \ref{appendix:gantt-chart} to find the gantt chart for this project.
+
+
+
+\subsection{Resource Requirement}
+
+\subsubsection{Software Requirements}
+
+\begin{itemize}[noitemsep,nolistsep] 
+\item \textbf{Ubuntu / Arch Linux} - Since this project will use \ac{ebpf} as a dependency, it will require a Linux kernel-based operating system.
+\item \textbf{Python / R} - Since this project has data science components, relying on a language with a good data science ecosystem will help to develop easier.
+\item \textbf{GoLang / Rust} - While GoLang has an official client library made by Kubernetes developers themselves, the Kube community has developed an excellent alternative in Rust.
+\item \textbf{K3d / Minikube} - To create a Kubernetes cluster locally for development and testing.
+\item \textbf{Intellij / VS Code} - An IDE provides tools to streamline the development process.
+\item \textbf{Latexmk / Overleaf} - Creating the project documentation declaratively will help to keep the formatting consistent. Latex-based editors provide this functionality.
+\item \textbf{Google Drive / Github} - Offsite location to backup the codebase and related documents.
+\item \textbf{ClickUp / Notion} - To manage the project and keep track of things to be done.
+\end{itemize}
+
+\subsubsection{Hardware Requirements}
+\begin{itemize}[noitemsep,nolistsep] 
+    \item \textbf{Quad-core CPU with AVX support} - AVX is a CPU instruction set that is optimised for vector operations. Having an AVX-supported CPU could reduce the model inference time.
+    \item \textbf{GPU with CUDA support and 2GB or more VRAM} - Both Tensorflow and Pytorch depend on CUDA for hardware-accelerated training.
+    %  Training on GPU could save a lot of time increases the number of trial and error iterations that could be done.
+    \item \textbf{16 GB or more Memory} - Running a microservices simulation locally will consume a lot of memory and while testing models will get loaded into RAM.
+    \item \textbf{At least 40GB disk space} - To store the dataset, models docker containers while developing the project.
+\end{itemize}
+
+\subsubsection{Skill Requirements}
+\begin{itemize}[noitemsep,nolistsep] 
+    \item \textbf{Experience working with Kubernetes} - The author will be developing a Kubernetes extension so they need to know the inner workings of Kubernetes.
+    \item \textbf{Data engineering} -  Developing a data encoding technique requires a lot of knowledge on how to manipulate a given dataset.
+    \item \textbf{Model engineering} - Creating a model from the ground up is a difficult task. So the author needs to have an in-depth idea about a machine learning framework and how different layers in the model work to fit them properly. 
+\end{itemize}
+
+\subsubsection{Data Requirements}
+\begin{itemize}[noitemsep,nolistsep] 
+\item \textbf{Monitoring dataset} -  This dataset can be collected using \hyperref[microsim]{MicroSim} tool the author plans to develop to simulate distributed system.
+\end{itemize}
+
+\subsection{Risk Management}
+
+
+\begin{longtable}{|p{4.8cm}|p{1.35cm}|p{1.8cm}|p{7cm}|}
+    \hline
+    \textbf{Risk Item} & 
+    \textbf{Severity} & 
+    \textbf{Frequency} & 
+    \textbf{Mitigation Plan}
+    \\ \hline
+    
+    The hypothesis the research is based on is wrong & 
+    5 & 
+    1 & 
+    Present the findings and explain why the hypothesis was wrong.
+    \\ \hline
+    
+    Failure in work computer & 
+    4 & 
+    3 & 
+    Create regular off-site backups.
+    \\ \hline
+    
+    Lack of domain knowledge & 
+    2 & 
+    3 & 
+    Talk to a domain expert, keep research.
+    \\ \hline
+    
+    Models not generalizing & 
+    3 & 
+    4 & 
+    Explore different methods, try cleaning up the dataset more.
+    \\ \hline
+    
+    Dataset quality is not up to the standard & 
+    4 & 
+    1 & 
+    Use a method used in related research to create a new dataset.
+    \\ \hline
+    
+    Running out of time & 
+    1 & 
+    2 & 
+    Following a thorough work schedule.
+    \\ \hline
+    
+    Getting sick and unable to work for few days & 
+    3 & 
+    3 & 
+    Keeping a few days of a buffer period before deadlines.
+    \\ \hline
+    \caption{Risks and mitigations (self-composed)}
+\end{longtable}

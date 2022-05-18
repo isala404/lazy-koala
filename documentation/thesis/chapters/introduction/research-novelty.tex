@@ -1,0 +1,14 @@
+\section{The Novelty of the Research}
+
+\subsection{Problem Novelty}
+
+After a literature survey, the author concluded that finding the root cause of any failure within a distributed system is a challenging issue. This is mainly due to the fact that this problem cannot be assigned to a fixed set of inputs and outputs, which is a basic requirement for almost all types of neural network that are readily available. 
+
+% Furthermore, almost all the researchers working on this problem domain have built their own solution for simulating a distributed system, since there isn't any open dataset on service monitoring. This could be mainly due to the fact that these datasets could contain sensitive information. 
+
+Most of the currently established research was done towards creating statistical models like clustering and linear regression. Although these algorithms perform outstandingly in small-scale systems, they can struggle to adapt in the large-scale, noisy monitoring data found in medium-to large-sized systems. Another problem that was recognised was that none of these articles adequately addressed the issue of constant changes in services. Most published research considers target services static, but, in fact, these services can change constantly within a day \citep{GoingtoM51:online}. Finally, non of the published work has addressed the issue of scaling the anomaly detection system relative to the target distributed system which is a crucial factor for production use.
+
+\subsection{Solution Novelty}
+
+
+The focus of this project is to create an adaptable and scalable series of components that ranges from instrumentation to root cause analysis, which can be well integrated into an existing system or can be extended to fit to newer use cases. To achieve this the author is utilizing a fairly new technique called \ac{ebpf} for instrumentation, which is a Linux kernel API that can be used to track kernel events such as TCP socket changes to identify and understand the network layer of each application running on the system. Finally, for anomaly detection, a convolutional autoencoder with a novel data encoding method was used to keep the system as lightweight as possible, while still having acceptable accuracies for classifications. Combining that with a directed graph generated from collected network activity data can be used to highlight to blast radius of an anomaly along with possible causes.

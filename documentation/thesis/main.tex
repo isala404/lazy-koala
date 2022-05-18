@@ -1,0 +1,75 @@
+\documentclass[12pt]{report}
+
+% Include all packages from file.
+\input{preamble}
+
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\baselinestretch}{1.5}
+
+% HEADER AND FOOTER--------------------------
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{Lazy-Koala: A Lightweight Framework for Root Cause Analysis in Distributed Systems}}
+\rfoot{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{\thepage}}
+\lfoot{\fontsize{10}{12}\leavevmode\selectfont\color{gray}{Isala Piyarisi | 2018421}}
+\renewcommand{\headrulewidth}{0pt}
+% END HEADER AND FOOTER--------------------------
+
+
+% Document begins here
+\begin{document}
+
+\input{cover-page} 
+
+% Page Numbering---------------------------------------------
+\pagenumbering{roman}
+
+\input{chapters/declaration}
+\input{chapters/abstract}
+\input{chapters/acknowledgement}
+\addcontentsline{toc}{chapter}{Abstract}
+\addcontentsline{toc}{chapter}{Declaration}
+\addcontentsline{toc}{chapter}{Acknowledgement}
+
+% Table of Contents---------------------------------------------------
+\tableofcontents
+% List of Figures---------------------------------------------------
+% \cleardoublepage
+\listoffigures
+\addcontentsline{toc}{chapter}{\listfigurename}
+% List of Tables---------------------------------------------------
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}
+
+% \cleardoublepage
+\phantomsection
+% Include acronyms
+\addcontentsline{toc}{chapter}{List of Acronyms}
+% {\let\clearpage\relax 
+\input{acronym}
+% }
+\zerospacingchapter
+\input{chapters/introduction/main}
+\input{chapters/literature-review/main}
+\input{chapters/methodology/main}
+\input{chapters/requirement-specification/main}
+\input{chapters/slep/main}
+\input{chapters/system-design/main}
+\input{chapters/implementation/main}
+\input{chapters/testing/main}
+\input{chapters/evaluation/main}
+\input{chapters/conclusion/main}
+
+\cleardoublepage
+\phantomsection
+\renewcommand{\bibname}{References}
+\pagenumbering{Roman}
+% \setcounter{page}{5}
+\addcontentsline{toc}{chapter}{References}
+\bibliography{references.bib}
+
+\input{chapters/appendix/main}
+
+\end{document}
+
