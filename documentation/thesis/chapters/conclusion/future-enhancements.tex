@@ -3,6 +3,7 @@
 \begin{itemize}[noitemsep,nolistsep]
     \item As mentioned in chapter \ref{sec:literature-review} microservices tend to change over time. Extending \ac{lazy-koala-operator} to automatically fine-tune the models would help overcome this problem.
     \item \ac{gazer} currently only works with low-level socket metrics. Adding support for more complex metrics, such as error rates returned from service, on the application layer could boost the accuracy of detections.
-    \item With the current implementation \ac{lazy-koala-operator} polling every deployment every minute to verify changes in pods IPs. Moving this to the pub/sub model will make the system react faster to changes.
+    \item With the current implementation \ac{lazy-koala-operator} polling every deployment every minute to verify changes in pods IPs. Moving this to the pub/sub model will make the system react faster.
     \item Even though the model provided with \ac{sherlock} can detect anomalies with a fair bit of accuracy. There is a lot of optimisation that can be done to improve the accuracy of the model. For example, introducing LSTM cells could lead to better recall of past data.
+    \item Supporting sharding in \ac{sherlock} will help with the deployment in larger environments so that the service could to be split across multiple \acp{vm}.
 \end{itemize}
