@@ -34,15 +34,6 @@ spec:
           volumeMounts:
             - name: sherlock-config
               mountPath: /app/config
-        # - name: data-exporter
-        #   imagePullPolicy: Always
-        #   image: asia.gcr.io/iconicto/data-exporter:latest
-        #   ports:
-        #     - containerPort: 5000
-        #       name: http
-        #   env:
-        #     - name: MONGODB_URI
-        #       value: ""
         - image: google/cloud-sdk
           name: model-poller
           imagePullPolicy: IfNotPresent
@@ -80,21 +71,21 @@ spec:
             name: sherlock-config
         - name: model-files
           emptyDir: {}
-# ---
-# apiVersion: v1
-# kind: ConfigMap
-# metadata:
-#   name: sherlock-config
-#   namespace: lazy-koala
-# data:
-#   models.config: |
-#   services.yaml: |
-# ---
-## https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   annotations:
-#     iam.gke.io/gcp-service-account: sherlock@lazy-koala.iam.gserviceaccount.com
-#   name: gke-workload-identity
-#   namespace: lazy-koala
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sherlock-config
+  namespace: lazy-koala
+data:
+  models.config: |
+  services.yaml: |
+---
+# https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    iam.gke.io/gcp-service-account: sherlock@lazy-koala.iam.gserviceaccount.com
+  name: gke-workload-identity
+  namespace: lazy-koala

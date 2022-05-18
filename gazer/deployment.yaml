@@ -11,6 +11,7 @@ metadata:
  namespace: lazy-koala
 data:
  config.yaml: |
+--- 
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:

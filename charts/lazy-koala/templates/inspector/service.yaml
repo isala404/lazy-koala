@@ -1,0 +1,15 @@
+{{- if .Values.sherlock.create -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: inspector
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    {{- include "lazy-koala.selectorLabels" . | nindent 4 }}
+    lazykoala: inspector
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8090
+{{- end }}
