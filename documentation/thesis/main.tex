@@ -24,12 +24,11 @@
 
 % Page Numbering---------------------------------------------
 \pagenumbering{roman}
-
 \input{chapters/declaration}
-\input{chapters/abstract}
-\input{chapters/acknowledgement}
-\addcontentsline{toc}{chapter}{Abstract}
 \addcontentsline{toc}{chapter}{Declaration}
+\input{chapters/abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\input{chapters/acknowledgement}
 \addcontentsline{toc}{chapter}{Acknowledgement}
 
 % Table of Contents---------------------------------------------------
@@ -45,9 +44,9 @@
 % \cleardoublepage
 \phantomsection
 % Include acronyms
+\input{acronym}
 \addcontentsline{toc}{chapter}{List of Acronyms}
 % {\let\clearpage\relax 
-\input{acronym}
 % }
 \zerospacingchapter
 \input{chapters/introduction/main}
