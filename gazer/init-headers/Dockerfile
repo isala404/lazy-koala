@@ -3,6 +3,7 @@ RUN apk add --update \
     bash \
     bc \
     build-base \
+    python3 \
     bison \
     flex \
     curl \
